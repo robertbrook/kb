@@ -23,15 +23,15 @@ describe Record do
       before do
         @record.stub!(:attributes).and_return({'note'=>@note, 'web_page'=>@web_page, 'title'=>''})
       end
-      describe 'when asked for non_blank_attributes' do
+      describe 'when asked for summary_attributes' do
         it 'should not return the note attribute' do
-          @record.non_blank_attributes.should_not have_key('note')
+          @record.summary_attributes.should_not have_key('note')
         end
         it 'should return the web_page attribute' do
-          @record.non_blank_attributes.should have_key('web_page')
+          @record.summary_attributes.should have_key('web_page')
         end
         it 'should not return the title attribute' do
-          @record.non_blank_attributes.should_not have_key('title')
+          @record.summary_attributes.should_not have_key('title')
         end
       end
     end

@@ -4,8 +4,8 @@ describe "/records/index.haml" do
   include RecordsHelper
 
   before do
-    record_98 = mock_model(Record,:note_summary=>'Example',:non_blank_attributes=>{})
-    record_99 = mock_model(Record,:note_summary=>nil,:non_blank_attributes=>{'web_page'=>'url'})
+    record_98 = mock_model(Record,:note_summary=>'Example',:summary_attributes=>{})
+    record_99 = mock_model(Record,:note_summary=>nil,:summary_attributes=>{'web_page'=>'url'})
 
     assigns[:records] = [record_98, record_99]
   end
