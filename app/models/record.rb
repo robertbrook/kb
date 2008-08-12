@@ -5,11 +5,10 @@ class Record < ActiveRecord::Base
   end
 
   def summary_attributes
-    non_blank = attributes
-    non_blank.delete('note')
-    non_blank.delete('initial')
-    non_blank.delete_if {|key,value| value.blank? }
-    non_blank
+    summary = attributes
+    %w[note initial web_page].each {|attribute| summary.delete(attribute)}
+    summary.delete_if {|key,value| value.blank? }
+    summary
   end
 
 end

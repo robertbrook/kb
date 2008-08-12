@@ -28,7 +28,7 @@ describe Record do
           @record.summary_attributes.should_not have_key('note')
         end
         it 'should return the web_page attribute' do
-          @record.summary_attributes.should have_key('web_page')
+          @record.summary_attributes.should_not have_key('web_page')
         end
         it 'should not return the title attribute' do
           @record.summary_attributes.should_not have_key('title')

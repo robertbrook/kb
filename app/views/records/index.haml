@@ -8,7 +8,9 @@
   - @records.each do |record|
     %tr
       %td= record.initial
-      %td= "#{record.note_summary}..."
+      %td
+        = "#{record.note_summary}..."
+        = link_to_web_page(record)
       %td
         = record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
       %td= link_to 'Show', record_path(record)

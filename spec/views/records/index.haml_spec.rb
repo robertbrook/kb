@@ -4,10 +4,13 @@ describe "/records/index.haml" do
   include RecordsHelper
 
   before do
-    record_98 = mock_model(Record,:note_summary=>'Example',:summary_attributes=>{})
-    record_99 = mock_model(Record,:note_summary=>nil,:summary_attributes=>{'web_page'=>'url'})
+    record = mock_model(Record,
+        :initial=>'E',
+        :note_summary=>'Example',
+        :web_page=>'url',
+        :summary_attributes=>{'web_page'=>'url'})
 
-    assigns[:records] = [record_98, record_99]
+    assigns[:records] = [record]
   end
 
   it "should render list of records" do
