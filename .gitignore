@@ -7,3 +7,12 @@ doc
 data
 db/*.sqlite3
 public/stylesheets/*.css
+app/controllers/kawaii_controller.rb
+app/views/kawaii
+app/views/layouts/kawaii.html.erb
+config/initializers/kawaii.rb
+config/kawaii.yml
+lib/kawaii_authentication.rb
+lib/too_cute
+public/javascripts/kawaii
+public/stylesheets/kawaii
