@@ -1,0 +1,16 @@
+%h1 Listing records
+
+%table
+  %tr
+    %th Notes
+    %th Other attributes
+  - @records.each do |record|
+    %tr
+      %td= "#{record.note_summary}..."
+      %td
+        = record.non_blank_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
+      %td= link_to 'Show', record_path(record)
+      %td= link_to 'Edit', edit_record_path(record)
+      %td= link_to 'Destroy', record_path(record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete
+
+= link_to 'New record', new_record_path

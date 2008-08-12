@@ -7,7 +7,7 @@ class PopulateRecords < ActiveRecord::Migration
 
       column_values.each do |column_value|
         column_name, value = column_value[0], column_value[1]
-        attributes[key(column_name)] = value
+        attributes[key(column_name)] = clean_value(value)
       end
 
       begin
@@ -17,6 +17,14 @@ class PopulateRecords < ActiveRecord::Migration
         puts attributes.inspect
         raise e
       end
+    end
+  end
+
+  def self.clean_value value
+    if value == '0/0/00'
+      nil
+    else
+      value
     end
   end
 
