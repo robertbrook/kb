@@ -8,6 +8,9 @@ describe "/records/index.haml" do
         :initial=>'E',
         :note_summary=>'Example',
         :web_page=>'url',
+        :first_name=>'first',
+        :middle_name=>'middle',
+        :last_name=>'last',
         :summary_attributes=>{'web_page'=>'url'})
 
     assigns[:records] = [record]

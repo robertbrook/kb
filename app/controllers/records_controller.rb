@@ -6,7 +6,6 @@ class RecordsController < ApplicationController
 
     respond_to do |format|
       format.html # index.haml
-      format.xml  { render :xml => @records }
     end
   end
 
@@ -17,7 +16,6 @@ class RecordsController < ApplicationController
 
     respond_to do |format|
       format.html # show.haml
-      format.xml  { render :xml => @record }
     end
   end
 
@@ -28,7 +26,6 @@ class RecordsController < ApplicationController
 
     respond_to do |format|
       format.html # new.haml
-      format.xml  { render :xml => @record }
     end
   end
 
@@ -46,10 +43,8 @@ class RecordsController < ApplicationController
       if @record.save
         flash[:notice] = 'Record was successfully created.'
         format.html { redirect_to(record_path(@record)) }
-        format.xml  { render :xml => @record, :status => :created, :location => @record }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @record.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -63,10 +58,8 @@ class RecordsController < ApplicationController
       if @record.update_attributes(params[:record])
         flash[:notice] = 'Record was successfully updated.'
         format.html { redirect_to(record_path(@record)) }
-        format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @record.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -79,7 +72,6 @@ class RecordsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(records_url) }
-      format.xml  { head :ok }
     end
   end
 end

@@ -2,12 +2,16 @@
 
 %table
   %tr
-    %th
+    %th Category 1
+    %th Category 2
+    %th Category 3
     %th Notes
     %th Other attributes
   - @records.each do |record|
     %tr
-      %td= record.initial
+      %td= record.first_name
+      %td= record.middle_name
+      %td= record.last_name
       %td
         = "#{record.note_summary}..."
         = link_to_web_page(record)
