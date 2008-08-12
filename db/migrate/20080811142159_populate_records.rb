@@ -6,8 +6,9 @@ class PopulateRecords < ActiveRecord::Migration
       attributes = Hash.new
 
       column_values.each do |column_value|
-        column_name, value = column_value[0], column_value[1]
-        attributes[key(column_name)] = clean_value(value)
+        attribute = convert_to_attribute(column_value[0])
+        value = clean_value(attribute, column_value[1])
+        attributes[attribute] = value
       end
 
       begin
@@ -20,15 +21,15 @@ class PopulateRecords < ActiveRecord::Migration
     end
   end
 
-  def self.clean_value value
-    if value == '0/0/00'
+  def self.clean_value attribute, value
+    if [:gender, :private, :priority, :sensitivity].include?(attribute) || value == '0/0/00'
       nil
     else
       value
     end
   end
 
-  def self.key column
+  def self.convert_to_attribute column
     column.to_s.tableize.tr(' ','_').tr("'",'').tr('/','').singularize.sub('faxis','fax').sub(/^callback/,'callback_attribute').to_sym
   end
 
