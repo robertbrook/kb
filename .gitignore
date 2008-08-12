@@ -6,3 +6,4 @@ config/database.yml
 doc
 data
 db/*.sqlite3
+public/stylesheets/*.css
