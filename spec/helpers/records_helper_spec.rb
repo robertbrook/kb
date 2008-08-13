@@ -6,6 +6,9 @@ describe RecordsHelper do
     it 'should add line brake element for single line break' do
       record = mock(Record, :note => "One\r\nTwo")
       format_notes(record).should == '<p>One<br />Two</p>'
+
+      record = mock(Record, :note => "One\nTwo")
+      format_notes(record).should == '<p>One<br />Two</p>'
     end
     it 'should put paragraphs in paragraph elements' do
       record = mock(Record, :note => "One\r\n\r\nTwo")
@@ -13,9 +16,18 @@ describe RecordsHelper do
 
       record = mock(Record, :note => "One\r\n\r\nTwo\r\n")
       format_notes(record).should == '<p>One</p><p>Two</p>'
+
+      record = mock(Record, :note => "One\n\nTwo")
+      format_notes(record).should == '<p>One</p><p>Two</p>'
+
+      record = mock(Record, :note => "One\n\nTwo\n")
+      format_notes(record).should == '<p>One</p><p>Two</p>'
     end
     it 'should turn URIs in to hyperlinks' do
       record = mock(Record, :note => "A http://host/path\r\nwebsite")
+      format_notes(record).should == '<p>A <a href="http://host/path">http://host/path</a><br />website</p>'
+
+      record = mock(Record, :note => "A http://host/path\nwebsite")
       format_notes(record).should == '<p>A <a href="http://host/path">http://host/path</a><br />website</p>'
     end
   end
