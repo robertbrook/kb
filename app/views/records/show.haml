@@ -3,7 +3,7 @@
 %table.record
   = render :partial => 'table_header'
   %tbody
-    = render :partial => 'record', :object => @record, :locals => {:note => @record.note }
+  = render :partial => 'record', :object => @record, :locals => {:note => format_notes(@record) }
 
 = link_to 'Edit', edit_record_path(@record)
 = link_to 'Back', records_path
