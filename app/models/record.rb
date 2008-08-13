@@ -1,5 +1,16 @@
 class Record < ActiveRecord::Base
 
+  class << self
+    def unused_methods
+      methods = first.attributes.keys.sort
+      records = all
+      methods.collect do |method|
+        values = records.collect{|r| r.send(method.to_sym)}
+        values.delete_if {|v| v.blank?}.compact
+        values.empty? ? method : nil
+      end.compact
+    end
+  end
   def note_summary
     note.blank? ? '' : note[0..99]
   end
