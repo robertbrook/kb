@@ -9,6 +9,18 @@ describe Record do
     @record = Record.new
   end
 
+  describe 'records only having note populated' do
+    describe 'when asked for unused_attributes'
+    it 'should return all but the note attribute' do
+      Record.stub!(:first).and_return @record
+      Record.stub!(:all).and_return [@record]
+      @record.should_receive(:note).and_return @note
+      unused_attributes = Record.unused_attributes
+      unused_attributes.include?('note').should be_false
+      unused_attributes.size.should == 91
+    end
+  end
+
   describe 'record with first name, middle name and last name' do
     before do
       @record.stub!(:first_name).and_return 'All-Party'

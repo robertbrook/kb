@@ -1,7 +1,7 @@
 class Record < ActiveRecord::Base
 
   class << self
-    def unused_methods
+    def unused_attributes
       methods = first.attributes.keys.sort
       records = all
       methods.collect do |method|
@@ -11,6 +11,7 @@ class Record < ActiveRecord::Base
       end.compact
     end
   end
+
   def note_summary
     note.blank? ? '' : note[0..99]
   end
