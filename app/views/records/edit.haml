@@ -8,15 +8,15 @@
     %tbody
       %tr
         %td.name
-          %p= @record.title.gsub("/","/ ")
+          %p= f.text_field :title
         %td.name
-          %p= @record.first_name.gsub("/","/ ")
+          %p= f.text_field :first_name
         %td.name
-          %p= @record.middle_name.gsub("/","/ ")
+          %p= f.text_field :middle_name
         %td.name
-          %p= @record.last_name.gsub("/","/ ")
+          %p= f.text_field :last_name
         %td.name
-          %p= @record.suffix.gsub("/","/ ")
+          %p= f.text_field :suffix
         %td.notes
           = f.text_area :note
         %td
