@@ -3,9 +3,28 @@
 = error_messages_for :record
 
 - form_for(@record) do |f|
-    
-  %p= f.submit "Update"
-  
+  %table.record
+    = render :partial => 'table_header'
+    %tbody
+      %tr
+        %td.name
+          %p= @record.title.gsub("/","/ ")
+        %td.name
+          %p= @record.first_name.gsub("/","/ ")
+        %td.name
+          %p= @record.middle_name.gsub("/","/ ")
+        %td.name
+          %p= @record.last_name.gsub("/","/ ")
+        %td.name
+          %p= @record.suffix.gsub("/","/ ")
+        %td.notes
+          = f.text_area :note
+        %td
+          = @record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
+          = link_to_web_page(@record)
+        %td= f.submit "Update"
+        %td= link_to 'Show', record_path(@record)
+        %td= link_to 'Destroy', record_path(@record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete
+
 = link_to 'Show', record_path(@record)
 = link_to 'Back', records_path
-

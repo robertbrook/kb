@@ -79,7 +79,7 @@ class CreateRecords < ActiveRecord::Migration
       t.string :location
       t.string :managers_name
       t.string :mileage
-      t.string :note
+      t.text   :note
       t.string :office_location
       t.string :organizational_id_number
       t.string :other_address_po_box
