@@ -6,6 +6,7 @@
       %th.name Name 1
       %th.name Name 2
       %th.name Name 3
+      %th.name Name 4
       %th.notes Notes
       %th Other attributes
       %th
@@ -20,6 +21,8 @@
           %p= record.middle_name.gsub("/","/ ")
         %td.name
           %p= record.last_name.gsub("/","/ ")
+        %td.name
+          %p= record.suffix.gsub("/","/ ")
         %td.notes
           = "#{record.note_summary.gsub("/","/ ")}..."
           = link_to_web_page(record)
