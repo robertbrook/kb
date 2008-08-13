@@ -1,3 +1,9 @@
+%h1 Show record
+
+%table.record
+  = render :partial => 'table_header'
+  %tbody
+    = render :partial => 'record', :object => @record
 
 = link_to 'Edit', edit_record_path(@record)
 = link_to 'Back', records_path
