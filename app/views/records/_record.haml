@@ -10,7 +10,8 @@
   %td.name
     %p= record.suffix.gsub("/","/ ")
   %td.notes
-    = "#{record.note_summary.gsub("/","/ ")}..."
+    - note = "#{record.note_summary.gsub("/","/ ")}..." unless note
+    = note
     = link_to_web_page(record)
   %td
     = record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
