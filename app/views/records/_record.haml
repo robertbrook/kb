@@ -1,0 +1,20 @@
+%tr
+  %td.name
+    %p= record.title.gsub("/","/ ")
+  %td.name
+    %p= record.first_name.gsub("/","/ ")
+  %td.name
+    %p= record.middle_name.gsub("/","/ ")
+  %td.name
+    %p= record.last_name.gsub("/","/ ")
+  %td.name
+    %p= record.suffix.gsub("/","/ ")
+  %td.notes
+    - note = "#{record.note_summary.gsub("/","/ ")}..." unless note
+    = note
+  %td
+    = record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
+    = link_to_web_page(record)
+  %td= link_to 'Show', record_path(record)
+  %td= link_to 'Edit', edit_record_path(record)
+  %td= link_to 'Destroy', record_path(record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete

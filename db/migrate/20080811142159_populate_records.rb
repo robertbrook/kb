@@ -48,7 +48,7 @@ class PopulateRecords < ActiveRecord::Migration
   end
 
   def self.is_letter_index? record
-    record.first_name.to_s.size == 1 && record.note.blank?
+    (record.first_name.blank? || record.first_name.to_s.size == 1) && record.note.blank?
   end
 
   def self.clean_value attribute, value
