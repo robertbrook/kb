@@ -29,6 +29,25 @@ describe Record do
       @other_record = Record.new
       @records = [@record, @other_record]
     end
+
+    describe 'and title and suffix' do
+      before do
+        @record.stub!(:title).and_return 'The'
+        @record.stub!(:suffix).and_return '(suffix)'
+      end
+      describe 'when asked for display_title' do
+        it 'should append together title, first, middle, last names, and suffix' do
+          @record.display_title.should == "#{@record.title} #{@record.first_name} #{@record.middle_name} #{@record.last_name} #{@record.suffix}"
+        end
+      end
+    end
+
+    describe 'when asked for display_title' do
+      it 'should append together first, middle, last names' do
+        @record.display_title.should == "#{@record.first_name} #{@record.middle_name} #{@record.last_name}"
+      end
+    end
+
     describe 'when sorted' do
       describe 'with a record that has a different last_name' do
         it 'should sort correctly' do

@@ -4,21 +4,18 @@ describe "/records/show.haml" do
   include RecordsHelper
 
   before do
-    @record = mock_model(Record,
-        :title=>'Exit',
-        :suffix=>'Exit',
-        :initial=>'E',
-        :note=>'Example',
-        :web_page=>'url',
-        :first_name=>'first',
-        :middle_name=>'middle',
-        :last_name=>'last',
-        :summary_attributes=>{'web_page'=>'url'})
+    @record = Record.new({
+        :first_name => 'All-Party',
+        :middle_name => 'Groups:',
+        :last_name => 'Subject',
+        :title => 'The',
+        :suffix => '(suffix)',
+        :web_page=>'url'})
 
     assigns[:record] = @record
   end
 
-  it "should render attributes in <p>" do
+  it "should render attributes" do
     render "/records/show.haml"
   end
 end

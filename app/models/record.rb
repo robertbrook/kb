@@ -12,6 +12,10 @@ class Record < ActiveRecord::Base
     end
   end
 
+  def display_title
+    "#{title} #{first_name} #{middle_name} #{last_name} #{suffix}".strip
+  end
+
   def note_summary
     note.blank? ? '' : note[0..99]
   end

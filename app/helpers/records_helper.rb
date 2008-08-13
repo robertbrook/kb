@@ -5,7 +5,7 @@ module RecordsHelper
   end
 
   def format_notes(record)
-    formatted = record.note.strip
+    formatted = record.note.to_s.strip
     formatted.gsub!(/(http:\/\/\S+)/, '<a href="\1">\1</a>')
     formatted.gsub!("\r\n\r\n","</p><p>")
     formatted.gsub!("\r\n",'<br />')
