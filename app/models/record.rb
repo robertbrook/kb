@@ -11,4 +11,18 @@ class Record < ActiveRecord::Base
     summary
   end
 
+  def <=> other_record
+    comparison = first_name <=> other_record.first_name
+    if comparison != 0
+      comparison
+    else
+      comparison = middle_name <=> other_record.middle_name
+      if comparison != 0
+        comparison
+      else
+        last_name <=> other_record.last_name
+      end
+    end
+  end
+
 end

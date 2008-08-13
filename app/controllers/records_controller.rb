@@ -2,7 +2,7 @@ class RecordsController < ApplicationController
   # GET /record
   # GET /record.xml
   def index
-    @records = Record.find(:all).sort_by(&:initial)
+    @records = Record.find(:all).sort
 
     respond_to do |format|
       format.html # index.haml

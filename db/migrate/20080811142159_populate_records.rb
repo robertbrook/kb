@@ -13,7 +13,9 @@ class PopulateRecords < ActiveRecord::Migration
 
       begin
         record = Record.new(attributes)
-        record.save!
+        unless record.first_name.to_s.size == 1 && record.note.blank?
+          record.save!
+        end
       rescue Exception => e
         puts attributes.inspect
         raise e

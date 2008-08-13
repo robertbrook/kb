@@ -9,6 +9,41 @@ describe Record do
     @record = Record.new
   end
 
+  describe 'record with first name, middle name and last name' do
+    before do
+      @record.stub!(:first_name).and_return 'All-Party'
+      @record.stub!(:middle_name).and_return 'Groups:'
+      @record.stub!(:last_name).and_return 'Subject'
+      @other_record = Record.new
+      @records = [@record, @other_record]
+    end
+    describe 'when sorted' do
+      describe 'with a record that has a different last_name' do
+        it 'should sort correctly' do
+          @other_record.stub!(:first_name).and_return @record.first_name
+          @other_record.stub!(:middle_name).and_return @record.middle_name
+          @other_record.stub!(:last_name).and_return 'Country'
+          @records.sort.should == [@other_record, @record]
+        end
+      end
+      describe 'with a record that has a different middle_name' do
+        it 'should sort correctly' do
+          @other_record.stub!(:first_name).and_return @record.first_name
+          @other_record.stub!(:middle_name).and_return 'Committee'
+          @other_record.stub!(:last_name).and_return @record.last_name
+          @records.sort.should == [@other_record, @record]
+        end
+      end
+      describe 'with a record that has a different last_name' do
+        it 'should sort correctly' do
+          @other_record.stub!(:first_name).and_return 'Advisory'
+          @other_record.stub!(:middle_name).and_return @record.middle_name
+          @other_record.stub!(:last_name).and_return @record.last_name
+          @records.sort.should == [@other_record, @record]
+        end
+      end
+    end
+  end
   describe 'record with note text' do
     before do
       @record.stub!(:note).and_return @note
