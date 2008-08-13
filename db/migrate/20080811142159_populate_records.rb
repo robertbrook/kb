@@ -12,15 +12,43 @@ class PopulateRecords < ActiveRecord::Migration
       end
 
       begin
-        record = Record.new(attributes)
-        unless record.first_name.to_s.size == 1 && record.note.blank?
-          record.save!
-        end
+        record = create_record attributes
+        record.save! unless is_letter_index? record
       rescue Exception => e
         puts attributes.inspect
         raise e
       end
     end
+  end
+
+  def self.create_record attributes
+    record = Record.new(attributes)
+    move_last_name(record) if only_last_name_populated? record
+    move_middle_and_last_name(record) if only_last_and_middle_name_populated? record
+    record
+  end
+
+  def self.only_last_name_populated? record
+    record.first_name.blank? && record.middle_name.blank? && !record.last_name.blank?
+  end
+
+  def self.only_last_and_middle_name_populated? record
+    record.first_name.blank? && !record.middle_name.blank? && !record.last_name.blank?
+  end
+
+  def self.move_last_name record
+    record.first_name = record.last_name
+    record.last_name = ''
+  end
+
+  def self.move_middle_and_last_name record
+    record.first_name = record.middle_name
+    record.middle_name = record.last_name
+    record.last_name = ''
+  end
+
+  def self.is_letter_index? record
+    record.first_name.to_s.size == 1 && record.note.blank?
   end
 
   def self.clean_value attribute, value
