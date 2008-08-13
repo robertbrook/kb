@@ -3,6 +3,7 @@
 %table.records
   %thead
     %tr
+      %th.name Name 0
       %th.name Name 1
       %th.name Name 2
       %th.name Name 3
@@ -15,6 +16,8 @@
   %tbody
     - @records.each do |record|
       %tr
+        %td.name
+          %p= record.title.gsub("/","/ ")
         %td.name
           %p= record.first_name.gsub("/","/ ")
         %td.name
