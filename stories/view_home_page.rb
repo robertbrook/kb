@@ -11,16 +11,16 @@ Story "Anonymous visitor to the site", %{
   end
 
     Then "user should see home page" do
-      response.should render_template('base/home')
+      response.should render_template('records/index')
     end
 
-    When "he clicks on the About link" do
-      get "/about"
+    When "they click on the /records/356 link" do
+      get "/records/356"
     end
 
-    Then "user should see the About page" do 
-      response.should render_template('base/about')
-    end 
+    # Then "user should see the About page" do 
+    #   response.should render_template('base/about')
+    # end 
 
   end
 
