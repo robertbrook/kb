@@ -92,7 +92,7 @@ class RecordsController < ApplicationController
     render :layout => false, :inline => "<%= @html_formatted_notes %>"
   end
 
-  def unformatted_text
+  def get_record_notes
     record = Record.find(params[:id])
     @notes = record.notes
     render :layout => false, :inline => "<%= @notes %>"

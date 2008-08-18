@@ -26,7 +26,7 @@
       %p= edit_field(record, 'suffix')
     %td.notes
       - record.notes = notes
-      = edit_field(record, 'notes', :rows=>40, :cols=>60, :load_text_url=>{:controller => 'records', :action => 'unformatted_text', :id => @record.id})
+      = edit_field(record, 'notes', :rows=>40, :cols=>60, :load_text_url=>{:controller => 'records', :action => 'get_record_notes', :id => @record.id})
   %td
     = record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
     = link_to_web_page(record)

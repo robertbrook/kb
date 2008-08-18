@@ -203,7 +203,7 @@ describe RecordsController do
     end
   end
 
-  describe "when asked to deleted an existing record" do
+  describe "when asked to delete an existing record" do
     before do
       @record = mock_model(Record, :destroy => true)
       Record.stub!(:find).and_return(@record)
