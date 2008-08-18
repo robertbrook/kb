@@ -12,4 +12,11 @@ module RecordsHelper
     formatted.gsub!("\n",'<br />')
     "<p>#{formatted}</p>"
   end
+
+  def edit_field(record, attribute, options={})
+    if record.send(attribute.to_sym).blank?
+      record.send("#{attribute}=", '____')
+    end
+    in_place_editor_field(:record, attribute, {}, options)
+  end
 end
