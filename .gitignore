@@ -5,6 +5,7 @@ config/database.yml
 .DS_Store
 doc
 data
+coverage
 db/*.sqlite3
 public/stylesheets/*.css
 app/controllers/kawaii_controller.rb
