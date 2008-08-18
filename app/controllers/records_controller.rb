@@ -1,6 +1,11 @@
 class RecordsController < ApplicationController
 
   in_place_edit_for :record, :title
+  in_place_edit_for :record, :first_name
+  in_place_edit_for :record, :middle_name
+  in_place_edit_for :record, :last_name
+  in_place_edit_for :record, :suffix
+  in_place_edit_for :record, :note
 
   # GET /record
   # GET /record.xml
