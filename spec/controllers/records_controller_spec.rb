@@ -245,4 +245,27 @@ describe RecordsController do
       assigns[:notes].should == @notes
     end
   end
+
+  describe "when posted with records notes to set" do
+    before do
+      @new_notes = "new_notes"
+      @html_formatted_notes = "<p>new_notes</p>"
+      @record = mock_model(Record, :to_param => "1", :html_formatted_notes=>@html_formatted_notes)
+      Record.stub!(:find).and_return(@record)
+    end
+
+    def do_post
+      @record.should_receive(:notes=).with(@new_notes)
+      @record.should_receive(:save!)
+      post :set_record_notes, :id => "1", :value => @new_notes
+    end
+    it "should be successful" do
+      do_post
+      response.should be_success
+    end
+    it 'should assign record notes to note' do
+      do_post
+      assigns[:html_formatted_notes].should == @html_formatted_notes
+    end
+  end
 end
