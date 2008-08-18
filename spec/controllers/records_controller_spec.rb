@@ -225,4 +225,24 @@ describe RecordsController do
       response.should redirect_to(records_url)
     end
   end
+
+  describe "when asked to get records notes" do
+    before do
+      @notes = "notes"
+      @record = mock_model(Record, :to_param => "1", :notes => @notes)
+      Record.stub!(:find).and_return(@record)
+    end
+
+    def do_get
+      get :get_record_notes, :id => "1"
+    end
+    it "should be successful" do
+      do_get
+      response.should be_success
+    end
+    it 'should assign record notes to note' do
+      do_get
+      assigns[:notes].should == @notes
+    end
+  end
 end
