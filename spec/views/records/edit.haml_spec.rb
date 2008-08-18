@@ -8,7 +8,7 @@ describe "/record/edit.haml" do
         :title=>'title',
         :suffix=>'suffix',
         :initial=>'E',
-        :note_summary=>'Example',
+        :notes_summary=>'Example',
         :web_page=>'url',
         :first_name=>'first',
         :middle_name=>'middle',
@@ -17,7 +17,7 @@ describe "/record/edit.haml" do
         :summary_attributes=>{'web_page'=>'url'},
         :attributes=>{},
         :core_attribute_names=>[],
-        :note=>"note text")
+        :notes=>"notes text")
     assigns[:record] = @record
   end
 

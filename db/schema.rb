@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(:version => 20080811142159) do
     t.string "location"
     t.string "managers_name"
     t.string "mileage"
-    t.text   "note"
+    t.text   "notes"
     t.string "office_location"
     t.string "organizational_id_number"
     t.string "other_address_po_box"

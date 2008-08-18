@@ -2,22 +2,22 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Record do
   before :all do
-    @note = %Q|The factsheet states:\n\nMinisters and whips do not normally sign EDMs. Under the Ministerial Code, Parliamentary Private Secretaries ?must not associate themselves with particular groups advocating special policies?, and they do not normally sign EDMs. Neither the Speaker nor Deputy Speakers will sign EDMs. Internal party rules may also affect who can sign early day motions.|
+    @notes = %Q|The factsheet states:\n\nMinisters and whips do not normally sign EDMs. Under the Ministerial Code, Parliamentary Private Secretaries ?must not associate themselves with particular groups advocating special policies?, and they do not normally sign EDMs. Neither the Speaker nor Deputy Speakers will sign EDMs. Internal party rules may also affect who can sign early day motions.|
     @web_page = 'http://www.parliament.uk/parliamentary_publications_and_archives/factsheets/p03.cfm'
   end
   before do
     @record = Record.new
   end
 
-  describe 'records only having note populated' do
+  describe 'records only having notes populated' do
     describe 'when asked for unused_attributes'
-    it 'should return all but the note attribute' do
+    it 'should return all but the notes attribute' do
       Record.stub!(:first).and_return @record
       Record.stub!(:all).and_return [@record]
-      @record.should_receive(:note).and_return @note
+      @record.should_receive(:notes).and_return @notes
       unused_attributes = Record.unused_attributes
-      unused_attributes.include?('note').should be_false
-      unused_attributes.size.should == 91
+      unused_attributes.include?('notes').should be_false
+      unused_attributes.size.should == 87
     end
   end
 
@@ -75,23 +75,23 @@ describe Record do
       end
     end
   end
-  describe 'record with note text' do
+  describe 'record with notes text' do
     before do
-      @record.stub!(:note).and_return @note
+      @record.stub!(:notes).and_return @notes
     end
-    describe 'when asked for note summary' do
-      it 'should return first 100 chars of note attribute' do
-        @record.note_summary.should == @note[0..99]
+    describe 'when asked for notes summary' do
+      it 'should return first 100 chars of notes attribute' do
+        @record.notes_summary.should == @notes[0..99]
       end
     end
 
     describe 'and with web_page set and title attribute blank' do
       before do
-        @record.stub!(:attributes).and_return({'note'=>@note, 'web_page'=>@web_page, 'title'=>''})
+        @record.stub!(:attributes).and_return({'notes'=>@notes, 'web_page'=>@web_page, 'title'=>''})
       end
       describe 'when asked for summary_attributes' do
-        it 'should not return the note attribute' do
-          @record.summary_attributes.should_not have_key('note')
+        it 'should not return the notes attribute' do
+          @record.summary_attributes.should_not have_key('notes')
         end
         it 'should return the web_page attribute' do
           @record.summary_attributes.should_not have_key('web_page')
@@ -103,12 +103,38 @@ describe Record do
     end
   end
 
-  describe 'record without note text' do
-    describe 'when asked for note summary' do
+  describe 'record without notes text' do
+    describe 'when asked for notes summary' do
       it 'should return an empty string' do
-        @record.note_summary.should == ''
+        @record.notes_summary.should == ''
       end
     end
   end
 
+  describe 'when asked to format notes' do
+    def check_formatted notes, expected
+      record = Record.new :notes => notes
+      record.html_formatted_notes.should == expected
+    end
+
+    it 'should add line brake element for single line break' do
+      check_formatted "One\r\nTwo", '<p>One<br />Two</p>'
+      check_formatted "One\nTwo", '<p>One<br />Two</p>'
+    end
+
+    it 'should put paragraphs in paragraph elements' do
+      check_formatted "One\r\n\r\nTwo", '<p>One</p><p>Two</p>'
+      check_formatted "One\r\n\r\nTwo\r\n", '<p>One</p><p>Two</p>'
+      check_formatted "One\n\nTwo", '<p>One</p><p>Two</p>'
+      check_formatted "One\n\nTwo\n", '<p>One</p><p>Two</p>'
+    end
+
+    it 'should turn URIs in to hyperlinks' do
+      check_formatted "A http://host/path\r\nwebsite",
+        '<p>A <a href="http://host/path">http://host/path</a><br />website</p>'
+
+      check_formatted "A http://host/path\nwebsite",
+        '<p>A <a href="http://host/path">http://host/path</a><br />website</p>'
+    end
+  end
 end

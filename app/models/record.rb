@@ -16,12 +16,12 @@ class Record < ActiveRecord::Base
     "#{title} #{first_name} #{middle_name} #{last_name} #{suffix}".strip
   end
 
-  def note_summary
-    note.blank? ? '' : note[0..99]
+  def notes_summary
+    notes.blank? ? '' : notes[0..99]
   end
 
   def core_attribute_names
-    %w[note initial web_page title first_name middle_name last_name suffix id]
+    %w[notes initial web_page title first_name middle_name last_name suffix id]
   end
 
   def summary_attributes
@@ -45,4 +45,12 @@ class Record < ActiveRecord::Base
     end
   end
 
+  def html_formatted_notes
+    formatted = notes.to_s.strip
+    formatted.gsub!(/(http:\/\/\S+)/, '<a href="\1">\1</a>')
+    formatted.gsub!("\r\n","\n")
+    formatted.gsub!("\n\n","</p><p>")
+    formatted.gsub!("\n",'<br />')
+    "<p>#{formatted}</p>"
+  end
 end

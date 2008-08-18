@@ -5,7 +5,7 @@ class RecordsController < ApplicationController
   in_place_edit_for :record, :middle_name
   in_place_edit_for :record, :last_name
   in_place_edit_for :record, :suffix
-  in_place_edit_for :record, :note
+  in_place_edit_for :record, :notes
 
   # GET /record
   # GET /record.xml
@@ -82,4 +82,20 @@ class RecordsController < ApplicationController
       format.html { redirect_to(records_url) }
     end
   end
+
+  def set_record_notes
+    notes = params[:value]
+    record = Record.find(params[:id])
+    record.notes = notes
+    record.save!
+    @html_formatted_notes = record.html_formatted_notes
+    render :layout => false, :inline => "<%= @html_formatted_notes %>"
+  end
+
+  def unformatted_text
+    record = Record.find(params[:id])
+    @notes = record.notes
+    render :layout => false, :inline => "<%= @notes %>"
+  end
+
 end

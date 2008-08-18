@@ -12,7 +12,7 @@
     %td.name
       %p= record.suffix
     %td.notes
-      = "#{record.note_summary.gsub("/","/ ")}..."
+      = "#{record.notes_summary.gsub("/","/ ")}..."
   - else
     %td.name
       %p= edit_field(record, 'title')
@@ -25,8 +25,8 @@
     %td.name
       %p= edit_field(record, 'suffix')
     %td.notes
-      - record.note = note
-      = edit_field(record, 'note', :rows=>40, :cols=>60)
+      - record.notes = notes
+      = edit_field(record, 'notes', :rows=>40, :cols=>60, :load_text_url=>{:controller => 'records', :action => 'unformatted_text', :id => @record.id})
   %td
     = record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
     = link_to_web_page(record)

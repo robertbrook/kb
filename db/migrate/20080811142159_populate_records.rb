@@ -56,7 +56,7 @@ class PopulateRecords < ActiveRecord::Migration
     end
 
     def is_letter_index? record
-      (record.first_name.blank? || record.first_name.to_s.size == 1) && record.note.blank?
+      (record.first_name.blank? || record.first_name.to_s.size == 1) && record.notes.blank?
     end
 
     def clean_value attribute, value
@@ -68,7 +68,7 @@ class PopulateRecords < ActiveRecord::Migration
     end
 
     def convert_to_attribute column
-      column.to_s.tableize.tr(' ','_').tr("'",'').tr('/','').singularize.sub('faxis','fax').sub(/^callback/,'callback_attribute').to_sym
+      column.to_s.tableize.tr(' ','_').tr("'",'').tr('/','').singularize.sub('faxis','fax').sub('note','notes').sub(/^callback/,'callback_attribute').to_sym
     end
 
     def down
