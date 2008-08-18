@@ -249,8 +249,7 @@ describe RecordsController do
   describe "when posted with records notes to set" do
     before do
       @new_notes = "new_notes"
-      @html_formatted_notes = "<p>new_notes</p>"
-      @record = mock_model(Record, :to_param => "1", :html_formatted_notes=>@html_formatted_notes)
+      @record = mock_model(Record, :to_param => "1", :notes=>@new_notes)
       Record.stub!(:find).and_return(@record)
     end
 
@@ -265,7 +264,7 @@ describe RecordsController do
     end
     it 'should assign record notes to note' do
       do_post
-      assigns[:html_formatted_notes].should == @html_formatted_notes
+      assigns[:record].should == @record
     end
   end
 end

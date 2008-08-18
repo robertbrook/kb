@@ -45,12 +45,4 @@ class Record < ActiveRecord::Base
     end
   end
 
-  def html_formatted_notes
-    formatted = notes.to_s.strip
-    formatted.gsub!(/(http:\/\/\S+)/, '<a href="\1">\1</a>')
-    formatted.gsub!("\r\n","\n")
-    formatted.gsub!("\n\n","</p><p>")
-    formatted.gsub!("\n",'<br />')
-    "<p>#{formatted}</p>"
-  end
 end

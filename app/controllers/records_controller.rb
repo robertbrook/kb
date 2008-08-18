@@ -88,8 +88,7 @@ class RecordsController < ApplicationController
     notes = params[:value]
     @record.notes = notes
     @record.save!
-    @html_formatted_notes = @record.html_formatted_notes
-    render :layout => false, :inline => "<%= @html_formatted_notes %>"
+    render :layout => false, :inline => "<%= html_formatted_notes(@record) %>"
   end
 
   # Used by in place editor to get unformatted notes
