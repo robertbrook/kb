@@ -1,4 +1,7 @@
 class RecordsController < ApplicationController
+
+  in_place_edit_for :record, :title
+
   # GET /record
   # GET /record.xml
   def index

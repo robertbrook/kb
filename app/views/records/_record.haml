@@ -1,6 +1,7 @@
+- is_index = @records
 %tr
   %td.name
-    %p= record.title.gsub("/","/ ")
+    %p= is_index ? record.title : in_place_editor_field(:record, 'title')
   %td.name
     %p= record.first_name.gsub("/","/ ")
   %td.name
