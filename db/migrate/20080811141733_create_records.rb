@@ -68,7 +68,6 @@ class CreateRecords < ActiveRecord::Migration
       t.string :e_mail_3_address
       t.string :e_mail_3_type
       t.string :e_mail_3_display_name
-      t.string :gender
       t.string :government_id_number
       t.string :hobby
       t.string :home_address_po_box
@@ -83,11 +82,8 @@ class CreateRecords < ActiveRecord::Migration
       t.string :office_location
       t.string :organizational_id_number
       t.string :other_address_po_box
-      t.string :priority
-      t.string :private
       t.string :profession
       t.string :referred_by
-      t.string :sensitivity
       t.string :spouse
       t.string :user_1
       t.string :user_2
