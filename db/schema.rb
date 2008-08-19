@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080811142159) do
+ActiveRecord::Schema.define(:version => 20080819111719) do
 
   create_table "records", :force => true do |t|
     t.string "title"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(:version => 20080811142159) do
     t.string "user_3"
     t.string "user_4"
     t.string "web_page"
+    t.string "name"
   end
 
 end

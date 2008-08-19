@@ -5,7 +5,7 @@ describe "/record/edit.haml" do
 
   before do
     @record = mock_model(Record,
-        :title=>'title',
+        :title=>nil,
         :suffix=>'suffix',
         :initial=>'E',
         :notes_summary=>'Example',

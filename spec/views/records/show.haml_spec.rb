@@ -8,7 +8,7 @@ describe "/records/show.haml" do
         :first_name => 'All-Party',
         :middle_name => 'Groups:',
         :last_name => 'Subject',
-        :title => 'The',
+        :title=>nil,
         :suffix => '(suffix)',
         :web_page=>'url'})
 

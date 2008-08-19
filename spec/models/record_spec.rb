@@ -17,7 +17,7 @@ describe Record do
       @record.should_receive(:notes).and_return @notes
       unused_attributes = Record.unused_attributes
       unused_attributes.include?('notes').should be_false
-      unused_attributes.size.should == 87
+      unused_attributes.size.should == 88
     end
   end
 
@@ -39,6 +39,19 @@ describe Record do
         it 'should append together title, first, middle, last names, and suffix' do
           @record.display_title.should == "#{@record.title} #{@record.first_name} #{@record.middle_name} #{@record.last_name} #{@record.suffix}"
         end
+      end
+      describe 'when validated' do
+        it 'should have name set to concatenate of name attributes' do
+          @record.valid?.should be_true
+          @record.name.should == 'The All-Party Groups: Subject (suffix)'
+        end
+      end
+    end
+
+    describe 'when validated' do
+      it 'should have name set to concatenate of name attributes' do
+        @record.valid?.should be_true
+        @record.name.should == 'All-Party Groups: Subject'
       end
     end
 
@@ -110,4 +123,5 @@ describe Record do
       end
     end
   end
+
 end

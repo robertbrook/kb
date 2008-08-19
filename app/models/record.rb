@@ -1,14 +1,17 @@
 class Record < ActiveRecord::Base
 
+  before_validation :merge_name_fields
+
   class << self
     def unused_attributes
-      methods = first.attributes.keys.sort
+      methods = first.attribute_names
       records = all
-      methods.collect do |method|
+      unused = methods.collect do |method|
         values = records.collect{|r| r.send(method.to_sym)}
         values.delete_if {|v| v.blank?}.compact
         values.empty? ? method : nil
-      end.compact
+      end
+      unused.compact
     end
   end
 
@@ -21,7 +24,7 @@ class Record < ActiveRecord::Base
   end
 
   def core_attribute_names
-    %w[notes initial web_page title first_name middle_name last_name suffix id]
+    %w[notes initial web_page title first_name middle_name last_name suffix id name]
   end
 
   def summary_attributes
@@ -45,4 +48,8 @@ class Record < ActiveRecord::Base
     end
   end
 
+  protected
+    def merge_name_fields
+      self.name = "#{title} #{first_name} #{middle_name} #{last_name} #{suffix}".squeeze(' ').strip if respond_to?(:name)
+    end
 end
