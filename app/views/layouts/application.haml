@@ -1,9 +1,12 @@
-= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'
 %html
   %head
-    %title KBase
-    = stylesheet_link_tag 'default', :media => 'screen'
-    - if @javascript
-      = javascript_include_tag @javascript
-  %body
+    %title= @title + " (Knowledge Base)" || "Knowledge Base"
+    %style{:media=>"screen", :type=>"text/css"}
+      body {font-family:verdana;margin:4% auto;width:47.5em;line-height:140%;}
+      table {width:100%;}
+      h1,h2,h3,h4{line-height:normal;}
+      caption {font-weight:bold;text-align:left;}
+    = javascript_include_tag @javascript if @javascript
+  %body{:id=>"kb-parliament-uk"}
+    %h1=@title
     = yield

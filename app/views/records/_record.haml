@@ -1,38 +1,22 @@
 - is_index = @records
 %tr
   - if is_index
-    %td.name
-      %p= record.title
-    %td.name
-      %p= record.first_name
-    %td.name
-      %p= record.middle_name
-    %td.name
-      %p= record.last_name
-    %td.name
-      %p= record.suffix
-    %td.notes
-      = "#{record.notes_summary.gsub("/","/ ")}..."
+    %td.id= link_to record.id, record_path(record)
+    %td.title= record.title
+    %td.first_name= record.first_name
+    %td.middle_name= record.middle_name
+    %td.last_name= record.last_name
+    %td.suffix= record.suffix
+    %td.notes= "#{record.notes_summary.gsub("/","/ ")}..."
   - else
-    %td.name
-      %p= edit_field(record, 'title')
-    %td.name
-      %p= edit_field(record, 'first_name')
-    %td.name
-      %p= edit_field(record, 'middle_name')
-    %td.name
-      %p= edit_field(record, 'last_name')
-    %td.name
-      %p= edit_field(record, 'suffix')
+    %td.title= edit_field(record, 'title')
+    %td.first_name= edit_field(record, 'first_name')
+    %td.middle_name= edit_field(record, 'middle_name')
+    %td.last_name= edit_field(record, 'last_name')
+    %td.suffix= edit_field(record, 'suffix')
     %td.notes
       - record.notes = notes
       = edit_field(record, 'notes', :rows=>40, :cols=>60, :load_text_url=>{:controller => 'records', :action => 'get_record_notes', :id => @record.id})
   %td
     = record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
     = link_to_web_page(record)
-  - if is_index
-    %td= link_to 'Show', record_path(record)
-  - else
-    %td= link_to 'Back', records_path
-  %td= link_to 'Edit', edit_record_path(record)
-  %td= link_to 'Destroy', record_path(record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete
