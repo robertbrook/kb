@@ -8,7 +8,7 @@ describe "/records/index.haml" do
         :title=>'Exit',
         :suffix=>'Exit',
         :initial=>'E',
-        :note_summary=>'Example',
+        :notes_summary=>'Example',
         :web_page=>'url',
         :first_name=>'first',
         :middle_name=>'middle',

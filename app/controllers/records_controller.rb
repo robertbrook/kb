@@ -1,9 +1,22 @@
 class RecordsController < ApplicationController
+
+  in_place_edit_for :record, :title
+  in_place_edit_for :record, :first_name
+  in_place_edit_for :record, :middle_name
+  in_place_edit_for :record, :last_name
+  in_place_edit_for :record, :suffix
+  in_place_edit_for :record, :notes
+
+  before_filter :find_record, :only => [:show, :edit, :update, :get_record_notes, :set_record_notes]
+
+  def find_record
+    @record = Record.find(params[:id])
+  end
+
   # GET /record
   # GET /record.xml
   def index
     @records = Record.find(:all).sort
-
     respond_to do |format|
       format.html # index.haml
     end
@@ -12,8 +25,6 @@ class RecordsController < ApplicationController
   # GET /record/1
   # GET /record/1.xml
   def show
-    @record = Record.find(params[:id])
-
     respond_to do |format|
       format.html # show.haml
     end
@@ -31,7 +42,6 @@ class RecordsController < ApplicationController
 
   # GET /record/1/edit
   def edit
-    @record = Record.find(params[:id])
   end
 
   # POST /record
@@ -52,8 +62,6 @@ class RecordsController < ApplicationController
   # PUT /record/1
   # PUT /record/1.xml
   def update
-    @record = Record.find(params[:id])
-
     respond_to do |format|
       if @record.update_attributes(params[:record])
         flash[:notice] = 'Record was successfully updated.'
@@ -74,4 +82,19 @@ class RecordsController < ApplicationController
       format.html { redirect_to(records_url) }
     end
   end
+
+  # Used by in place editor to set unformatted notes
+  def set_record_notes
+    notes = params[:value]
+    @record.notes = notes
+    @record.save!
+    render :layout => false, :inline => "<%= html_formatted_notes(@record) %>"
+  end
+
+  # Used by in place editor to get unformatted notes
+  def get_record_notes
+    @notes = @record.notes
+    render :layout => false, :inline => "<%= @notes %>"
+  end
+
 end

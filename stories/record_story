@@ -1,0 +1,12 @@
+Story: Working with records
+
+  As a normal user
+  I want to view records
+  So that I can be informed
+
+  Scenario: Viewing a record
+
+    Given a record with the id '1'
+    When I view the front page
+    Then the record should appear
+    And it should be linked to

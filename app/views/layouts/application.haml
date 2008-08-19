@@ -3,5 +3,7 @@
   %head
     %title KBase
     = stylesheet_link_tag 'default', :media => 'screen'
+    - if @javascript
+      = javascript_include_tag @javascript
   %body
     = yield

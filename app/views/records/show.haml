@@ -1,9 +1,10 @@
+- @javascript = :defaults
 %h1= @record.display_title
 
 %table.record
   = render :partial => 'table_header'
   %tbody
-  = render :partial => 'record', :object => @record, :locals => {:note => format_notes(@record) }
+  = render :partial => 'record', :object => @record, :locals => {:notes => html_formatted_notes(@record) }
 
 = link_to 'Edit', edit_record_path(@record)
 = link_to 'Back', records_path

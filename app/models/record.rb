@@ -16,13 +16,17 @@ class Record < ActiveRecord::Base
     "#{title} #{first_name} #{middle_name} #{last_name} #{suffix}".strip
   end
 
-  def note_summary
-    note.blank? ? '' : note[0..99]
+  def notes_summary
+    notes.blank? ? '' : notes[0..99]
+  end
+
+  def core_attribute_names
+    %w[notes initial web_page title first_name middle_name last_name suffix id]
   end
 
   def summary_attributes
     summary = attributes
-    %w[note initial web_page title first_name middle_name last_name suffix id].each {|attribute| summary.delete(attribute)}
+    core_attribute_names.each {|attribute| summary.delete(attribute)}
     summary.delete_if {|key,value| value.blank? }
     summary
   end

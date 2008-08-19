@@ -1,27 +1,37 @@
-%h1 Editing record
+%h1= "Editing: #{@record.display_title}"
 
 = error_messages_for :record
 
 - form_for(@record) do |f|
   %table.record
-    = render :partial => 'table_header'
+    %thead
+      %tr
+        %th.name Names
+        %th Notes
+        %th Other fields
     %tbody
       %tr
         %td.name
-          %p= @record.title.gsub("/","/ ")
-        %td.name
-          %p= @record.first_name.gsub("/","/ ")
-        %td.name
-          %p= @record.middle_name.gsub("/","/ ")
-        %td.name
-          %p= @record.last_name.gsub("/","/ ")
-        %td.name
-          %p= @record.suffix.gsub("/","/ ")
-        %td.notes
-          = f.text_area :note
+          %p= f.text_field :title, :size => 30
+          %p= f.text_field :first_name, :size => 30
+          %p= f.text_field :middle_name, :size => 30
+          %p= f.text_field :last_name, :size => 30
+          %p= f.text_field :suffix, :size => 30
         %td
-          = @record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
-          = link_to_web_page(@record)
+          = f.text_area :notes, :rows=>40, :cols=>60
+        %td
+          %p
+            %label web_page
+            %span= f.text_field :web_page, :size => 20
+          - @record.summary_attributes.each do |attribute, value|
+            %p
+              %label= attribute
+              %span= f.text_field attribute.to_sym, :size => 20
+          - (@record.attributes.keys - @record.core_attribute_names - @record.summary_attributes.collect{|a|a[0]}).sort.each do |attribute|
+            %p
+              %label= attribute
+              %span= f.text_field attribute.to_sym, :size => 20
+
         %td= f.submit "Update"
         %td= link_to 'Show', record_path(@record)
         %td= link_to 'Destroy', record_path(@record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete
