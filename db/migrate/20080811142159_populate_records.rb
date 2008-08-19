@@ -17,7 +17,6 @@ class PopulateRecords < ActiveRecord::Migration
         begin
           record = create_record attributes
           record.save! unless is_letter_index? record
-          puts 'Saved record ' + record.id.to_s
         rescue Exception => e
           puts attributes.inspect
           raise e
