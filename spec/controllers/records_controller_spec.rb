@@ -2,28 +2,41 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe RecordsController do
   describe "when finding route for action" do
-    it "should map { :controller => 'records', :action => 'index' } to /records" do
-      route_for(:controller => "records", :action => "index").should == "/records"
+    def self.check_route_for_action action, uri_end=nil, id_param=nil, uri_id=nil
+      eval %Q|it "should map { :controller => 'records', :action => '#{action}' #{id_param} } to /records#{uri_end}" do
+        route_for(:controller => "records", :action => "#{action}" #{id_param}).should == "/records#{uri_id}#{uri_end}"
+      end|
+    end
+    def self.check_route_for_record_action action, uri_end=nil
+      check_route_for_action action, uri_end, id_param=', :id => 1', uri_id='/1'
     end
 
-    it "should map { :controller => 'records', :action => 'new' } to /records/new" do
-      route_for(:controller => "records", :action => "new").should == "/records/new"
+    it 'should map records search to root' do
+      route_for(:controller=>'records', :action=>'search').should == '/'
     end
-
-    it "should map { :controller => 'records', :action => 'show', :id => 1 } to /records/1" do
-      route_for(:controller => "records", :action => "show", :id => 1).should == "/records/1"
+    describe "with no record id specified" do
+      check_route_for_action 'index'
+      check_route_for_action 'new', '/new'
     end
-
-    it "should map { :controller => 'records', :action => 'edit', :id => 1 } to /records/1/edit" do
-      route_for(:controller => "records", :action => "edit", :id => 1).should == "/records/1/edit"
+    describe "with record id specified" do
+      check_route_for_record_action 'show'
+      check_route_for_record_action 'edit', '/edit'
+      check_route_for_record_action 'update'
+      check_route_for_record_action 'destroy'
     end
+  end
 
-    it "should map { :controller => 'records', :action => 'update', :id => 1} to /records/1" do
-      route_for(:controller => "records", :action => "update", :id => 1).should == "/records/1"
+  describe "when asked to get records search page" do
+    def do_get
+      get :search
     end
-
-    it "should map { :controller => 'records', :action => 'destroy', :id => 1} to /records/1" do
-      route_for(:controller => "records", :action => "destroy", :id => 1).should == "/records/1"
+    it "should be successful" do
+      do_get
+      response.should be_success
+    end
+    it "should render search template" do
+      do_get
+      response.should render_template('search')
     end
   end
 

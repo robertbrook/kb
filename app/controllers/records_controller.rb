@@ -13,6 +13,9 @@ class RecordsController < ApplicationController
     @record = Record.find(params[:id])
   end
 
+  def search
+  end
+
   # GET /record
   # GET /record.xml
   def index
