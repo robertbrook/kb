@@ -14,6 +14,10 @@ describe RecordsController do
     it 'should map records search to root' do
       route_for(:controller=>'records', :action=>'search').should == '/'
     end
+    it 'should map records search to root' do
+      route_for(:controller=>'records', :action=>'search', :s=>'term').should == '/?s=term'
+    end
+
     describe "with no record id specified" do
       check_route_for_action 'index'
       check_route_for_action 'new', '/new'
@@ -40,25 +44,30 @@ describe RecordsController do
     end
   end
 
-  describe "when posted records search term" do
+  describe "when asked for records matching a search term" do
     before do
+      @term = 'term'
       @record = mock_model(Record)
       Record.stub!(:find_all_by_name_or_notes_like).and_return([@record])
     end
-    def do_post
-      post :search, :search => @term
+    def do_get
+      get :search, :s => @term
     end
     it "should be successful" do
-      do_post
+      do_get
       response.should be_success
     end
     it "should render search results template" do
-      do_post
+      do_get
       response.should render_template('search_results')
     end
     it "should assign the found records for the view" do
-      do_post
+      do_get
       assigns[:records].should == [@record]
+    end
+    it 'should assign the search term to the view' do
+      do_get
+      assigns[:term].should == @term
     end
   end
 

@@ -14,8 +14,9 @@ class RecordsController < ApplicationController
   end
 
   def search
-    if request.post?
-      @records = Record.find_all_by_name_or_notes_like params[:search]
+    if params[:s]
+      @term = params[:s]
+      @records = Record.find_all_by_name_or_notes_like @term
       render :template=>'records/search_results'
     end
   end
