@@ -40,6 +40,28 @@ describe RecordsController do
     end
   end
 
+  describe "when posted records search term" do
+    before do
+      @record = mock_model(Record)
+      Record.stub!(:find_all_by_name_or_notes_like).and_return([@record])
+    end
+    def do_post
+      post :search, :search => @term
+    end
+    it "should be successful" do
+      do_post
+      response.should be_success
+    end
+    it "should render search results template" do
+      do_post
+      response.should render_template('search_results')
+    end
+    it "should assign the found records for the view" do
+      do_post
+      assigns[:records].should == [@record]
+    end
+  end
+
   describe "when asked to get records index" do
     before do
       @record = mock_model(Record, :initial=>'A')

@@ -14,6 +14,10 @@ class RecordsController < ApplicationController
   end
 
   def search
+    if request.post?
+      @records = Record.find_all_by_name_or_notes_like params[:search]
+      render :template=>'records/search_results'
+    end
   end
 
   # GET /record

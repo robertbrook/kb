@@ -124,4 +124,22 @@ describe Record do
     end
   end
 
+  describe 'when asked to find all by name or notes like a given term' do
+    describe 'when term matches records' do
+      it 'should return those records' do
+        @term = 'term'
+        records = mock('records')
+        Record.should_receive(:find).with(:all, :conditions => "name LIKE '%#{@term}%' OR notes LIKE '%#{@term}%'").and_return records
+        Record.find_all_by_name_or_notes_like(@term).should == records
+      end
+    end
+    describe 'when term matches no records' do
+      it 'should return empty array' do
+        @term = 'term'
+        records = mock('records')
+        Record.should_receive(:find).with(:all, :conditions => "name LIKE '%#{@term}%' OR notes LIKE '%#{@term}%'").and_return []
+        Record.find_all_by_name_or_notes_like(@term).should == []
+      end
+    end
+  end
 end

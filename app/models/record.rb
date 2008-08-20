@@ -13,6 +13,20 @@ class Record < ActiveRecord::Base
       end
       unused.compact
     end
+
+    def find_all_by_name_or_notes_like term
+      conditions = conditions_by_like(term, :name, :notes)
+      find(:all, :conditions => conditions)
+    end
+
+    protected
+      def conditions_by_like(value, *columns)
+        columns = self.column_names if columns.empty?
+        conditions = columns.collect {|c|
+          "#{c} LIKE " + ActiveRecord::Base.connection.quote("%#{value}%" )
+        }
+        conditions.join(" OR " )
+      end
   end
 
   def display_title
