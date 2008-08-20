@@ -48,7 +48,7 @@ describe RecordsController do
     before do
       @term = 'term'
       @record = mock_model(Record)
-      Record.stub!(:find_all_by_name_or_notes_like).and_return([@record])
+      Record.stub!(:find_all_by_name_like).and_return([@record])
     end
     def do_get
       get :search, :s => @term

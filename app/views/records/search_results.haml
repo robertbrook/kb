@@ -6,7 +6,4 @@
   = submit_tag 'Search'
 
 -if @records
-  %table#records{:summary=>"Matches"}
-    = render :partial => 'table_header'
-    %tbody
-      = render :partial => 'record', :collection => @records
+  = render :partial => 'search_result', :collection => @records

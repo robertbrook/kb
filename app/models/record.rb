@@ -19,6 +19,11 @@ class Record < ActiveRecord::Base
       find(:all, :conditions => conditions)
     end
 
+    def find_all_by_name_like term
+      conditions = conditions_by_like(term, :name)
+      find(:all, :conditions => conditions)
+    end
+
     protected
       def conditions_by_like(value, *columns)
         columns = self.column_names if columns.empty?
