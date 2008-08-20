@@ -5,6 +5,7 @@ describe "/records/index.haml" do
 
   before do
     record = mock_model(Record,
+      :name=>'Name',
         :title=>'Exit',
         :suffix=>'Exit',
         :initial=>'E',

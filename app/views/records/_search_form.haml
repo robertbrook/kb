@@ -1,0 +1,4 @@
+- term = '' unless term
+- form_tag('/', :method => :get) do
+  = text_field_tag 's', term
+  = submit_tag 'Search'

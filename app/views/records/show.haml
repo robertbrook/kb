@@ -1,10 +1,18 @@
 - @javascript = :defaults
--@title= @record.display_title
+- @title= edit_name_fields(@record)
 
-%table.record
-  = render :partial => 'table_header'
-  %tbody
-  = render :partial => 'record', :object => @record, :locals => {:notes => html_formatted_notes(@record) }
+%div
+  = render :partial => 'search_form'
+  = link_to 'All', records_path
+  = link_to 'Edit', edit_record_path(@record)
+  = link_to 'Destroy', record_path(@record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete
 
-= link_to 'Edit', edit_record_path(@record)
-= link_to 'Back', records_path
+#record
+  #notes
+    - @record.notes = html_formatted_notes(@record) # format before showing
+    = edit_field(@record, 'notes', :rows=>40, :cols=>60, :load_text_url=>{:controller => 'records', :action => 'get_record_notes', :id => @record.id})
+  #other_information
+    = @record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
+    = link_to_web_page(@record)
+
+
