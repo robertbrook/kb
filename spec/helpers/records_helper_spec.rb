@@ -8,7 +8,7 @@ describe RecordsHelper do
       helper.html_formatted_notes(record).should == expected
     end
 
-    it 'should add line brake element for single line break' do
+    it 'should add linebreak element for single line break' do
       check_formatted "One\r\nTwo", '<p>One<br />Two</p>'
       check_formatted "One\nTwo", '<p>One<br />Two</p>'
     end

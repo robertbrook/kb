@@ -1,6 +1,6 @@
-%h1 Listing records
+-@title= "Listing records"
 
-%table.records
+%table#records{:summary=>"Listing records"}
   = render :partial => 'table_header'
   %tbody
     = render :partial => 'record', :collection => @records
