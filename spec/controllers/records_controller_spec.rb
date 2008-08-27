@@ -96,6 +96,16 @@ describe RecordsController do
       do_get
       assigns[:records].should == [@record]
     end
+
+    describe "in atom format" do
+      def do_get
+        get :index, :format => 'atom'
+      end
+      it "should be successful" do
+        do_get
+        response.should be_success
+      end
+    end
   end
 
   describe "when asked to get a record by its id" do

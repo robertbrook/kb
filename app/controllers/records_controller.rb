@@ -28,6 +28,7 @@ class RecordsController < ApplicationController
     @records = Record.find(:all).sort
     respond_to do |format|
       format.html # index.haml
+      format.atom
     end
   end
 

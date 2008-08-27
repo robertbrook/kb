@@ -90,6 +90,8 @@ class CreateRecords < ActiveRecord::Migration
       t.string :user_3
       t.string :user_4
       t.string :web_page
+
+      t.timestamps
     end
   end
 

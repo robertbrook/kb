@@ -20,6 +20,11 @@ describe "/records/index.haml" do
   end
 
   it "should render list of records" do
-    render "/records/index.haml"
+    render "/records/index.haml", :layout=>'application'
+  end
+
+  it 'should add auto discovery of atom feed' do
+    render "/records/index.haml", :layout=>'application'
+    response.should have_tag("link[title=?][type=?][rel=?]", 'ATOM', 'application/atom+xml', 'alternate')
   end
 end

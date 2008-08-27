@@ -10,6 +10,6 @@
     = stylesheet_link_tag 'screen', :media => 'screen'
 
     = javascript_include_tag @javascript if @javascript
-  %body{:id=>"kb-parliament-uk"}
+    = @atom if @atom
     %h1=@title
     = yield
