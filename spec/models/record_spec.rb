@@ -144,19 +144,28 @@ describe Record do
   end
 
   describe 'when asked to find all by name like a given term' do
+    before do
+      @term = 'mit'
+      @conditions = { :conditions => "name LIKE '%#{@term}%'" }
+      record = mock(Record, :name => 'mit')
+      @records = [record]
+    end
     describe 'when term matches records' do
       it 'should return those records' do
-        @term = 'term'
-        records = mock('records')
-        Record.should_receive(:find).with(:all, :conditions => "name LIKE '%#{@term}%'").and_return records
-        Record.find_all_by_name_like(@term).should == records
+        Record.should_receive(:find).with(:all, @conditions).and_return @records
+        Record.find_all_by_name_like(@term).should == @records
       end
     end
     describe 'when term matches no records' do
       it 'should return empty array' do
-        @term = 'term'
-        records = mock('records')
-        Record.should_receive(:find).with(:all, :conditions => "name LIKE '%#{@term}%'").and_return []
+        Record.should_receive(:find).with(:all, @conditions).and_return []
+        Record.find_all_by_name_like(@term).should == []
+      end
+    end
+    describe 'when term matches partial text in record' do
+      it 'should return empty array' do
+        record = mock(Record, :name => 'Committee')
+        Record.should_receive(:find).with(:all, @conditions).and_return [record]
         Record.find_all_by_name_like(@term).should == []
       end
     end
