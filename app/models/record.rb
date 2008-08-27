@@ -22,7 +22,7 @@ class Record < ActiveRecord::Base
     def find_all_by_name_like term
       conditions = conditions_by_like(term, :name)
       records = find(:all, :conditions => conditions)
-      records.select {|r| r.name[/(^| |-)#{term}/] }
+      records.select {|r| r.name[/(^| |-)#{term}/i] }
     end
 
     protected

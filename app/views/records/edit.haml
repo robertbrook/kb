@@ -2,7 +2,11 @@
 
 = error_messages_for :record
 
+
 - form_for(@record) do |f|
+  = f.submit "Update"
+  = link_to 'Show', record_path(@record)
+  = link_to 'Destroy', record_path(@record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete
   %table.record
     %thead
       %tr
@@ -31,10 +35,6 @@
             %p
               %label= attribute
               %span= f.text_field attribute.to_sym, :size => 20
-
-        %td= f.submit "Update"
-        %td= link_to 'Show', record_path(@record)
-        %td= link_to 'Destroy', record_path(@record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete
 
 = link_to 'Show', record_path(@record)
 = link_to 'Back', records_path

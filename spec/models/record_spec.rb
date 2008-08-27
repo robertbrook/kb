@@ -147,7 +147,7 @@ describe Record do
     before do
       @term = 'mit'
       @conditions = { :conditions => "name LIKE '%#{@term}%'" }
-      record = mock(Record, :name => 'mit')
+      record = mock(Record, :name => 'Mit')
       @records = [record]
     end
     describe 'when term matches records' do
