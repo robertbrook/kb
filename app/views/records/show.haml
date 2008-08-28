@@ -10,9 +10,10 @@
 
 #record
   #notes
+    - rows = @record.line_count < 20 ? 25 : (@record.line_count * 1.5).to_i
     - @record.notes = html_formatted_notes(@record) # format before showing
     - if @is_admin
-      = edit_field(@record, 'notes', :rows=>40, :cols=>60, :load_text_url=>{:controller => 'records', :action => 'get_record_notes', :id => @record.id})
+      = edit_field(@record, 'notes', :rows=> rows, :cols=>60, :load_text_url=>{:controller => 'records', :action => 'get_record_notes', :id => @record.id})
     - else
       = @record.notes
   #other_information

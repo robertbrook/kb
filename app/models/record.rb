@@ -21,7 +21,7 @@ class Record < ActiveRecord::Base
 
     def find_all_by_name_like term
       conditions = conditions_by_like(term, :name)
-      records = find(:all, :conditions => conditions)
+      records = find(:all, :conditions => conditions).sort_by(&:name)
       records.select {|r| r.name[/(^| |-)#{term}/i] }
     end
 
@@ -37,6 +37,10 @@ class Record < ActiveRecord::Base
 
   def display_title
     "#{title} #{first_name} #{middle_name} #{last_name} #{suffix}".strip
+  end
+
+  def line_count
+    notes.blank? ? 0 : notes.split("\n").size
   end
 
   def notes_summary

@@ -98,6 +98,11 @@ describe Record do
       end
     end
 
+    describe 'when asked for line count' do
+      it 'should return count of lines in notes text' do
+        @record.line_count.should == @notes.split("\n").size
+      end
+    end
     describe 'and with web_page set and title attribute blank' do
       before do
         @record.stub!(:attributes).and_return({'notes'=>@notes, 'web_page'=>@web_page, 'title'=>''})
@@ -147,13 +152,15 @@ describe Record do
     before do
       @term = 'mit'
       @conditions = { :conditions => "name LIKE '%#{@term}%'" }
-      record = mock(Record, :name => 'Mit')
-      @records = [record]
     end
     describe 'when term matches records' do
-      it 'should return those records' do
+      it 'should return those records sorted by name' do
+        record1 = mock(Record, :name => 'Mit')
+        record2 = mock(Record, :name => 'Mittence')
+        @records = [record2, record1]
+        @sorted_records = [record1, record2]
         Record.should_receive(:find).with(:all, @conditions).and_return @records
-        Record.find_all_by_name_like(@term).should == @records
+        Record.find_all_by_name_like(@term).should == @sorted_records
       end
     end
     describe 'when term matches no records' do

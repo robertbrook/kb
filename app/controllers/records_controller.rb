@@ -20,7 +20,7 @@ class RecordsController < ApplicationController
   def search
     if params[:s]
       @term = params[:s]
-      @records = Record.find_all_by_name_like @term
+      @records = Record.find_all_by_name_like(@term)
       render :template=>'records/search_results'
     end
   end
