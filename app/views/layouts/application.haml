@@ -1,15 +1,11 @@
 %html
   %head
     %title= @title ? @title + " (Knowledge Base)" : "Knowledge Base"
-    = # why aren't we putting CSS in public/stylesheets/sass/screen.sass
-    = # %style{:media=>"screen", :type=>"text/css"}
-    = #   body {font-family:verdana;margin:4% auto;width:47.5em;line-height:140%;}
-    = #   table {width:100%;}
-    = #   h1,h2,h3,h4{line-height:normal;}
-    = #   caption {font-weight:bold;text-align:left;}
     = stylesheet_link_tag 'screen', :media => 'screen'
 
     = javascript_include_tag @javascript if @javascript
     = @atom if @atom
-    %h1=@title
+  %body
+    %h1= @title
+    = button_to "Toggle admin #{@is_admin ? 'off' : 'on'}" , :action => :toggle_admin
     = yield

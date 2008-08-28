@@ -7,10 +7,14 @@ class RecordsController < ApplicationController
   in_place_edit_for :record, :suffix
   in_place_edit_for :record, :notes
 
+  before_filter :authorize, :except => [:toggle_admin, :search, :index, :show, :get_record_notes]
   before_filter :find_record, :only => [:show, :edit, :update, :get_record_notes, :set_record_notes]
 
-  def find_record
-    @record = Record.find(params[:id])
+  def toggle_admin
+    if request.post?
+      session[:is_admin] = !session[:is_admin]
+    end
+    redirect_to :action => 'search'
   end
 
   def search
@@ -106,4 +110,15 @@ class RecordsController < ApplicationController
     render :layout => false, :inline => "<%= @notes %>"
   end
 
+  private
+
+    def find_record
+      @record = Record.find(params[:id])
+    end
+
+    def authorize
+      unless is_admin?
+        redirect_to(:action => "search" )
+      end
+    end
 end

@@ -50,6 +50,8 @@ class Record < ActiveRecord::Base
   def summary_attributes
     summary = attributes
     core_attribute_names.each {|attribute| summary.delete(attribute)}
+    summary.delete('updated_at')
+    summary.delete('created_at')
     summary.delete_if {|key,value| value.blank? }
     summary
   end

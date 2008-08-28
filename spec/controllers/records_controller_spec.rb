@@ -97,7 +97,7 @@ describe RecordsController do
       assigns[:records].should == [@record]
     end
 
-    describe "in atom format" do
+    describe "in atom format" do
       def do_get
         get :index, :format => 'atom'
       end
@@ -137,10 +137,20 @@ describe RecordsController do
 
   describe "when asked to get a new record" do
     before do
+      controller.stub!(:is_admin?).and_return true
       @record = mock_model(Record)
       Record.stub!(:new).and_return(@record)
     end
 
+    describe 'and user not admin' do
+      before do
+        controller.stub!(:is_admin?).and_return false
+      end
+      it "should redirect to root" do
+        do_get
+        response.should redirect_to('http://test.host/')
+      end
+    end
     def do_get
       get :new
     end
@@ -168,6 +178,7 @@ describe RecordsController do
 
   describe "asked to get for editing a record given its id" do
     before do
+      controller.stub!(:is_admin?).and_return true
       @record = mock_model(Record)
       Record.stub!(:find).and_return(@record)
     end
@@ -175,6 +186,17 @@ describe RecordsController do
     def do_get
       get :edit, :id => "1"
     end
+
+    describe 'and user not admin' do
+      before do
+        controller.stub!(:is_admin?).and_return false
+      end
+      it "should redirect to search action" do
+        do_get
+        response.should redirect_to('http://test.host/')
+      end
+    end
+
     it "should be successful" do
       do_get
       response.should be_success
@@ -195,8 +217,19 @@ describe RecordsController do
 
   describe "when posted a new record" do
     before do
+      controller.stub!(:is_admin?).and_return true
       @record = mock_model(Record, :to_param => "1")
       Record.stub!(:new).and_return(@record)
+    end
+
+    describe 'and user not admin' do
+      before do
+        controller.stub!(:is_admin?).and_return false
+      end
+      it "should redirect to search action" do
+        post :create, :record => {}
+        response.should redirect_to('http://test.host/')
+      end
     end
 
     def post_with_successful_save
@@ -223,8 +256,19 @@ describe RecordsController do
 
   describe "when put a existing record with updated attributes" do
     before do
+      controller.stub!(:is_admin?).and_return true
       @record = mock_model(Record, :to_param => "1")
       Record.stub!(:find).and_return(@record)
+    end
+
+    describe 'and user not admin' do
+      before do
+        controller.stub!(:is_admin?).and_return false
+      end
+      it "should redirect to search action" do
+        put :update, :id => "1"
+        response.should redirect_to('http://test.host/')
+      end
     end
 
     def put_with_successful_update
@@ -259,6 +303,7 @@ describe RecordsController do
 
   describe "when asked to delete an existing record" do
     before do
+      controller.stub!(:is_admin?).and_return true
       @record = mock_model(Record, :destroy => true)
       Record.stub!(:find).and_return(@record)
     end
@@ -266,6 +311,17 @@ describe RecordsController do
     def do_delete
       delete :destroy, :id => "1"
     end
+
+    describe 'and user not admin' do
+      before do
+        controller.stub!(:is_admin?).and_return false
+      end
+      it "should redirect to search action" do
+        do_delete
+        response.should redirect_to('http://test.host/')
+      end
+    end
+
     it "should find the record requested" do
       Record.should_receive(:find).with("1").and_return(@record)
       do_delete
@@ -302,6 +358,7 @@ describe RecordsController do
 
   describe "when posted with records notes to set" do
     before do
+      controller.stub!(:is_admin?).and_return true
       @new_notes = "new_notes"
       @record = mock_model(Record, :to_param => "1", :notes=>@new_notes)
       Record.stub!(:find).and_return(@record)
@@ -312,6 +369,17 @@ describe RecordsController do
       @record.should_receive(:save!)
       post :set_record_notes, :id => "1", :value => @new_notes
     end
+
+    describe 'and user not admin' do
+      before do
+        controller.stub!(:is_admin?).and_return false
+      end
+      it "should redirect to search action" do
+        post :set_record_notes, :id => "1", :value => @new_notes
+        response.should redirect_to('http://test.host/')
+      end
+    end
+
     it "should be successful" do
       do_post
       response.should be_success
@@ -319,6 +387,41 @@ describe RecordsController do
     it 'should assign record notes to note' do
       do_post
       assigns[:record].should == @record
+    end
+  end
+
+  describe "when posted to toggle admin action" do
+    def do_post
+      post :toggle_admin
+    end
+    it 'should be successful' do
+      do_post
+      response.should be_redirect
+    end
+    it "should redirect to root" do
+      do_post
+      response.should redirect_to('http://test.host/')
+    end
+    describe "and session is_admin is nil" do
+      it 'should set session is_admin to true' do
+        session[:is_admin] = nil
+        do_post
+        session[:is_admin].should be_true
+      end
+    end
+    describe "and session is_admin is false" do
+      it 'should set session is_admin to true' do
+        session[:is_admin] = false
+        do_post
+        session[:is_admin].should be_true
+      end
+    end
+    describe "and session is_admin is true" do
+      it 'should set session is_admin to false' do
+        session[:is_admin] = true
+        do_post
+        session[:is_admin].should be_false
+      end
     end
   end
 end
