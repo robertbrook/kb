@@ -3,12 +3,17 @@
 
 %div
   = render :partial => 'search_form'
-  = link_to 'All', records_path
   - if @is_admin
+    = link_to 'All', records_path
     = link_to 'Edit', edit_record_path(@record)
     = link_to 'Destroy', record_path(@record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete
 
 #record
+  - if @is_admin && @record.use_expiry_date
+    #expiry_date
+      %p
+        Record's expiry date:
+        = @record.expiry_date.to_s(:rfc822)
   #notes
     - rows = @record.line_count < 20 ? 25 : (@record.line_count * 1.5).to_i
     - @record.notes = html_formatted_notes(@record) # format before showing

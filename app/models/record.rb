@@ -48,7 +48,7 @@ class Record < ActiveRecord::Base
   end
 
   def core_attribute_names
-    %w[notes initial web_page title first_name middle_name last_name suffix id name]
+    %w[notes initial web_page title first_name middle_name last_name suffix id name expiry_date]
   end
 
   def summary_attributes

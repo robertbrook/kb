@@ -21,6 +21,11 @@
           %p= f.text_field :middle_name, :size => 30
           %p= f.text_field :last_name, :size => 30
           %p= f.text_field :suffix, :size => 30
+          %p
+            Use expiry date
+            = f.check_box :use_expiry_date
+          %p
+            = f.date_select :expiry_date
         %td
           = f.text_area :notes, :rows=>40, :cols=>60
         %td
@@ -31,7 +36,7 @@
             %p
               %label= attribute
               %span= f.text_field attribute.to_sym, :size => 20
-          - (@record.attributes.keys - @record.core_attribute_names - @record.summary_attributes.collect{|a|a[0]}).sort.each do |attribute|
+          - (@record.attributes.keys - @record.core_attribute_names - @record.summary_attributes.collect{|a|a[0]} - ['updated_at','created_at']).sort.each do |attribute|
             %p
               %label= attribute
               %span= f.text_field attribute.to_sym, :size => 20

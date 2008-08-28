@@ -15,6 +15,8 @@ describe "/record/edit.haml" do
         :last_name=>'last',
         :display_title=> 'title first middle last suffix',
         :summary_attributes=>{'web_page'=>'url'},
+        :use_expiry_date => false,
+        :expiry_date => Date.new(1999,1,1),
         :attributes=>{},
         :core_attribute_names=>[],
         :notes=>"notes text")

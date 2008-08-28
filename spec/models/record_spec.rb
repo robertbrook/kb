@@ -17,7 +17,7 @@ describe Record do
       @record.should_receive(:notes).and_return @notes
       unused_attributes = Record.unused_attributes
       unused_attributes.include?('notes').should be_false
-      unused_attributes.size.should == 88
+      unused_attributes.size.should == 92
     end
   end
 
