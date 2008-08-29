@@ -57,6 +57,8 @@ class RecordsController < ApplicationController
   # GET /record/1
   # GET /record/1.xml
   def show
+    @topics = @record.topic_list
+    @categories = @record.category_list
     respond_to do |format|
       format.html # show.haml
     end

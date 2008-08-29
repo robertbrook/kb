@@ -12,7 +12,7 @@
 - unless @record.topic_list.blank?
   %div
     %span.topics_label= link_to 'Topics:', root_path
-    = topic_list(@record)
+    = topics_list(@topics)
 
 #record
   - if @is_admin && @record.use_check_by_date
@@ -35,10 +35,10 @@
     - unless @record.topic_list.blank?
       %p
         %span.topics_label Topics:
-        = topic_list(@record)
+        = topics_list(@topics)
     - unless @record.category_list.blank?
       %p
         %span.categories_label Categories:
-        = category_list(@record)
+        = categories_list(@categories)
     = @record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
 
