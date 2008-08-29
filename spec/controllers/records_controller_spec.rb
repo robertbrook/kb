@@ -1,6 +1,21 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe RecordsController do
+
+  def self.get_request_should_be_successful
+    eval %Q|    it "should be successful" do
+      do_get
+      response.should be_success
+    end|
+  end
+  def self.should_render_template template_name
+    eval %Q|    it "should render #{template_name} template" do
+      do_get
+      response.should render_template('#{template_name}')
+    end|
+  end
+
+
   describe "when finding route for action" do
     def self.check_route_for_action action, uri_end=nil, id_param=nil, uri_id=nil
       eval %Q|it "should map { :controller => 'records', :action => '#{action}' #{id_param} } to /records#{uri_end}" do
@@ -34,14 +49,9 @@ describe RecordsController do
     def do_get
       get :search
     end
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-    it "should render search template" do
-      do_get
-      response.should render_template('search')
-    end
+
+    get_request_should_be_successful
+    should_render_template('search')
   end
 
   describe "when asked for records matching a search term" do
@@ -53,14 +63,10 @@ describe RecordsController do
     def do_get
       get :search, :s => @term
     end
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-    it "should render search results template" do
-      do_get
-      response.should render_template('search_results')
-    end
+
+    get_request_should_be_successful
+    should_render_template('search_results')
+
     it "should assign the found records for the view" do
       do_get
       assigns[:records].should == [@record]
@@ -80,14 +86,10 @@ describe RecordsController do
     def do_get
       get :index
     end
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-    it "should render index template" do
-      do_get
-      response.should render_template('index')
-    end
+
+    get_request_should_be_successful
+    should_render_template('index')
+
     it "should find all records" do
       Record.should_receive(:find).with(:all).and_return([@record])
       do_get
@@ -117,14 +119,10 @@ describe RecordsController do
     def do_get
       get :show, :id => "1"
     end
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-    it "should render show template" do
-      do_get
-      response.should render_template('show')
-    end
+
+    get_request_should_be_successful
+    should_render_template('show')
+
     it "should find the record requested" do
       Record.should_receive(:find).with("1").and_return(@record)
       do_get
@@ -154,14 +152,10 @@ describe RecordsController do
     def do_get
       get :new
     end
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-    it "should render new template" do
-      do_get
-      response.should render_template('new')
-    end
+
+    get_request_should_be_successful
+    should_render_template('new')
+
     it "should create an new record" do
       Record.should_receive(:new).and_return(@record)
       do_get
@@ -197,14 +191,9 @@ describe RecordsController do
       end
     end
 
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
-    it "should render edit template" do
-      do_get
-      response.should render_template('edit')
-    end
+    get_request_should_be_successful
+    should_render_template('edit')
+
     it "should find the record requested" do
       Record.should_receive(:find).and_return(@record)
       do_get
@@ -346,10 +335,9 @@ describe RecordsController do
     def do_get
       get :get_record_notes, :id => "1"
     end
-    it "should be successful" do
-      do_get
-      response.should be_success
-    end
+
+    get_request_should_be_successful
+
     it 'should assign record notes to note' do
       do_get
       assigns[:notes].should == @notes
