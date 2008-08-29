@@ -3,9 +3,3 @@
 
 %div
   = render :partial => 'search_form'
-
--if @records
-  %table#records{:summary=>"Matches"}
-    = render :partial => 'table_header'
-    %tbody
-      = render :partial => 'record', :collection => @records

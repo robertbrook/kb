@@ -22,10 +22,12 @@
           %p= f.text_field :last_name, :size => 30
           %p= f.text_field :suffix, :size => 30
           %p
-            Use check by date
-            = f.check_box :use_check_by_date
+            %strong Check By Date
           %p
             = f.date_select :check_by_date
+          %p
+            Use check by date
+            = f.check_box :use_check_by_date
         %td
           = f.text_area :notes, :rows=>40, :cols=>60
         %td
