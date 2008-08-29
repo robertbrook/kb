@@ -5,7 +5,7 @@ class PopulateTopicTags < ActiveRecord::Migration
       [:title, :first_name, :middle_name, :last_name, :suffix].each do |topic_attribute|
         topic = record.send(topic_attribute)
         unless topic.blank?
-          topic = topic.downcase.gsub(' ','_').gsub(/[^a-z^_^-]/,'').squeeze('_').chomp('_')
+          topic = topic.strip.downcase.gsub(' ','_').gsub(/[^a-z^_^-]/,'').squeeze('_').chomp('_')[/^_?(.+)$/,1]
           unless topic.blank?
             topics << topic
           end

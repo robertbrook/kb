@@ -3,10 +3,16 @@
 
 %div
   = render :partial => 'search_form'
-  - if @is_admin
+- if @is_admin
+  %div.controls
     = link_to 'All', records_path
     = link_to 'Edit', edit_record_path(@record)
     = link_to 'Destroy', record_path(@record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete
+
+- unless @record.topic_list.blank?
+  %div
+    %span.topics_label Topics:
+    = topic_list(@record)
 
 #record
   - if @is_admin && @record.use_check_by_date
@@ -22,14 +28,17 @@
     - else
       = @record.notes
   #other_information
+    - unless @record.web_page.blank?
+      %p
+        %span.web_page_label Web page:
+        = link_to_web_page(@record)
     - unless @record.topic_list.blank?
       %p
-        Topics:
+        %span.topics_label Topics:
         = topic_list(@record)
     - unless @record.category_list.blank?
       %p
-        Categories:
+        %span.categories_label Categories:
         = category_list(@record)
     = @record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
-    = link_to_web_page(@record)
 
