@@ -10,7 +10,7 @@ describe "/records/show.haml" do
         :last_name => 'Subject',
         :title=>nil,
         :suffix => '(suffix)',
-        :use_expiry_date => false,
+        :use_check_by_date => false,
         :web_page=>'url'})
 
     assigns[:record] = @record

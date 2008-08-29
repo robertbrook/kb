@@ -103,8 +103,8 @@ ActiveRecord::Schema.define(:version => 20080828160932) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.date     "expiry_date"
-    t.boolean  "use_expiry_date"
+    t.date     "check_by_date"
+    t.boolean  "use_check_by_date"
   end
 
 end
