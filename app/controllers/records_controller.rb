@@ -7,7 +7,7 @@ class RecordsController < ApplicationController
   in_place_edit_for :record, :suffix
   in_place_edit_for :record, :notes
 
-  before_filter :authorize, :except => [:toggle_admin, :search, :index, :show, :get_record_notes]
+  before_filter :authorize, :except => [:toggle_admin, :search, :index, :show, :get_record_notes, :category, :topic]
   before_filter :find_record, :only => [:show, :edit, :update, :get_record_notes, :set_record_notes]
 
   def toggle_admin
@@ -21,16 +21,16 @@ class RecordsController < ApplicationController
     if params[:id]
       @category = params[:id]
       @records = Record.find_tagged_with(@category, :on=>'categories').sort_by(&:name)
-      render :template=>'records/category_results'
     end
+    render :template=>'records/category_results'
   end
 
   def topic
     if params[:id]
       @topic = params[:id]
       @records = Record.find_tagged_with(@topic, :on=>'topics').sort_by(&:name)
-      render :template=>'records/topic_results'
     end
+    render :template=>'records/topic_results'
   end
 
   def search

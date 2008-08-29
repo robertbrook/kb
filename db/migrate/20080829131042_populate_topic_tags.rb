@@ -6,7 +6,7 @@ class PopulateTopicTags < ActiveRecord::Migration
         topic = record.send(topic_attribute)
         unless topic.blank?
           topic = topic.strip.downcase.gsub(' ','_').gsub(/[^a-z^_^-]/,'').squeeze('_').chomp('_')[/^_?(.+)$/,1]
-          unless topic.blank?
+          unless topic.blank? || topic == '-'
             topics << topic
           end
         end
