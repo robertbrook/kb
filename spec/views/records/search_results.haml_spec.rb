@@ -16,6 +16,16 @@ describe "/records/search_results.haml" do
     render @template
   end
 
+  describe 'when there are no results' do
+    before do
+      assigns[:records] = []
+    end
+    it "should show message that records are not found" do
+      do_render
+      response.should have_tag('p', "Your search -\n  Group\n   - did not match any item names.")
+    end
+  end
+
   describe 'when there are results' do
     before do
       @name = 'All Party Group'

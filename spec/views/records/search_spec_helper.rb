@@ -11,12 +11,12 @@ describe "renders search form", :shared => true do
   end
   it "should show search term input field" do
     do_render
-    response.should have_tag("input[id=s][name=s]")
+    response.should have_tag("input[id=q][name=q]")
   end
   it 'should show search term in input field if term is assigned to view' do
     if @searched_for
       do_render
-      response.should have_tag("input[id=s][name=s][value=#{@searched_for}]")
+      response.should have_tag("input[id=q][name=q][value=#{@searched_for}]")
     end
   end
   it 'should show submit search button' do

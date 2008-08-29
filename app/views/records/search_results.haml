@@ -4,5 +4,15 @@
 %div
   = render :partial => 'search_form', :locals => {:term => @term}
 
--if @records
+- unless @records.blank?
   = render :partial => 'search_result', :collection => @records
+- else
+  %p
+    Your search -
+    %span.search_term= @term
+    = ' - did not match any item names.'
+  %p Suggestions:
+  %ul
+    %li Make sure all words are spelled correctly.
+    %li Try different keywords.
+    %li Try more general keywords.

@@ -30,7 +30,7 @@ describe RecordsController do
       route_for(:controller=>'records', :action=>'search').should == '/'
     end
     it 'should map records search to root' do
-      route_for(:controller=>'records', :action=>'search', :s=>'term').should == '/?s=term'
+      route_for(:controller=>'records', :action=>'search', :q=>'term').should == '/?q=term'
     end
 
     describe "with no record id specified" do
@@ -58,22 +58,38 @@ describe RecordsController do
     before do
       @term = 'term'
       @record = mock_model(Record)
-      Record.stub!(:find_all_by_name_like).and_return([@record])
     end
     def do_get
-      get :search, :s => @term
+      get :search, :q => @term
     end
 
-    get_request_should_be_successful
-    should_render_template('search_results')
-
-    it "should assign the found records for the view" do
-      do_get
-      assigns[:records].should == [@record]
+    describe 'and there are no records matching term' do
+      before do
+        Record.stub!(:find_all_by_name_like).and_return []
+      end
+      get_request_should_be_successful
+      should_render_template('search_results')
+      it "should assign records as an empty array for the view" do
+        do_get
+        assigns[:records].should == []
+      end
     end
-    it 'should assign the search term to the view' do
-      do_get
-      assigns[:term].should == @term
+
+    describe 'and there are records matching term' do
+      before do
+        Record.stub!(:find_all_by_name_like).and_return [@record]
+      end
+      get_request_should_be_successful
+      should_render_template('search_results')
+
+      it "should assign the found records for the view" do
+        do_get
+        assigns[:records].should == [@record]
+      end
+      it 'should assign the search term to the view' do
+        do_get
+        assigns[:term].should == @term
+      end
     end
   end
 
