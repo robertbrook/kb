@@ -17,6 +17,22 @@ class RecordsController < ApplicationController
     redirect_to :action => 'search'
   end
 
+  def category
+    if params[:id]
+      @category = params[:id]
+      @records = Record.find_tagged_with(@category, :on=>'categories').sort_by(&:name)
+      render :template=>'records/category_results'
+    end
+  end
+
+  def topic
+    if params[:id]
+      @topic = params[:id]
+      @records = Record.find_tagged_with(@topic, :on=>'topics').sort_by(&:name)
+      render :template=>'records/topic_results'
+    end
+  end
+
   def search
     if params[:q]
       @term = params[:q]

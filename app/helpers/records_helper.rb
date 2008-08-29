@@ -1,5 +1,17 @@
 module RecordsHelper
 
+  def category_list record
+    record.category_list.collect do |category|
+      link_to(category, url_for(:controller=>'records',:action=>'category',:id=>category))
+    end.join(' ')
+  end
+
+  def topic_list record
+    record.topic_list.collect do |topic|
+      link_to(topic, url_for(:controller=>'records',:action=>'topic',:id=>topic))
+    end.join(' ')
+  end
+
   def link_to_record record
     link_to(record.name, record_path(record))
   end

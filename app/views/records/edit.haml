@@ -28,6 +28,10 @@
           %p
             Use check by date
             = f.check_box :use_check_by_date
+          %p
+            %strong Categories
+          %p
+            = f.text_field :category_list
         %td
           = f.text_area :notes, :rows=>40, :cols=>60
         %td

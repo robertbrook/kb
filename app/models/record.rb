@@ -1,5 +1,8 @@
 class Record < ActiveRecord::Base
 
+  acts_as_taggable_on :categories
+  acts_as_taggable_on :topics
+
   before_validation :merge_name_fields
 
   class << self
@@ -48,7 +51,7 @@ class Record < ActiveRecord::Base
   end
 
   def core_attribute_names
-    %w[notes initial web_page title first_name middle_name last_name suffix id name check_by_date use_check_by_date]
+    %w[notes initial web_page title first_name middle_name last_name suffix id name check_by_date use_check_by_date category]
   end
 
   def summary_attributes

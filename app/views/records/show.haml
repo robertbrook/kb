@@ -22,7 +22,14 @@
     - else
       = @record.notes
   #other_information
+    - unless @record.topic_list.blank?
+      %p
+        Topics:
+        = topic_list(@record)
+    - unless @record.category_list.blank?
+      %p
+        Categories:
+        = category_list(@record)
     = @record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
     = link_to_web_page(@record)
-
 

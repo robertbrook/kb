@@ -1,0 +1,18 @@
+- @javascript = :defaults
+- @title = "Category: #{@category}"
+
+%div
+  = render :partial => 'search_form'
+
+- unless @records.blank?
+  = render :partial => 'search_result', :collection => @records
+- else
+  %p
+    Your search -
+    %span.search_term= @category
+    = ' - did not match any category names.'
+  %p Suggestions:
+  %ul
+    %li Make sure all words are spelled correctly.
+    %li Try different categories.
+    %li Try more general categories.
