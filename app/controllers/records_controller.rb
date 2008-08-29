@@ -38,6 +38,9 @@ class RecordsController < ApplicationController
       @term = params[:q]
       @records = Record.find_all_by_name_like(@term)
       render :template=>'records/search_results'
+    else
+      @topics = Record.common_topics
+      @categories = Record.common_categories
     end
   end
 

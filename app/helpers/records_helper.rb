@@ -6,19 +6,13 @@ module RecordsHelper
     end.join(', ')
   end
 
-  def topics_list
-    topics = Tagging.find(:all,:conditions=>'context = "topics"', :include=>'tag').collect(&:tag)
-    topics = topics.select {|t| t.taggings.size > 1}
-    topics = topics.collect(&:name).uniq.sort
+  def topics_list(topics)
     topics.collect do |topic|
       link_to(topic, url_for(:controller=>'records',:action=>'topic',:id=>topic))
     end.join(', ')
   end
 
-  def categories_list
-    categories = Tagging.find(:all,:conditions=>'context = "categories"', :include=>'tag').collect(&:tag)
-    categories = categories.select {|t| t.taggings.size > 0}
-    categories = categories.collect(&:name).uniq.sort
+  def categories_list categories
     categories.collect do |category|
       link_to(category, url_for(:controller=>'records',:action=>'category',:id=>category))
     end.join(', ')

@@ -8,13 +8,13 @@ describe RecordsController do
       response.should be_success
     end|
   end
+
   def self.should_render_template template_name
     eval %Q|    it "should render #{template_name} template" do
       do_get
       response.should render_template('#{template_name}')
     end|
   end
-
 
   describe "when finding route for action" do
     def self.check_route_for_action action, uri_end=nil, id_param=nil, uri_id=nil
@@ -29,6 +29,7 @@ describe RecordsController do
     it 'should map records search to root' do
       route_for(:controller=>'records', :action=>'search').should == '/'
     end
+
     it 'should map records search to root' do
       route_for(:controller=>'records', :action=>'search', :q=>'term').should == '/?q=term'
     end
@@ -36,6 +37,8 @@ describe RecordsController do
     describe "with no record id specified" do
       check_route_for_action 'index'
       check_route_for_action 'new', '/new'
+      check_route_for_action 'topic', '/topic'
+      check_route_for_action 'category', '/category'
     end
     describe "with record id specified" do
       check_route_for_record_action 'show'

@@ -6,6 +6,16 @@ class Record < ActiveRecord::Base
   before_validation :merge_name_fields
 
   class << self
+
+    def common_topics
+      topics = Record.topic_counts.select {|t| t.taggings.size > 1}
+      topics.collect(&:name).sort
+    end
+
+    def common_categories
+      Record.category_counts.collect(&:name).sort
+    end
+
     def unused_attributes
       methods = first.attribute_names
       records = all
