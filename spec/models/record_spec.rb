@@ -17,35 +17,15 @@ describe Record do
       @record.should_receive(:notes).and_return @notes
       unused_attributes = Record.unused_attributes
       unused_attributes.include?('notes').should be_false
-      unused_attributes.size.should == 92
+      unused_attributes.size.should == 87
     end
   end
 
-  describe 'record with first name, middle name and last name' do
+  describe 'record with name' do
     before do
-      @record.stub!(:first_name).and_return 'All-Party'
-      @record.stub!(:middle_name).and_return 'Groups:'
-      @record.stub!(:last_name).and_return 'Subject'
+      @record.stub!(:name).and_return 'All-Party Groups: Subject'
       @other_record = Record.new
       @records = [@record, @other_record]
-    end
-
-    describe 'and title and suffix' do
-      before do
-        @record.stub!(:title).and_return 'The'
-        @record.stub!(:suffix).and_return '(suffix)'
-      end
-      describe 'when asked for display_title' do
-        it 'should append together title, first, middle, last names, and suffix' do
-          @record.display_title.should == "#{@record.title} #{@record.first_name} #{@record.middle_name} #{@record.last_name} #{@record.suffix}"
-        end
-      end
-      describe 'when validated' do
-        it 'should have name set to concatenate of name attributes' do
-          @record.valid?.should be_true
-          @record.name.should == 'The All-Party Groups: Subject (suffix)'
-        end
-      end
     end
 
     describe 'when validated' do
@@ -55,34 +35,28 @@ describe Record do
       end
     end
 
-    describe 'when asked for display_title' do
-      it 'should append together first, middle, last names' do
-        @record.display_title.should == "#{@record.first_name} #{@record.middle_name} #{@record.last_name}"
+    describe 'when asked for name' do
+      it 'should return name' do
+        @record.name.should == "#{@record.name}"
       end
     end
 
     describe 'when sorted' do
-      describe 'with a record that has a different last_name' do
+      describe 'with a record that has a different end word' do
         it 'should sort correctly' do
-          @other_record.stub!(:first_name).and_return @record.first_name
-          @other_record.stub!(:middle_name).and_return @record.middle_name
-          @other_record.stub!(:last_name).and_return 'Country'
+          @other_record.stub!(:name).and_return 'All-Party Groups: Country'
           @records.sort.should == [@other_record, @record]
         end
       end
-      describe 'with a record that has a different middle_name' do
+      describe 'with a record that has a different middle word' do
         it 'should sort correctly' do
-          @other_record.stub!(:first_name).and_return @record.first_name
-          @other_record.stub!(:middle_name).and_return 'Committee'
-          @other_record.stub!(:last_name).and_return @record.last_name
+          @other_record.stub!(:name).and_return 'All-Party Committee: Subject'
           @records.sort.should == [@other_record, @record]
         end
       end
-      describe 'with a record that has a different last_name' do
+      describe 'with a record that has a different first word' do
         it 'should sort correctly' do
-          @other_record.stub!(:first_name).and_return 'Advisory'
-          @other_record.stub!(:middle_name).and_return @record.middle_name
-          @other_record.stub!(:last_name).and_return @record.last_name
+          @other_record.stub!(:name).and_return 'Advisory Groups: Subject'
           @records.sort.should == [@other_record, @record]
         end
       end
@@ -103,9 +77,9 @@ describe Record do
         @record.line_count.should == @notes.split("\n").size
       end
     end
-    describe 'and with web_page set and title attribute blank' do
+    describe 'and with web_page set' do
       before do
-        @record.stub!(:attributes).and_return({'notes'=>@notes, 'web_page'=>@web_page, 'title'=>''})
+        @record.stub!(:attributes).and_return({'notes'=>@notes, 'web_page'=>@web_page})
       end
       describe 'when asked for summary_attributes' do
         it 'should not return the notes attribute' do
@@ -113,9 +87,6 @@ describe Record do
         end
         it 'should return the web_page attribute' do
           @record.summary_attributes.should_not have_key('web_page')
-        end
-        it 'should not return the title attribute' do
-          @record.summary_attributes.should_not have_key('title')
         end
       end
     end

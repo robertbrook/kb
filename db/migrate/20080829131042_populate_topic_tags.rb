@@ -11,7 +11,19 @@ class PopulateTopicTags < ActiveRecord::Migration
           end
         end
       end
-      record.topic_list = topics.join(', ')
+      topics = topics.join(', ')
+
+      topics.sub!('prime, ministers_question, time', 'prime_minister, question_time')
+      topics.sub!('prime, ministers_question_time',  'prime_minister, question_time')
+      topics.sub!('prime, ministers_',               'prime_minister, ')
+      topics.sub!('prime, ministers, ',              'prime_minister, ')
+      topics.sub!('prime, minister_and_',            'prime_minister, ')
+      topics.sub!('prime, minister, ',               'prime_minister, ')
+      topics.sub!('prime, ministerial_record, ',     'prime_minister, record_')
+      topics.sub!('prime, minister_royal',           'prime_minister, royal')
+      topics.sub!(/prime, ministers?$/,              'prime_minister')
+      record.topic_list = topics
+
       record.save!
       puts record.topic_list.inspect
     end

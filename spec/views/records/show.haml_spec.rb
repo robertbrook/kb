@@ -5,11 +5,7 @@ describe "/records/show.haml" do
 
   before do
     @record = Record.new({
-        :first_name => 'All-Party',
-        :middle_name => 'Groups:',
-        :last_name => 'Subject',
-        :title=>nil,
-        :suffix => '(suffix)',
+        :name => 'All-Party Groups: Subject',
         :use_check_by_date => false,
         :web_page=>'url'})
 
