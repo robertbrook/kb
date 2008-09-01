@@ -11,7 +11,7 @@
 
 - unless @record.topic_list.blank?
   %div
-    %span.topics_label= link_to 'Topics:', root_path
+    %span.tags_label= link_to 'Tags:', root_path
     = topics_list(@topics)
 
 #record
@@ -34,11 +34,11 @@
         = link_to_web_page(@record)
     - unless @record.topic_list.blank?
       %p
-        %span.topics_label Topics:
+        %span.tags_label Tags:
         = topics_list(@topics)
     - unless @record.category_list.blank?
       %p
-        %span.categories_label Categories:
+        %span.statuses_label Statuses:
         = categories_list(@categories)
     = @record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
 
