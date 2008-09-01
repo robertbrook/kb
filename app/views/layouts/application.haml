@@ -6,5 +6,5 @@
     = @atom if @atom
   %body
     %h1= @title
-    = button_to "Toggle admin #{@is_admin ? 'off' : 'on'}" , :action => :toggle_admin
     = yield
+    = button_to "Enable #{@is_admin ? 'STANDARD USER functions' : 'ADMINISTRATOR functions'}" , :action => :toggle_admin

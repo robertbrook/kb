@@ -1,8 +1,7 @@
 - @atom = auto_discovery_link_tag(:atom).sub('records','records.atom')
 - @title = "Knowledge Base records"
 
-%div
-  = render :partial => 'search_form'
+%div#search= render :partial => 'search_form'
 
 %table#records{:summary=>"Listing records"}
   = render :partial => 'table_header'
