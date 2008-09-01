@@ -4,7 +4,10 @@ class AddNameToRecords < ActiveRecord::Migration
 
     Record.reset_column_information
 
-    Record.all.each {|r| r.save!}
+    Record.all.each do |r|
+      r.name = "#{r.title} #{r.first_name} #{r.middle_name} #{r.last_name} #{r.suffix}".squeeze(' ').strip
+      r.save!
+    end
   end
 
   def self.down

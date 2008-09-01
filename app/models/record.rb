@@ -3,8 +3,6 @@ class Record < ActiveRecord::Base
   acts_as_taggable_on :categories
   acts_as_taggable_on :topics
 
-  before_validation :merge_name_fields
-
   class << self
 
     def common_topics
@@ -48,10 +46,6 @@ class Record < ActiveRecord::Base
       end
   end
 
-  def display_title
-    "#{title} #{first_name} #{middle_name} #{last_name} #{suffix}".strip
-  end
-
   def line_count
     notes.blank? ? 0 : notes.split("\n").size
   end
@@ -61,7 +55,7 @@ class Record < ActiveRecord::Base
   end
 
   def core_attribute_names
-    %w[notes initial web_page title first_name middle_name last_name suffix id name check_by_date use_check_by_date category]
+    %w[notes initial web_page id name check_by_date use_check_by_date category]
   end
 
   def summary_attributes
@@ -74,21 +68,7 @@ class Record < ActiveRecord::Base
   end
 
   def <=> other_record
-    comparison = first_name <=> other_record.first_name
-    if comparison != 0
-      comparison
-    else
-      comparison = middle_name <=> other_record.middle_name
-      if comparison != 0
-        comparison
-      else
-        last_name <=> other_record.last_name
-      end
-    end
+    name <=> other_record.name
   end
 
-  protected
-    def merge_name_fields
-      self.name = "#{title} #{first_name} #{middle_name} #{last_name} #{suffix}".squeeze(' ').strip if respond_to?(:name)
-    end
 end

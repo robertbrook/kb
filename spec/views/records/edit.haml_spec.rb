@@ -5,15 +5,10 @@ describe "/record/edit.haml" do
 
   before do
     @record = mock_model(Record,
-        :title=>nil,
-        :suffix=>'suffix',
         :initial=>'E',
         :notes_summary=>'Example',
         :web_page=>'url',
-        :first_name=>'first',
-        :middle_name=>'middle',
-        :last_name=>'last',
-        :display_title=> 'title first middle last suffix',
+        :name =>'All-Party Group: Subject',
         :summary_attributes=>{'web_page'=>'url'},
         :use_check_by_date => false,
         :check_by_date => Date.new(1999,1,1),

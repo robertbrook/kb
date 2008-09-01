@@ -12,11 +12,6 @@
 ActiveRecord::Schema.define(:version => 20080829131042) do
 
   create_table "records", :force => true do |t|
-    t.string   "title"
-    t.string   "first_name"
-    t.string   "middle_name"
-    t.string   "last_name"
-    t.string   "suffix"
     t.string   "company"
     t.string   "department"
     t.string   "job_title"

@@ -1,12 +1,6 @@
 module RecordsHelper
 
-  def category_list record
-    record.category_list.collect do |category|
-      link_to(category, url_for(:controller=>'records',:action=>'category',:id=>category))
-    end.join(', ')
-  end
-
-  def topics_list(topics)
+  def topics_list topics
     topics.collect do |topic|
       link_to(topic, url_for(:controller=>'records',:action=>'topic',:id=>topic))
     end.join(', ')
@@ -15,12 +9,6 @@ module RecordsHelper
   def categories_list categories
     categories.collect do |category|
       link_to(category, url_for(:controller=>'records',:action=>'category',:id=>category))
-    end.join(', ')
-  end
-
-  def topic_list record
-    record.topic_list.collect do |topic|
-      link_to(topic, url_for(:controller=>'records',:action=>'topic',:id=>topic))
     end.join(', ')
   end
 

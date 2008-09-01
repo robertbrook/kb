@@ -131,7 +131,7 @@ describe RecordsController do
 
   describe "when asked to get a record by its id" do
     before do
-      @record = mock_model(Record)
+      @record = mock_model(Record, :topic_list => [], :category_list => [])
       Record.stub!(:find).and_return(@record)
     end
 
