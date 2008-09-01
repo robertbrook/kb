@@ -1,14 +1,18 @@
 module RecordsHelper
 
+  def encode_tag tag
+    tag.gsub(' ','_')
+  end
+
   def topics_list topics
     topics.collect do |topic|
-      link_to(topic, url_for(:controller=>'records',:action=>'topic',:id=>topic))
+      link_to(topic, url_for(:controller=>'records',:action=>'topic',:id=>encode_tag(topic)))
     end.join(', ')
   end
 
   def categories_list categories
     categories.collect do |category|
-      link_to(category, url_for(:controller=>'records',:action=>'category',:id=>category))
+      link_to(category, url_for(:controller=>'records',:action=>'category',:id=>encode_tag(category)))
     end.join(', ')
   end
 

@@ -5,7 +5,7 @@ class PopulateTopicTags < ActiveRecord::Migration
       [:title, :first_name, :middle_name, :last_name, :suffix].each do |topic_attribute|
         topic = record.send(topic_attribute)
         unless topic.blank?
-          topic = topic.strip.downcase.gsub(' ','_').gsub(/[^a-z^_^-]/,'').squeeze('_').chomp('_')[/^_?(.+)$/,1]
+          topic = topic.strip.downcase.gsub(/[^a-z^-^ ]/,'').squeeze(' ').strip
           unless topic.blank? || topic == '-'
             topics << topic
           end
@@ -13,15 +13,43 @@ class PopulateTopicTags < ActiveRecord::Migration
       end
       topics = topics.join(', ')
 
-      topics.sub!('prime, ministers_question, time', 'prime_minister, question_time')
-      topics.sub!('prime, ministers_question_time',  'prime_minister, question_time')
-      topics.sub!('prime, ministers_',               'prime_minister, ')
-      topics.sub!('prime, ministers, ',              'prime_minister, ')
-      topics.sub!('prime, minister_and_',            'prime_minister, ')
-      topics.sub!('prime, minister, ',               'prime_minister, ')
-      topics.sub!('prime, ministerial_record, ',     'prime_minister, record_')
-      topics.sub!('prime, minister_royal',           'prime_minister, royal')
-      topics.sub!(/prime, ministers?$/,              'prime_minister')
+      topics.sub!('prime, ministers question, time', 'prime minister, question time')
+      topics.sub!('prime, ministers question time',  'prime minister, question time')
+      topics.sub!('prime, ministers ',               'prime minister, ')
+      topics.sub!('prime, ministers, ',              'prime minister, ')
+      topics.sub!('prime, minister and ',            'prime minister, ')
+      topics.sub!('prime, minister, ',               'prime minister, ')
+      topics.sub!('prime, ministerial record, ',     'prime minister, record ')
+      topics.sub!('prime, minister royal',           'prime minister, royal')
+      topics.sub!(/prime, ministers?$/,              'prime minister')
+
+      topics.sub!('select, committees,', 'select committees, committees,')
+      topics.sub!('select, committees ', 'select committees, committees, ')
+      topics.sub!(' - in,',',')
+      topics.sub!('bill committee', 'committee, bill committee')
+      topics.sub!('constituents ', 'constituents, ')
+      topics.sub!('commission ', 'commission, ')
+      topics.sub!('committee ', 'committee, ')
+      topics.sub!('reading committee', 'committee, reading committee')
+      topics.sub!('committees definition','committees, definition')
+      topics.sub!('standing committees','committees, standing committees')
+      topics.sub!('statues members','statues, members')
+      topics.sub!('meps access to','meps, access to')
+      topics.sub!('senior salaries review body ssrb','salaries, review body, ssrb')
+      topics.sub!('senior salaries review body ssrb','salaries, review body, ssrb')
+      topics.sub!('queens speech amendment on the', 'queens speech, amendment on the')
+      topics.sub!('mps returned for two','mps, returned for two')
+      topics.sub!('seats won by country', 'seats, won by country')
+      topics.sub!('private members bills','bills, members, private members bills')
+      topics.sub!('constituencies ','constituencies, ')
+      topics.sub!('bills time spent', 'bills, time spent')
+      topics.sub!('history of parliament','history, parliament')
+      topics.sub!('orders and regulations','orders, regulations')
+      topics.sub!('visiting each others','visiting')
+      topics.sub!('govt', 'government')
+      topics.sub!('defeats ', 'defeats, ')
+
+
       record.topic_list = topics
 
       record.save!

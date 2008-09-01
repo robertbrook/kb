@@ -7,6 +7,7 @@ doc
 data
 coverage
 db/*.sqlite3
+db/*.sqlite3-journal
 public/stylesheets/*.css
 app/controllers/kawaii_controller.rb
 app/views/kawaii

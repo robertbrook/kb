@@ -19,7 +19,7 @@ class RecordsController < ApplicationController
 
   def category
     if params[:id]
-      @category = params[:id]
+      @category = decode_tag(params[:id])
       @records = Record.find_tagged_with(@category, :on=>'categories').sort_by(&:name)
     end
     render :template=>'records/category_results'
@@ -27,7 +27,7 @@ class RecordsController < ApplicationController
 
   def topic
     if params[:id]
-      @topic = params[:id]
+      @topic = decode_tag(params[:id])
       @records = Record.find_tagged_with(@topic, :on=>'topics').sort_by(&:name)
     end
     render :template=>'records/topic_results'
@@ -132,6 +132,10 @@ class RecordsController < ApplicationController
   end
 
   private
+
+    def decode_tag tag
+      tag.gsub('_',' ')
+    end
 
     def find_record
       @record = Record.find(params[:id])
