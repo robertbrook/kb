@@ -73,6 +73,11 @@ describe Record do
         @record.summary.should == @summary
       end
     end
+    describe 'when asked for notes summary' do
+      it 'should return summary text' do
+        @record.notes_summary.should == @summary
+      end
+    end
   end
 
   describe 'record with notes text' do

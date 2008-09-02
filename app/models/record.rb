@@ -51,7 +51,11 @@ class Record < ActiveRecord::Base
   end
 
   def notes_summary
-    notes.blank? ? '' : notes[0..99]
+    if summary.blank?
+      notes.blank? ? '' : notes[0..99]
+    else
+      summary
+    end
   end
 
   def core_attribute_names
