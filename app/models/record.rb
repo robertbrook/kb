@@ -1,17 +1,17 @@
 class Record < ActiveRecord::Base
 
-  acts_as_taggable_on :categories
-  acts_as_taggable_on :topics
+  acts_as_taggable_on :tags
+  acts_as_taggable_on :statuses
 
   class << self
 
-    def common_topics
-      topics = Record.topic_counts.select {|t| t.taggings.size > 1}
+    def common_tags
+      topics = Record.tag_counts.select {|t| t.taggings.size > 1}
       topics.collect(&:name).sort
     end
 
-    def common_categories
-      Record.category_counts.collect(&:name).sort
+    def common_statuses
+      Record.status_counts.collect(&:name).sort
     end
 
     def unused_attributes

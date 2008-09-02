@@ -9,10 +9,10 @@
     = link_to 'Edit', edit_record_path(@record)
     = link_to 'Destroy', record_path(@record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete
 
-- unless @record.topic_list.blank?
+- unless @record.tag_list.blank?
   %div
     %span.tags_label= link_to 'Tags:', root_path
-    = topics_list(@topics)
+    = tags_list(@tags)
 
 #record
   - if @is_admin && @record.use_check_by_date
@@ -32,13 +32,13 @@
       %p
         %span.web_page_label Web page:
         = link_to_web_page(@record)
-    - unless @record.topic_list.blank?
+    - unless @record.tag_list.blank?
       %p
         %span.tags_label Tags:
-        = topics_list(@topics)
-    - unless @record.category_list.blank?
+        = tags_list(@tags)
+    - unless @record.status_list.blank?
       %p
         %span.statuses_label Statuses:
-        = categories_list(@categories)
+        = statuses_list(@statuses)
     = @record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
 

@@ -13,9 +13,9 @@
     = f.text_field :name, :size => 60
   %p
     %label Tags
-    = f.text_field :topic_list
+    = f.text_field :tag_list
     %label Statuses
-    = f.text_field :category_list
+    = f.text_field :status_list
   %p
     %label Use check by date
     = f.check_box :use_check_by_date, :onclick => "$('record_use_check_by_date').getValue() == 1 ? $('record_check_by_date').show() : $('record_check_by_date').hide();"

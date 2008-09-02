@@ -7,7 +7,7 @@ class RecordsController < ApplicationController
   in_place_edit_for :record, :suffix
   in_place_edit_for :record, :notes
 
-  before_filter :authorize, :except => [:toggle_admin, :search, :index, :show, :get_record_notes, :category, :topic]
+  before_filter :authorize, :except => [:toggle_admin, :search, :index, :show, :get_record_notes, :status, :tag]
   before_filter :find_record, :only => [:show, :edit, :update, :get_record_notes, :set_record_notes]
 
   def toggle_admin
@@ -17,20 +17,20 @@ class RecordsController < ApplicationController
     redirect_to :action => 'search'
   end
 
-  def category
+  def tag
     if params[:id]
-      @category = decode_tag(params[:id])
-      @records = Record.find_tagged_with(@category, :on=>'categories').sort_by(&:name)
+      @tags = decode_tag(params[:id])
+      @records = Record.find_tagged_with(@tags, :on=>'tags').sort_by(&:name)
     end
-    render :template=>'records/category_results'
+    render :template=>'records/tag_results'
   end
 
-  def topic
+  def status
     if params[:id]
-      @topic = decode_tag(params[:id])
-      @records = Record.find_tagged_with(@topic, :on=>'topics').sort_by(&:name)
+      @status = decode_tag(params[:id])
+      @records = Record.find_tagged_with(@status, :on=>'statuses').sort_by(&:name)
     end
-    render :template=>'records/topic_results'
+    render :template=>'records/status_results'
   end
 
   def search
@@ -39,8 +39,8 @@ class RecordsController < ApplicationController
       @records = Record.find_all_by_name_like(@term)
       render :template=>'records/search_results'
     else
-      @topics = Record.common_topics
-      @categories = Record.common_categories
+      @tags = Record.common_tags
+      @statuses = Record.common_statuses
     end
   end
 
@@ -57,8 +57,8 @@ class RecordsController < ApplicationController
   # GET /record/1
   # GET /record/1.xml
   def show
-    @topics = @record.topic_list
-    @categories = @record.category_list
+    @tags = @record.tag_list
+    @statuses = @record.status_list
     respond_to do |format|
       format.html # show.haml
     end

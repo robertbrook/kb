@@ -4,15 +4,15 @@ module RecordsHelper
     tag.gsub(' ','_')
   end
 
-  def topics_list topics
-    topics.collect do |topic|
-      link_to(topic, url_for(:controller=>'records',:action=>'topic',:id=>encode_tag(topic)))
+  def tags_list tags
+    tags.collect do |tag|
+      link_to(tag, url_for(:controller=>'records',:action=>'tag',:id=>encode_tag(tag)))
     end.join(', ')
   end
 
-  def categories_list categories
-    categories.collect do |category|
-      link_to(category, url_for(:controller=>'records',:action=>'category',:id=>encode_tag(category)))
+  def statuses_list statuses
+    statuses.collect do |status|
+      link_to(status, url_for(:controller=>'records',:action=>'status',:id=>encode_tag(status)))
     end.join(', ')
   end
 

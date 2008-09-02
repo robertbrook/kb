@@ -13,8 +13,8 @@ describe "/record/edit.haml" do
         :use_check_by_date => false,
         :check_by_date => Date.new(1999,1,1),
         :attributes=>{},
-        :category_list=>[],
-        :topic_list=>[],
+        :status_list=>[],
+        :tag_list=>[],
         :core_attribute_names=>[],
         :notes=>"notes text")
     assigns[:record] = @record

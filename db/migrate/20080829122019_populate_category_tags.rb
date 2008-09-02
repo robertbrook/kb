@@ -2,37 +2,37 @@ class PopulateCategoryTags < ActiveRecord::Migration
   def self.up
     Record.all.each do |record|
       unless record.category.blank?
-        category_tags = case record.category
+        statuses = case record.category
           when "Checked", "checkd", "checked"
             'checked'
           when "DRAFT - IN PROGRESS"
-            'draft_in_progress'
+            'draft in progress'
           when "Incomplete"
             'incomplete'
           when "Members"
             'members'
           when "Standard Reply", "Standard reply", "standard reply"
-            'standard_reply'
+            'standard reply'
           when "standard reply + PQ"
-            ['standard_reply','pq']
+            ['standard reply','pq']
           when "standard reply/queery"
-            ['standard_reply','query']
+            ['standard reply','query']
           when "standard letter"
-            'standard_letter'
+            'standard letter'
           when "facts and figures"
-            'facts_and_figures'
+            'facts and figures'
           when "query"
             'query'
           when "source?"
             'source?'
           when "will need a look at"
-            'will_need_a_look_at'
+            'will need a look at'
           else
-            record.category.downcase.gsub(' ','_')
+            record.category.downcase
         end
 
-        category_tags = category_tags.join(', ') if category_tags.is_a?(Array)
-        record.category_list = category_tags
+        statuses = statuses.join(', ') if statuses.is_a?(Array)
+        record.status_list = statuses
         record.save!
       end
     end
@@ -41,7 +41,7 @@ class PopulateCategoryTags < ActiveRecord::Migration
   def self.down
     Record.all.each do |record|
       unless record.category.blank?
-        record.category_list = nil
+        record.status_list = nil
         record.save!
       end
     end

@@ -6,8 +6,8 @@ describe "/records/search.haml" do
 
   before do
     @template = 'records/search.haml'
-    assigns[:topics] = []
-    assigns[:categories] = []
+    assigns[:tags] = []
+    assigns[:statuses] = []
   end
 
   it_should_behave_like "renders search form"

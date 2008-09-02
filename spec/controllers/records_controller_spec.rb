@@ -37,8 +37,8 @@ describe RecordsController do
     describe "with no record id specified" do
       check_route_for_action 'index'
       check_route_for_action 'new', '/new'
-      check_route_for_action 'topic', '/topic'
-      check_route_for_action 'category', '/category'
+      check_route_for_action 'tag', '/tag'
+      check_route_for_action 'status', '/status'
     end
     describe "with record id specified" do
       check_route_for_record_action 'show'
@@ -131,7 +131,7 @@ describe RecordsController do
 
   describe "when asked to get a record by its id" do
     before do
-      @record = mock_model(Record, :topic_list => [], :category_list => [])
+      @record = mock_model(Record, :tag_list => [], :status_list => [])
       Record.stub!(:find).and_return(@record)
     end
 
