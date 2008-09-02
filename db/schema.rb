@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080901112131) do
+ActiveRecord::Schema.define(:version => 20080902105857) do
 
   create_table "records", :force => true do |t|
     t.string   "company"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(:version => 20080901112131) do
     t.string   "name"
     t.date     "check_by_date"
     t.boolean  "use_check_by_date"
+    t.string   "summary"
   end
 
   create_table "taggings", :force => true do |t|

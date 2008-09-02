@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Record do
   before :all do
+    @summary = 'Information about EDMs.'
     @notes = %Q|The factsheet states:\n\nMinisters and whips do not normally sign EDMs. Under the Ministerial Code, Parliamentary Private Secretaries ?must not associate themselves with particular groups advocating special policies?, and they do not normally sign EDMs. Neither the Speaker nor Deputy Speakers will sign EDMs. Internal party rules may also affect who can sign early day motions.|
     @web_page = 'http://www.parliament.uk/parliamentary_publications_and_archives/factsheets/p03.cfm'
   end
@@ -17,7 +18,7 @@ describe Record do
       @record.should_receive(:notes).and_return @notes
       unused_attributes = Record.unused_attributes
       unused_attributes.include?('notes').should be_false
-      unused_attributes.size.should == 87
+      unused_attributes.size.should == 88
     end
   end
 
@@ -62,6 +63,18 @@ describe Record do
       end
     end
   end
+
+  describe 'record with summary text' do
+    before do
+      @record.attributes = {:summary => @summary}
+    end
+    describe 'when asked for summary text' do
+      it 'should return summary' do
+        @record.summary.should == @summary
+      end
+    end
+  end
+
   describe 'record with notes text' do
     before do
       @record.stub!(:notes).and_return @notes
