@@ -39,9 +39,20 @@ module RecordsHelper
     in_place_editor_field(:record, attribute, {}, options)
   end
 
+  def link_citation text, pattern
+    text.scan(pattern).each do |match|
+      match = match[0] if match.is_a?(Array)
+      text.sub!(match, "<a href=\"http://hansard.millbanksystems.com/search/#{match}\">#{match}</a>")
+    end
+  end
   def html_formatted_notes record
     formatted = h(record.notes.to_s.strip)
     formatted.gsub!(/(http:\/\/\S+)/, '<a href="\1">\1</a>')
+    link_citation formatted, /HC Deb.+\sc\s?\.?\d+[W|G]?[S|H|C]?/
+    link_citation formatted, /HL Deb.+\sc\s?\.?\d+[W|G]?[S|H|C]?/
+    link_citation formatted, /HC Deb.+cc\s?\d+-\d+[W|G]?[S|H|C]?/
+    link_citation formatted, /HL Deb.+cc\s?\d+-\d+[W|G]?[S|H|C]?/
+
     formatted.gsub!("\r\n","\n")
     formatted.gsub!("\n\n","</p><p>")
     formatted.gsub!("\n",'<br />')
