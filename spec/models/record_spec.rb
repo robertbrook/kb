@@ -86,7 +86,7 @@ describe Record do
     end
     describe 'when asked for notes summary' do
       it 'should return first 100 chars of notes attribute' do
-        @record.notes_summary.should == @notes[0..99]
+        @record.notes_summary.should == @notes[0..99] + '...'
       end
     end
 
