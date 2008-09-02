@@ -52,7 +52,7 @@ class Record < ActiveRecord::Base
 
   def notes_summary
     if summary.blank?
-      notes.blank? ? '' : notes[0..99]
+      notes.blank? ? '' : "#{notes[0..99]}..."
     else
       summary
     end

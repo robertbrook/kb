@@ -1,7 +1,7 @@
 %tr
   %td.record
     %h4.name= link_to_record record
-    %p.notes= "#{record.notes_summary.gsub("/","/ ")}..."
+    %p.notes= record.notes_summary.gsub("/","/ ")
     %p.url= link_to_web_page(record)
   %td= link_to 'Show', record_path(record)
   - if @is_admin
