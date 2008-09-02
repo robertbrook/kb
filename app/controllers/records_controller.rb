@@ -14,7 +14,7 @@ class RecordsController < ApplicationController
     if request.post?
       session[:is_admin] = !session[:is_admin]
     end
-    redirect_to :action => 'search'
+    redirect_to :back
   end
 
   def tag
