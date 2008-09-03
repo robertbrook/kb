@@ -41,11 +41,13 @@ class RecordsController < ApplicationController
     else
       @tags = Record.common_tags
       @statuses = Record.common_statuses
+      if is_admin?
+        @records_needing_check = Record.all_needing_check
+      end
     end
   end
 
   # GET /record
-  # GET /record.xml
   def index
     @records = Record.find(:all).sort
     respond_to do |format|
@@ -55,7 +57,6 @@ class RecordsController < ApplicationController
   end
 
   # GET /record/1
-  # GET /record/1.xml
   def show
     @tags = @record.tag_list
     @statuses = @record.status_list
@@ -65,7 +66,6 @@ class RecordsController < ApplicationController
   end
 
   # GET /record/new
-  # GET /record/new.xml
   def new
     @record = Record.new
 
@@ -79,7 +79,6 @@ class RecordsController < ApplicationController
   end
 
   # POST /record
-  # POST /record.xml
   def create
     @record = Record.new(params[:record])
 
@@ -94,7 +93,6 @@ class RecordsController < ApplicationController
   end
 
   # PUT /record/1
-  # PUT /record/1.xml
   def update
     respond_to do |format|
       if @record.update_attributes(params[:record])
@@ -107,7 +105,6 @@ class RecordsController < ApplicationController
   end
 
   # DELETE /record/1
-  # DELETE /record/1.xml
   def destroy
     @record = Record.find(params[:id])
     @record.destroy

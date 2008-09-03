@@ -4,6 +4,13 @@
 %div
   = render :partial => 'search_form'
 
+- if @is_admin && !@records_needing_check.empty?
+  %div
+    %h2 Records needing check
+    - @records_needing_check.collect do |record|
+      = record.check_by_date
+      = link_to_record(record)
+      %br
 %div
   %p
     %span.tags_label Tags:
@@ -11,3 +18,4 @@
   %p
     %span.statuses_label Statuses:
     = statuses_list(@statuses)
+

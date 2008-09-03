@@ -55,6 +55,26 @@ describe RecordsController do
 
     get_request_should_be_successful
     should_render_template('search')
+    describe 'when user has admin role' do
+      before do
+        controller.stub!(:is_admin?).and_return true
+      end
+      it 'should assign all needing check to view' do
+        needing_check = mock('needing_check')
+        Record.should_receive(:all_needing_check).and_return needing_check
+        do_get
+        assigns[:records_needing_check].should == needing_check
+      end
+    end
+    describe 'when user does not have admin role' do
+      before do
+        controller.stub!(:is_admin?).and_return false
+      end
+      it 'should not assign all needing check to view' do
+        do_get
+        assigns[:records_needing_check].should == nil
+      end
+    end
   end
 
   describe "when asked for records matching a search term" do

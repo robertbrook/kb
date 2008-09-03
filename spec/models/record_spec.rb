@@ -167,4 +167,12 @@ describe Record do
     end
   end
 
+  describe 'when asked for all records needing to be checked' do
+    it 'should find and return records needing to be checked' do
+      record = mock(Record)
+      conditions = { :conditions => 'use_check_by_date = "t" AND check_by_date <= date("now")' }
+      Record.should_receive(:find).with(:all,conditions).and_return [record]
+      Record.all_needing_check
+    end
+  end
 end

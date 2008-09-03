@@ -5,6 +5,11 @@ class Record < ActiveRecord::Base
 
   class << self
 
+    def all_needing_check
+      past_check_by_date = { :conditions => 'use_check_by_date = "t" AND check_by_date <= date("now")' }
+      find(:all, past_check_by_date)
+    end
+
     def common_tags
       topics = Record.tag_counts.select {|t| t.taggings.size > 1}
       topics.collect(&:name).sort
