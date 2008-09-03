@@ -35,15 +35,11 @@
           = f.text_area :notes, :rows=>40, :cols=>60
         %td
           %p
-            %label web_page
+            %label Web page
             %span= f.text_field :web_page, :size => 20
-          - @record.summary_attributes.each do |attribute, value|
-            %p
-              %label= attribute
-              %span= f.text_field attribute.to_sym, :size => 20
-          - (@record.attributes.keys - @record.core_attribute_names - @record.summary_attributes.collect{|a|a[0]} - ['updated_at','created_at']).sort.each do |attribute|
-            %p
-              %label= attribute
-              %span= f.text_field attribute.to_sym, :size => 20
+          %p
+            %label Other notes
+            %span
+              = f.text_area :other_notes
   = link_to 'Ignore changes', record_path(@record)
   = f.submit "Save changes"

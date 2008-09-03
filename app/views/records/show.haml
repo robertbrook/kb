@@ -40,5 +40,9 @@
       %p
         %span.statuses_label Statuses:
         = statuses_list(@statuses)
-    = @record.summary_attributes.collect { |attribute,value| "#{attribute}: #{value}" }.join('<br/>')
+    - unless @record.other_notes.blank?
+      %p
+        %span.other_notes_label Other notes:
+        %br
+        = @record.other_notes.gsub("\n","<br/>")
 

@@ -71,7 +71,6 @@ class CreateRecords < ActiveRecord::Migration
       t.string :government_id_number
       t.string :hobby
       t.string :home_address_po_box
-      t.string :initial
       t.string :internet_free_busy
       t.string :keyword
       t.string :language

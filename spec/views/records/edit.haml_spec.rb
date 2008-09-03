@@ -7,6 +7,7 @@ describe "/record/edit.haml" do
     @record = mock_model(Record,
         :initial=>'E',
         :notes_summary=>'Example',
+        :other_notes=>'',
         :summary=>'Example',
         :web_page=>'url',
         :name =>'All-Party Group: Subject',

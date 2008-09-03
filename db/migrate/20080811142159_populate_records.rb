@@ -25,7 +25,7 @@ class PopulateRecords < ActiveRecord::Migration
     end
 
     def ignore_field? attribute
-      ignore_fields = [:gender, :private, :priority, :sensitivity]
+      ignore_fields = [:gender, :private, :priority, :sensitivity, :initial]
       ignore_fields.include? attribute
     end
 
