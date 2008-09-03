@@ -36,7 +36,7 @@ class RecordsController < ApplicationController
   def search
     if params[:q]
       @term = params[:q]
-      @records = Record.find_all_by_name_like(@term)
+      @records, @words_to_highlight = Record.search(@term)
       render :template=>'records/search_results'
     else
       @tags = Record.common_tags

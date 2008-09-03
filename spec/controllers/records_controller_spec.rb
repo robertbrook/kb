@@ -88,19 +88,20 @@ describe RecordsController do
 
     describe 'and there are no records matching term' do
       before do
-        Record.stub!(:find_all_by_name_like).and_return []
+        Record.stub!(:search).and_return [[],[]]
       end
       get_request_should_be_successful
       should_render_template('search_results')
       it "should assign records as an empty array for the view" do
         do_get
         assigns[:records].should == []
+        assigns[:words_to_highlight].should == []
       end
     end
 
     describe 'and there are records matching term' do
       before do
-        Record.stub!(:find_all_by_name_like).and_return [@record]
+        Record.stub!(:search).and_return [[@record], [@term]]
       end
       get_request_should_be_successful
       should_render_template('search_results')
@@ -108,6 +109,7 @@ describe RecordsController do
       it "should assign the found records for the view" do
         do_get
         assigns[:records].should == [@record]
+        assigns[:words_to_highlight].should == [@term]
       end
       it 'should assign the search term to the view' do
         do_get

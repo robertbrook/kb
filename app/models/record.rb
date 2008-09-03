@@ -3,7 +3,16 @@ class Record < ActiveRecord::Base
   acts_as_taggable_on :tags
   acts_as_taggable_on :statuses
 
+  acts_as_xapian :texts => [ :name, :notes, :other_notes ],
+       :values => [ [ :created_at, 0, "created_at", :date ] ],
+       :terms => []
+
   class << self
+
+    def search term
+      search = ActsAsXapian::Search.new(Record, term, :limit => 200)
+      return [search.results.collect{|h| h[:model]}, search.words_to_highlight]
+    end
 
     def all_needing_check
       past_check_by_date = { :conditions => 'use_check_by_date = "t" AND check_by_date <= date("now")' }
