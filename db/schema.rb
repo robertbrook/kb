@@ -12,7 +12,9 @@
 ActiveRecord::Schema.define(:version => 20080903112220) do
 
   create_table "records", :force => true do |t|
+    t.string   "category"
     t.text     "notes"
+    t.text     "other_notes"
     t.string   "web_page"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -20,7 +22,6 @@ ActiveRecord::Schema.define(:version => 20080903112220) do
     t.date     "check_by_date"
     t.boolean  "use_check_by_date"
     t.string   "summary"
-    t.text     "other_notes"
   end
 
   create_table "taggings", :force => true do |t|

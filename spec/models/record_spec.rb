@@ -10,18 +10,6 @@ describe Record do
     @record = Record.new
   end
 
-  describe 'records only having notes populated' do
-    describe 'when asked for unused_attributes'
-    it 'should return all but the notes attribute' do
-      Record.stub!(:first).and_return @record
-      Record.stub!(:all).and_return [@record]
-      @record.should_receive(:notes).and_return @notes
-      unused_attributes = Record.unused_attributes
-      unused_attributes.include?('notes').should be_false
-      unused_attributes.size.should == 8
-    end
-  end
-
   describe 'record with name' do
     before do
       @record.stub!(:name).and_return 'All-Party Groups: Subject'
@@ -93,19 +81,6 @@ describe Record do
     describe 'when asked for line count' do
       it 'should return count of lines in notes text' do
         @record.line_count.should == @notes.split("\n").size
-      end
-    end
-    describe 'and with web_page set' do
-      before do
-        @record.stub!(:attributes).and_return({'notes'=>@notes, 'web_page'=>@web_page})
-      end
-      describe 'when asked for summary_attributes' do
-        it 'should not return the notes attribute' do
-          @record.summary_attributes.should_not have_key('notes')
-        end
-        it 'should return the web_page attribute' do
-          @record.summary_attributes.should_not have_key('web_page')
-        end
       end
     end
   end

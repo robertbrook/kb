@@ -19,17 +19,6 @@ class Record < ActiveRecord::Base
       Record.status_counts.collect(&:name).sort
     end
 
-    def unused_attributes
-      methods = first.attribute_names
-      records = all
-      unused = methods.collect do |method|
-        values = records.collect{|r| r.send(method.to_sym)}
-        values.delete_if {|v| v.blank?}.compact
-        values.empty? ? method : nil
-      end
-      unused.compact
-    end
-
     def find_all_by_name_or_notes_like term
       conditions = conditions_by_like(term, :name, :notes)
       find(:all, :conditions => conditions)
@@ -61,19 +50,6 @@ class Record < ActiveRecord::Base
     else
       summary
     end
-  end
-
-  def core_attribute_names
-    %w[notes initial web_page id name check_by_date use_check_by_date category]
-  end
-
-  def summary_attributes
-    summary = attributes
-    core_attribute_names.each {|attribute| summary.delete(attribute)}
-    summary.delete('updated_at')
-    summary.delete('created_at')
-    summary.delete_if {|key,value| value.blank? }
-    summary
   end
 
   def <=> other_record

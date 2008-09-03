@@ -1,36 +1,36 @@
 class ConsolidateFields < ActiveRecord::Migration
   def self.up
-    add_column :records, :other_notes, :text
-    Record.reset_column_information
-
-    Record.all.each do |record|
-      other_notes = record_fields.collect do |field|
-        if field != :category
-          text = record.send(field).to_s.gsub("\r\n","\n")
-          text += "\n" unless text.blank?
-          text
-        else
-          ''
-        end
-      end.join('')
-
-      unless other_notes.blank?
-        record.other_notes = other_notes
-        record.save!
-      end
-    end
-
-    record_fields.each do |field|
-      remove_column :records, field
-    end
+    # add_column :records, :other_notes, :text
+    # Record.reset_column_information
+#
+    # Record.all.each do |record|
+      # other_notes = record_fields.collect do |field|
+        # if field != :category
+          # text = record.send(field).to_s.gsub("\r\n","\n")
+          # text += "\n" unless text.blank?
+          # text
+        # else
+          # ''
+        # end
+      # end.join('')
+#
+      # unless other_notes.blank?
+        # record.other_notes = other_notes
+        # record.save!
+      # end
+    # end
+#
+    # record_fields.each do |field|
+      # remove_column :records, field
+    # end
   end
 
   def self.down
-    record_fields.each do |field|
-      add_column :records, :field, :string
-    end
-
-    remove_column :records, :other_notes
+    # record_fields.each do |field|
+      # add_column :records, :field, :string
+    # end
+#
+    # remove_column :records, :other_notes
   end
 
   def self.record_fields
