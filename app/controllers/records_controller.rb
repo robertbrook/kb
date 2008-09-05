@@ -19,8 +19,9 @@ class RecordsController < ApplicationController
 
   def tag
     if params[:id]
-      @tags = decode_tag(params[:id])
-      @records = Record.find_tagged_with(@tags, :on=>'tags').sort_by(&:name)
+      @tag = decode_tag(params[:id])
+      @words_to_highlight = [@tag]
+      @records = Record.find_tagged_with(@tag, :on=>'tags').sort_by(&:name)
     end
     render :template=>'records/tag_results'
   end
@@ -28,6 +29,7 @@ class RecordsController < ApplicationController
   def status
     if params[:id]
       @status = decode_tag(params[:id])
+      @words_to_highlight = [@status]
       @records = Record.find_tagged_with(@status, :on=>'statuses').sort_by(&:name)
     end
     render :template=>'records/status_results'

@@ -62,6 +62,7 @@ module RecordsHelper
 
 
   def excerpts text, term, part_match=true
+    return '' unless text
     text = text.gsub(/<p id='[\d\.]*[a-z]*'>/, ' ').gsub('<p>',' ').gsub('</p>',' ').gsub('<i>','').gsub('</i>','')
     excerpts = nil
 
