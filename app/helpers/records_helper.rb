@@ -46,14 +46,17 @@ module RecordsHelper
     end
   end
 
-  def html_formatted_notes record
+  def html_formatted_notes record, options={}
+    add_links = options.has_key?(:add_links) ? options[:add_links] : true
     formatted = h(record.notes.to_s.strip)
-    formatted.gsub!(/(http:\/\/\S+)/, '<a href="\1">\1</a>')
-    formatted.gsub!(/<a href="(\S+)&gt;">(\S+)&gt;<\/a>/, '<a href="\1">\2</a>&gt;')
-    link_citation formatted, /HC Deb.+\sc\s?\.?\d+[W|G]?[S|H|C]?/
-    link_citation formatted, /HL Deb.+\sc\s?\.?\d+[W|G]?[S|H|C]?/
-    link_citation formatted, /HC Deb.+cc\s?\d+-\d+[W|G]?[S|H|C]?/
-    link_citation formatted, /HL Deb.+cc\s?\d+-\d+[W|G]?[S|H|C]?/
+    if add_links
+      formatted.gsub!(/(http:\/\/\S+)/, '<a href="\1">\1</a>')
+      formatted.gsub!(/<a href="(\S+)&gt;">(\S+)&gt;<\/a>/, '<a href="\1">\2</a>&gt;')
+      link_citation formatted, /HC Deb.+\sc\s?\.?\d+[W|G]?[S|H|C]?/
+      link_citation formatted, /HL Deb.+\sc\s?\.?\d+[W|G]?[S|H|C]?/
+      link_citation formatted, /HC Deb.+cc\s?\d+-\d+[W|G]?[S|H|C]?/
+      link_citation formatted, /HL Deb.+cc\s?\d+-\d+[W|G]?[S|H|C]?/
+    end
 
     formatted.gsub!("\r\n","\n")
     formatted.gsub!("\n\n","</p><p>")
