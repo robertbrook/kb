@@ -97,7 +97,9 @@ class RecordsController < ApplicationController
   # PUT /record/1
   def update
     respond_to do |format|
-      if @record.update_attributes(params[:record])
+      record_params = params[:record]
+      record_params[:notes] = unhtml(record_params[:notes]) if record_params
+      if @record.update_attributes(record_params)
         flash[:notice] = 'Record was successfully updated.'
         format.html { redirect_to(record_path(@record)) }
       else
@@ -131,6 +133,18 @@ class RecordsController < ApplicationController
   end
 
   private
+
+    def unhtml text
+      text.gsub!("\r",'')
+      text.gsub!("\n",'')
+      text.gsub!('<p><br />','<p>')
+      text.gsub!('<br />',"\n")
+      text.gsub!("</p><p>","\n\n")
+      text.gsub!(/<[^>]+>/,'')
+      text.gsub!('&lt;','<')
+      text.gsub!('&gt;','>')
+      text
+    end
 
     def decode_tag tag
       tag.gsub('_',' ')

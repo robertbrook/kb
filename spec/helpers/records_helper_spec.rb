@@ -20,6 +20,11 @@ describe RecordsHelper do
       check_formatted "One\n\nTwo\n", '<p>One</p><p>Two</p>'
     end
 
+    it 'should ignore > char at end of URI' do
+      check_formatted "<http://www.boundarycommission.org.uk/members.asp> ",
+        '<p>&lt;<a href="http://www.boundarycommission.org.uk/members.asp">http://www.boundarycommission.org.uk/members.asp</a>&gt;</p>'
+    end
+
     it 'should turn URIs in to hyperlinks' do
       check_formatted "A http://host/path\r\nwebsite",
         '<p>A <a href="http://host/path">http://host/path</a><br />website</p>'

@@ -1,4 +1,4 @@
-- @javascript = :defaults
+- @javascripts = [:defaults, :fckeditor]
 - @title= "Editing: #{@record.name}"
 
 = error_messages_for :record
@@ -32,7 +32,9 @@
     %tbody
       %tr
         %td
-          = f.text_area :notes, :rows=>40, :cols=>60
+          - @record.notes = html_formatted_notes(@record) # format before showing
+          = fckeditor_textarea("record", "notes", :toolbarSet => 'KB', :width => '400px', :height => '800px')
+          = '' # f.text_area :notes, :rows=>40, :cols=>60
         %td
           %p
             %label Web page

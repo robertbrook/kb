@@ -23,6 +23,7 @@ describe "/record/edit.haml" do
   end
 
   it "should render edit form" do
+    @record.should_receive(:notes=).with("<p>notes text</p>")
     render "/records/edit.haml"
     response.should have_tag("form[action=#{record_path(@record)}][method=post]") do
     end
