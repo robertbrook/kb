@@ -11,6 +11,10 @@
     Your search -
     %span.search_term= @term
     = ' - did not match any item names.'
+  - if @spelling_correction
+    %p.spelling_correction
+      Did you mean:
+      %a= link_to @spelling_correction, url_for(:action=> 'search', :q => @spelling_correction)
   %p Suggestions:
   %ul
     %li Make sure all words are spelled correctly.

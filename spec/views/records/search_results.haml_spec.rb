@@ -24,6 +24,22 @@ describe "/records/search_results.haml" do
       do_render
       response.should have_tag('p', "Your search -\n  Group\n   - did not match any item names.")
     end
+
+    describe 'and there is no spelling correction assigned' do
+      it "should not show message suggesting spelling correction" do
+        do_render
+        response.should_not have_tag('p.spelling_correction')
+      end
+    end
+    describe 'and there is a spelling correction assigned' do
+      before do
+        assigns[:spelling_correction] = 'committee'
+      end
+      it "should show message suggesting spelling correction" do
+        do_render
+        response.should have_tag('p.spelling_correction', "Did you mean:\n  committee")
+      end
+    end
   end
 
   describe 'when there are results' do
