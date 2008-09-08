@@ -10,6 +10,27 @@ describe Record do
     @record = Record.new
   end
 
+  describe 'when searched for term' do
+    describe 'and there are no search reults' do
+      it 'should return spelling_correction' do
+        term = 'commitee'
+        spelling_correction = 'committee'
+        search = mock('xapian', :results => [], :words_to_highlight => [term], :spelling_correction => spelling_correction)
+        ActsAsXapian::Search.should_receive(:new).with(Record, term, :limit => 200).and_return search
+        Record.search(term).should == [[],[],spelling_correction]
+      end
+    end
+    describe 'and there are search reults' do
+      it 'should return result and words to highlight' do
+        term = 'EDMs'
+        result = {:model => @record}
+        search = mock('xapian', :results => [result], :words_to_highlight => [term], :spelling_correction => nil)
+        ActsAsXapian::Search.should_receive(:new).with(Record, term, :limit => 200).and_return search
+        Record.search(term).should == [[@record],[term],nil]
+      end
+    end
+  end
+
   describe 'record with name' do
     before do
       @record.stub!(:name).and_return 'All-Party Groups: Subject'

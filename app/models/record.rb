@@ -11,7 +11,11 @@ class Record < ActiveRecord::Base
 
     def search term
       search = ActsAsXapian::Search.new(Record, term, :limit => 200)
-      return [search.results.collect{|h| h[:model]}, search.words_to_highlight]
+      if search.results.empty?
+        return [[], [], search.spelling_correction]
+      else
+        return [search.results.collect{|h| h[:model]}, search.words_to_highlight, nil]
+      end
     end
 
     def all_needing_check

@@ -88,7 +88,7 @@ describe RecordsController do
 
     describe 'and there are no records matching term' do
       before do
-        Record.stub!(:search).and_return [[],[]]
+        Record.stub!(:search).and_return [[],[],'committee']
       end
       get_request_should_be_successful
       should_render_template('search_results')
@@ -96,12 +96,13 @@ describe RecordsController do
         do_get
         assigns[:records].should == []
         assigns[:words_to_highlight].should == []
+        assigns[:spelling_correction].should == 'committee'
       end
     end
 
     describe 'and there are records matching term' do
       before do
-        Record.stub!(:search).and_return [[@record], [@term]]
+        Record.stub!(:search).and_return [[@record], [@term], nil]
       end
       get_request_should_be_successful
       should_render_template('search_results')
