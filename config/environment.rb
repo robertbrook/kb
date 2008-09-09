@@ -28,6 +28,7 @@ Rails::Initializer.run do |config|
   config.gem "fastercsv"
   config.gem "mbleigh-acts-as-taggable-on", :source => "http://gems.github.com", :lib => "acts-as-taggable-on"
   config.gem "json"
+  config.gem "will_paginate"
   # config.gem 'fiveruns_tuneup'
 
   # Only load the plugins named here, in the order given. By default, all plugins
