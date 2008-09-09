@@ -1,5 +1,7 @@
 class RecordsController < ApplicationController
 
+  require 'json'
+
   in_place_edit_for :record, :title
   in_place_edit_for :record, :first_name
   in_place_edit_for :record, :middle_name
@@ -9,6 +11,37 @@ class RecordsController < ApplicationController
 
   before_filter :authorize, :except => [:toggle_admin, :search, :index, :show, :get_record_notes, :status, :tag]
   before_filter :find_record, :only => [:show, :edit, :update, :get_record_notes, :set_record_notes]
+
+  uses_tiny_mce(:options => {
+      :theme => 'advanced',
+      :mode => "textareas",
+      :height => 500,
+      :content_css => "/stylesheets/default.css",
+      :remove_script_host => true,
+      :theme_advanced_toolbar_location => "top",
+      :theme_advanced_toolbar_align => "left",
+      :theme_advanced_buttons1 => %w[spellchecker],
+      :theme_advanced_buttons2 => %w[],
+      :theme_advanced_buttons3 => %w[],
+      :editor_selector => 'mceEditor',
+      :spellchecker_rpc_url => "/records/spellcheck",
+      :spellchecker_languages => "+English=en",
+      :plugins => %w[ contextmenu paste spellchecker]
+    }, :only => [:edit])
+
+  def spellcheck
+    raw = request.env['RAW_POST_DATA']
+    req = JSON.parse(raw)
+    lang = req["params"][0]
+    if req["method"] == 'checkWords'
+      text_to_check = req["params"][1].join(" ")
+    else
+      text_to_check = req["params"][1]
+    end
+    suggestions = check_spelling_new(text_to_check, req["method"], lang)
+    render :json => {"id" => nil, "result" => suggestions, "error" => nil}.to_json
+    return
+  end
 
   def toggle_admin
     if request.post?
@@ -158,5 +191,33 @@ class RecordsController < ApplicationController
       unless is_admin?
         redirect_to(:action => "search" )
       end
+    end
+
+    def check_spelling_new(spell_check_text, command, lang)
+      json_response_values = Array.new
+      spell_check_response = `echo "#{spell_check_text}" | aspell -a -l #{lang}`
+      if (spell_check_response != '')
+        spelling_errors = spell_check_response.split(' ').slice(1..-1)
+        if (command == 'checkWords')
+          i = 0
+          while i < spelling_errors.length
+            spelling_errors[i].strip!
+            if (spelling_errors[i].to_s.index('&') == 0)
+              match_data = spelling_errors[i + 1]
+              json_response_values << match_data
+            end
+            i += 1
+          end
+        elsif (command == 'getSuggestions')
+          arr = spell_check_response.split(':')
+          suggestion_string = arr[1]
+          suggestions = suggestion_string.split(',')
+          for suggestion in suggestions
+            suggestion.strip!
+            json_response_values << suggestion
+          end
+        end
+      end
+      return json_response_values
     end
 end

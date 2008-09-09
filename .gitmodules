@@ -19,3 +19,6 @@
 [submodule "vendor/plugins/fckeditor"]
 	path = vendor/plugins/fckeditor
 	url = git://github.com/bilson/fckeditor.git
+[submodule "vendor/plugins/tiny_mce"]
+	path = vendor/plugins/tiny_mce
+	url = git://github.com/kete/tiny_mce.git

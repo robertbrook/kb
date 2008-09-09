@@ -33,8 +33,8 @@
       %tr
         %td
           - @record.notes = html_formatted_notes(@record, :add_links=>false) # format before showing
-          = fckeditor_textarea("record", "notes", :toolbarSet => 'KB', :width => '400px', :height => '800px')
-          = '' # f.text_area :notes, :rows=>40, :cols=>60
+          = # fckeditor_textarea("record", "notes", :toolbarSet => 'KB', :width => '400px', :height => '800px')
+          = f.text_area :notes, :rows=>40, :cols=>60, :class => "mceEditor"
         %td
           %p
             %label Web page
