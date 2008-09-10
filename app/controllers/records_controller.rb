@@ -70,8 +70,17 @@ class RecordsController < ApplicationController
 
   def search
     if params[:q]
+      page = params['page'] || 1
       @term = params[:q]
-      @records, @words_to_highlight, @spelling_correction = Record.search(@term)
+
+      @records = WillPaginate::Collection.create(page, Record.per_page) do |pager|
+        records, @words_to_highlight, matches_estimated, @spelling_correction = Record.search(@term, pager.offset)
+        # inject the result array into the paginated collection:
+        pager.replace(records)
+        # set total of estimated matches
+        pager.total_entries = matches_estimated
+      end
+
       render :template=>'records/search_results'
     else
       @tags = Record.common_tags

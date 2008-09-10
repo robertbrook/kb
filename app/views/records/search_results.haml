@@ -2,10 +2,13 @@
 - @title = 'Knowledge Base'
 
 %div
-  = render :partial => 'search_form', :locals => {:term => @term}
+  = render :partial => 'search_form', :locals => {:term => h(@term) }
 
 - unless @records.blank?
+  - pagination_links = will_paginate @records
+  %p= pagination_links
   = render :partial => 'search_result', :collection => @records
+  %p= pagination_links
 - else
   %p
     Your search -

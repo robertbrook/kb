@@ -88,7 +88,8 @@ describe RecordsController do
 
     describe 'and there are no records matching term' do
       before do
-        Record.stub!(:search).and_return [[],[],'committee']
+        @matches_estimated = 0
+        Record.stub!(:search).and_return [[],[],@matches_estimated,'committee']
       end
       get_request_should_be_successful
       should_render_template('search_results')
@@ -102,7 +103,8 @@ describe RecordsController do
 
     describe 'and there are records matching term' do
       before do
-        Record.stub!(:search).and_return [[@record], [@term], nil]
+        @matches_estimated = 1
+        Record.stub!(:search).and_return [[@record], [@term], @matches_estimated, nil]
       end
       get_request_should_be_successful
       should_render_template('search_results')

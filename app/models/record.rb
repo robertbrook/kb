@@ -9,12 +9,18 @@ class Record < ActiveRecord::Base
 
   class << self
 
-    def search term
-      search = ActsAsXapian::Search.new(Record, term, :limit => 200)
+    def per_page
+      10
+    end
+
+    def search term, offset
+      search = ActsAsXapian::Search.new(Record, term, :limit => per_page, :offset => offset)
+      matches_estimated = search.matches_estimated
+
       if search.results.empty?
-        return [[], [], search.spelling_correction]
+        return [[], [], matches_estimated, search.spelling_correction]
       else
-        return [search.results.collect{|h| h[:model]}, search.words_to_highlight, nil]
+        return [search.results.collect{|h| h[:model]}, search.words_to_highlight, matches_estimated, nil]
       end
     end
 

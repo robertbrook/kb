@@ -47,9 +47,14 @@ describe "/records/search_results.haml" do
       @name = 'All Party Group'
       @notes = 'The all party group...'
       @record = mock(Record, :name => @name, :notes => @notes, :id=>123)
-      records = [@record]
-      assigns[:records] = records
+      @records = [@record]
+      assigns[:records] = @records
       assigns[:words_to_highlight] = []
+      template.stub!(:will_paginate).and_return ''
+    end
+    it 'should generate pagination links' do
+      template.should_receive(:will_paginate).with(@records).and_return ''
+      do_render
     end
     it 'should show result name in a heading' do
       do_render

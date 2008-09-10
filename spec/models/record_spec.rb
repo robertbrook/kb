@@ -10,23 +10,32 @@ describe Record do
     @record = Record.new
   end
 
+  describe 'when asked for number per_page' do
+    it 'should return per_page pagination number' do
+      Record.per_page.should == 10
+    end
+  end
+
   describe 'when searched for term' do
-    describe 'and there are no search reults' do
+    describe 'and there are no search results' do
       it 'should return spelling_correction' do
         term = 'commitee'
         spelling_correction = 'committee'
-        search = mock('xapian', :results => [], :words_to_highlight => [term], :spelling_correction => spelling_correction)
-        ActsAsXapian::Search.should_receive(:new).with(Record, term, :limit => 200).and_return search
-        Record.search(term).should == [[],[],spelling_correction]
+        matches_estimated = 0
+        search = mock('xapian', :matches_estimated => matches_estimated, :results => [], :words_to_highlight => [term], :spelling_correction => spelling_correction)
+        ActsAsXapian::Search.should_receive(:new).with(Record, term, :limit => 10, :offset=>0).and_return search
+
+        Record.search(term, 0).should == [[],[], matches_estimated, spelling_correction]
       end
     end
-    describe 'and there are search reults' do
+    describe 'and there are search results' do
       it 'should return result and words to highlight' do
         term = 'EDMs'
         result = {:model => @record}
-        search = mock('xapian', :results => [result], :words_to_highlight => [term], :spelling_correction => nil)
-        ActsAsXapian::Search.should_receive(:new).with(Record, term, :limit => 200).and_return search
-        Record.search(term).should == [[@record],[term],nil]
+        matches_estimated = 1
+        search = mock('xapian', :matches_estimated => matches_estimated, :results => [result], :words_to_highlight => [term], :spelling_correction => nil)
+        ActsAsXapian::Search.should_receive(:new).with(Record, term, :limit => 10, :offset=>10).and_return search
+        Record.search(term, 10).should == [[@record],[term], matches_estimated, nil]
       end
     end
   end
