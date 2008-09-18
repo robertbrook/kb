@@ -17,6 +17,7 @@ describe "/records/index.haml" do
         :summary_attributes=>{'web_page'=>'url'})
 
     assigns[:records] = [record]
+    template.stub!(:will_paginate).and_return ''
   end
 
   def do_render

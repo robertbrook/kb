@@ -3,9 +3,13 @@
 
 %div#search= render :partial => 'search_form'
 
-%table#records{:summary=>"Listing records"}
-  = render :partial => 'table_header'
-  %tbody
-    = render :partial => 'record', :collection => @records
+- unless @records.blank?
+  - pagination_links = will_paginate @records
+  %p= pagination_links
+  %table#records{:summary=>"Listing records"}
+    = render :partial => 'table_header'
+    %tbody
+      = render :partial => 'record', :collection => @records
+  %p= pagination_links
 
 = link_to 'New record', new_record_path

@@ -93,7 +93,16 @@ class RecordsController < ApplicationController
 
   # GET /record
   def index
-    @records = Record.find(:all).sort
+    page = params['page'] || 1
+
+    @records = WillPaginate::Collection.create(page, Record.per_page) do |pager|
+      records = Record.find(:all, :offset=>pager.offset, :limit => Record.per_page, :order => 'name asc')
+      # inject the result array into the paginated collection:
+      pager.replace(records)
+      # set total of estimated matches
+      pager.total_entries = Record.count
+    end
+
     respond_to do |format|
       format.html # index.haml
       format.atom

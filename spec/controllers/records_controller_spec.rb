@@ -135,7 +135,7 @@ describe RecordsController do
     should_render_template('index')
 
     it "should find all records" do
-      Record.should_receive(:find).with(:all).and_return([@record])
+      Record.should_receive(:find).with(:all, {:order=>"name asc", :offset=>0, :limit=>10}).and_return([@record])
       do_get
     end
     it "should assign the found records for the view" do
