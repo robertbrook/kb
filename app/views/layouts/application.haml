@@ -11,8 +11,8 @@
     = @atom if @atom
   %body#kb-parliament-uk
     #search= render :partial => 'search_form', :locals => {:term => h(@term) }
-    - if @title == "Knowledge Base"
-      %h1#title=  @title
+    - unless @title 
+      %h1#title=  "Knowledge Base"
     - else
       %h1#title= link_to_unless_current("Knowledge Base", root_url) << '<br/> ' << @title
     #content= yield
