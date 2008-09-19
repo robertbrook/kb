@@ -27,7 +27,7 @@ class RecordsController < ApplicationController
       :spellchecker_rpc_url => "/records/spellcheck",
       :spellchecker_languages => "+English=en",
       :plugins => %w[ contextmenu paste spellchecker]
-    }, :only => [:edit])
+    }, :only => [:edit, :new])
 
   def spellcheck
     raw = request.env['RAW_POST_DATA']
