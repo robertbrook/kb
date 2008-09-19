@@ -6,9 +6,13 @@ module RecordsHelper
 
   def tags_list tags
     tags.collect do |tag|
-      link_text = "#{tag.name}"
-      url = url_for(:controller=>'records',:action=>'tag',:id=>encode_tag(tag.name))
-      link = link_to(link_text, url, :style=>"font-size: #{Math.log10(tag.taggings.size)*20}px")
+      if tag.is_a? String
+        link_to(tag, url_for(:controller=>'records',:action=>'tag',:id=>encode_tag(tag)))
+      else
+        link_text = "#{tag.name}"
+        url = url_for(:controller=>'records',:action=>'tag',:id=>encode_tag(tag.name))
+        link_to(link_text, url, :style=>"font-size: #{Math.log10(tag.taggings.size)*20}px")
+      end
     end.join(', ')
   end
 
