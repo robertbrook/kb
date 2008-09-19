@@ -1,9 +1,6 @@
 - @javascript = :defaults
 - @title = "Tag: #{@tag}"
 
-%div
-  = render :partial => 'search_form'
-
 - unless @records.blank?
   = render :partial => 'search_result', :collection => @records
 - else
