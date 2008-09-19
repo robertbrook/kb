@@ -92,6 +92,15 @@ class RecordsController < ApplicationController
     end
   end
 
+  def recent_edits
+    page = params['page'] || 1
+    @records = WillPaginate::Collection.create(page, Record.per_page) do |pager|
+      records = Record.find(:all, :offset=>pager.offset, :limit => Record.per_page, :order => 'updated_at desc')
+      pager.replace(records)
+      pager.total_entries = Record.count
+    end
+  end
+
   # GET /record
   def index
     page = params['page'] || 1

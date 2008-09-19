@@ -1,0 +1,21 @@
+- @atom = auto_discovery_link_tag(:atom).sub('records','records.atom')
+- @title = "Recent Edits"
+
+- unless @records.blank?
+  - pagination_links = will_paginate @records
+  = pagination_links
+  %table#records{:summary=>"Listing records"}
+    = render :partial => 'table_header'
+    %tbody
+      - @records.each do |record|
+        %tr
+          %td= record.updated_at.to_s(:short)
+          %td.record
+            %h4.name= link_to_record record
+          - if @is_admin
+            %td= link_to 'Edit', edit_record_path(record)
+          - else
+            %td
+  = pagination_links
+
+%p= link_to 'New record', new_record_path
