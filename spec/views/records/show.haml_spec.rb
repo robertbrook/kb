@@ -25,7 +25,7 @@ describe "/records/show.haml" do
       do_render
     end
     it 'should show Edit link' do
-      response.should have_tag('a','Edit')
+      response.should have_tag('a','Edit record')
     end
     it 'should not show Destroy link' do
       response.should_not have_tag('a','Destroy')

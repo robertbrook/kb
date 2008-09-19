@@ -26,11 +26,12 @@ describe "/records/index.haml" do
   end
 
   def do_render
-    render "/records/index.atom.builder", :layout=>'application'
+    render "/records/index.atom.builder", :layout=>false
   end
 
   it "should render record as an atom entry" do
     do_render
+
     response.should have_tag('entry') do
       with_tag('title', @name)
       with_tag('content', @notes_summary+'...')
