@@ -1,8 +1,5 @@
 - @javascript = :defaults
-- @title = 'Knowledge Base'
-
-%div
-  = render :partial => 'search_form', :locals => {:term => h(@term) }
+- @title = 'Search results'
 
 - unless @records.blank?
   - pagination_links = will_paginate @records
