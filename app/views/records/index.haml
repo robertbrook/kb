@@ -5,11 +5,11 @@
 
 - unless @records.blank?
   - pagination_links = will_paginate @records
-  %p= pagination_links
+  = pagination_links
   %table#records{:summary=>"Listing records"}
     = render :partial => 'table_header'
     %tbody
       = render :partial => 'record', :collection => @records
-  %p= pagination_links
+  = pagination_links
 
 = link_to 'New record', new_record_path

@@ -30,8 +30,8 @@ class Record < ActiveRecord::Base
     end
 
     def common_tags
-      topics = Record.tag_counts.select {|t| t.taggings.size > 1}
-      topics.collect(&:name).sort
+      tags = Record.tag_counts.select {|t| t.taggings.size > 2}
+      tags.sort_by(&:name)
     end
 
     def common_statuses
