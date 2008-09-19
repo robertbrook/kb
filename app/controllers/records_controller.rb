@@ -87,6 +87,7 @@ class RecordsController < ApplicationController
       @statuses = Record.common_statuses
       if is_admin?
         @records_needing_check = Record.all_needing_check
+        @records_recently_edited = Record.recently_edited
       end
     end
   end

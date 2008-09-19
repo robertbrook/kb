@@ -31,6 +31,10 @@ class Record < ActiveRecord::Base
       find(:all, past_check_by_date)
     end
 
+    def recently_edited
+      find(:all, :limit => 5, :order => 'updated_at desc')
+    end
+
     def common_tags
       tags = Record.tag_counts.select {|t| t.taggings.size > 2}
       tags.sort_by(&:name)

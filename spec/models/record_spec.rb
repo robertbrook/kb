@@ -180,4 +180,14 @@ describe Record do
       Record.all_needing_check
     end
   end
+
+  describe 'when asked for recently edited records' do
+    it 'should find and return recently edited records' do
+      record = mock(Record)
+      conditions = { :limit => 5, :order => 'updated_at desc' }
+      Record.should_receive(:find).with(:all, conditions).and_return [record]
+      Record.recently_edited
+    end
+  end
+
 end

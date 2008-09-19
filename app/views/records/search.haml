@@ -8,8 +8,15 @@
       = record.check_by_date
       = link_to_record(record)
       %br
+- if @is_admin && !@records_recently_edited.empty?
+  %div#recently-edited
+    %h2 Recently edited
+    - @records_recently_edited.collect do |record|
+      = record.updated_at
+      = link_to_record(record)
+      %br
+
 #tags-and-status
   %center.tags= weighted_tags_list(@tags)
   %hr
   %center.statuses= statuses_list(@statuses)
-

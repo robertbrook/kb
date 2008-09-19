@@ -58,12 +58,20 @@ describe RecordsController do
     describe 'when user has admin role' do
       before do
         controller.stub!(:is_admin?).and_return true
+        Record.stub!(:all_needing_check)
+        Record.stub!(:recently_edited)
       end
       it 'should assign all needing check to view' do
         needing_check = mock('needing_check')
         Record.should_receive(:all_needing_check).and_return needing_check
         do_get
         assigns[:records_needing_check].should == needing_check
+      end
+      it 'should assign recently edited to view' do
+        recently_edited = mock('recently_edited')
+        Record.should_receive(:recently_edited).and_return recently_edited
+        do_get
+        assigns[:recently_edited].should == recently_edited
       end
     end
     describe 'when user does not have admin role' do
@@ -73,6 +81,10 @@ describe RecordsController do
       it 'should not assign all needing check to view' do
         do_get
         assigns[:records_needing_check].should == nil
+      end
+      it 'should not assign recently edited to view' do
+        do_get
+        assigns[:recently_edited].should == nil
       end
     end
   end
