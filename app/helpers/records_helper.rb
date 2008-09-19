@@ -14,6 +14,7 @@ module RecordsHelper
       weight = weight.next if (weight < 12)
       weight = weight.next if (weight < 11)
       weight = weight.next if (weight < 10)
+      weight = weight - 3 if (weight > 29)
       link_to(link_text, url, :style=>"font-size: #{weight}px")
       end.join(' ')
   end
