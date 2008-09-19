@@ -27,7 +27,7 @@ module RecordsHelper
   def statuses_list statuses
     statuses.collect do |status|
       link_to(status, url_for(:controller=>'records',:action=>'status',:id=>encode_tag(status)))
-    end.join(', ')
+    end.join(' &middot; ')
   end
 
   def link_to_record record
