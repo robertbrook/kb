@@ -17,7 +17,7 @@
 - unless @similar_records.empty?
   #similar_records
     - @similar_records.each do |record|
-      = link_to_record(record.model) + ' ' + record.percent.to_s
+      %p= link_to_record(record.model) + ' ' + record.percent.to_s
 
 #record
   - if @is_admin && @record.use_check_by_date
