@@ -10,9 +10,9 @@
         = javascript_include_tag js
     = @atom if @atom
   %body#kb-parliament-uk
-    %h1#title= @title
+    #search= render :partial => 'search_form'
     %ol#navigation
-      %li Knowledge Base
       %li#home= link_to_unless_current("Tags", { :action => "index" })
+    %h1#title= @title
     = yield
     = button_to "Enable #{@is_admin ? 'STANDARD USER functions' : 'ADMINISTRATOR functions'}" , :action => :toggle_admin
