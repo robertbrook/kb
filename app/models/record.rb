@@ -67,7 +67,7 @@ class Record < ActiveRecord::Base
 
   def similar_records
     results = ActsAsXapian::Similar.new([Record], [self], :limit=>10).results.collect{|r| OpenStruct.new r}
-    results = results.select{|r| r.percent > 19 }
+    results = results.select{|r| r.percent > 29 }
     results
   end
 
