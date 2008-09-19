@@ -10,7 +10,7 @@
         = javascript_include_tag js
     = @atom if @atom
   %body#kb-parliament-uk
-    #search= render :partial => 'search_form'
+    #search= render :partial => 'search_form', :locals => {:term => h(@term) }
     - if @title == "Knowledge Base"
       %h1#title=  @title
     - else
