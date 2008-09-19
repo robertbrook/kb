@@ -40,9 +40,9 @@ describe "/records/index.haml" do
       do_render
       response.should have_tag('a','Edit')
     end
-    it 'should show Destroy link' do
+    it 'should not show Destroy link' do
       do_render
-      response.should have_tag('a','Destroy')
+      response.should_not have_tag('a','Destroy')
     end
   end
   describe 'user is not admin' do

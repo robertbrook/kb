@@ -20,12 +20,20 @@ describe "/record/edit.haml" do
         :core_attribute_names=>[],
         :notes=>"notes text")
     assigns[:record] = @record
+    @record.stub!(:notes=).with("<p>notes text</p>")
   end
 
+  def do_render
+    render "/records/edit.haml"
+  end
   it "should render edit form" do
     @record.should_receive(:notes=).with("<p>notes text</p>")
-    render "/records/edit.haml"
+    do_render
     response.should have_tag("form[action=#{record_path(@record)}][method=post]") do
     end
+  end
+  it 'should show Destroy link' do
+    do_render
+    response.should have_tag('a','Destroy item')
   end
 end

@@ -27,8 +27,8 @@ describe "/records/show.haml" do
     it 'should show Edit link' do
       response.should have_tag('a','Edit')
     end
-    it 'should show Destroy link' do
-      response.should have_tag('a','Destroy')
+    it 'should not show Destroy link' do
+      response.should_not have_tag('a','Destroy')
     end
     it 'should have in_place_editor_field' do
       response.should have_tag('span.in_place_editor_field')

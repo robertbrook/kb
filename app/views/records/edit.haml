@@ -5,7 +5,10 @@
 
 
 - form_for(@record) do |f|
+  = link_to 'Destroy item', record_path(@record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete
+  |
   = link_to 'Ignore changes', record_path(@record)
+  |
   = f.submit "Save changes"
 
   %p
@@ -42,5 +45,9 @@
             %label Other notes
             %span
               = f.text_area :other_notes
+  = link_to 'Destroy item', record_path(@record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete
+  |
   = link_to 'Ignore changes', record_path(@record)
+  |
   = f.submit "Save changes"
+
