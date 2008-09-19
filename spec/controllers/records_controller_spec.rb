@@ -274,7 +274,7 @@ describe RecordsController do
       post :create, :record => {}
     end
     it "should create a new record" do
-      Record.should_receive(:new).with({}).and_return(@record)
+      Record.should_receive(:new).with({"notes"=>nil}).and_return(@record)
       post_with_successful_save
     end
     it "should redirect to the new record on successful save" do
