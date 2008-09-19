@@ -133,6 +133,8 @@ class RecordsController < ApplicationController
 
   # POST /record
   def create
+    record_params = params[:record]
+    record_params[:notes] = unhtml(record_params[:notes]) if record_params
     @record = Record.new(params[:record])
 
     respond_to do |format|
