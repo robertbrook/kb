@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.connect ':controller/recent_edits', :controller => "records", :action => "recent_edits"
   map.resources :records
 
   # The priority is based upon order of creation: first created -> highest priority.

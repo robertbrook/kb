@@ -36,6 +36,7 @@ describe RecordsController do
 
     describe "with no record id specified" do
       check_route_for_action 'index'
+      check_route_for_action 'recent_edits', '/recent_edits'
       check_route_for_action 'new', '/new'
       check_route_for_action 'tag', '/tag'
       check_route_for_action 'status', '/status'

@@ -1,20 +1,20 @@
 - @javascript = :defaults
 
-- if @is_admin 
-  - unless @records_needing_check.empty?
-    %div#records-to-check
-      %h2 Records to check
-      - @records_needing_check.collect do |record|
-        = record.check_by_date
-        = link_to_record(record)
-    %hr
-  - unless @records_recently_edited.empty?
-    %div#recently-edited
-      %h2 Recently edited
-      - @records_recently_edited.collect do |record|
-        = record.updated_at
-        = link_to_record(record)
-    %hr
+- if @is_admin && !@records_needing_check.empty?
+  %div#records-to-check
+    %h2 Records to check
+    - @records_needing_check.collect do |record|
+      = record.check_by_date.to_s(:long)
+      = link_to_record(record)
+      %hr
+- if @is_admin && !@records_recently_edited.empty?
+  %div#recently-edited
+    %h2= link_to('Recently edited', :action => 'recent_edits')
+    - @records_recently_edited.collect do |record|
+      = record.updated_at.to_s(:short)
+      = link_to_record(record)
+      %hr
+
 #tags-and-status
   %center.tags= weighted_tags_list(@tags)
   %hr
