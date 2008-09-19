@@ -1,9 +1,6 @@
 - @javascript = :defaults
 - @title= 'Knowledge Base'
 
-%div
-  = render :partial => 'search_form'
-
 - if @is_admin && !@records_needing_check.empty?
   %div
     %h2 Records to check
@@ -13,9 +10,9 @@
       %br
 %div
   %p
-    %span.tags_label Frequent tags:
+    %span.tags_label Tags
     = tags_list(@tags)
   %p
-    %span.statuses_label Statuses:
+    %span.statuses_label Status
     = statuses_list(@statuses)
 
