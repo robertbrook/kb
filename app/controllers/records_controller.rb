@@ -134,7 +134,7 @@ class RecordsController < ApplicationController
   # POST /record
   def create
     record_params = params[:record]
-    record_params[:notes] = unhtml(record_params[:notes]).strip if record_params
+    record_params[:notes] = unhtml(record_params[:notes]) if record_params
     @record = Record.new(params[:record])
 
     respond_to do |format|
@@ -151,7 +151,7 @@ class RecordsController < ApplicationController
   def update
     respond_to do |format|
       record_params = params[:record]
-      record_params[:notes] = unhtml(record_params[:notes]).strip if record_params
+      record_params[:notes] = unhtml(record_params[:notes]) if record_params
       if @record.update_attributes(record_params)
         flash[:notice] = 'Record was successfully updated.'
         format.html { redirect_to(record_path(@record)) }
@@ -196,6 +196,9 @@ class RecordsController < ApplicationController
       text.gsub!(/<[^>]+>/,'')
       text.gsub!('&lt;','<')
       text.gsub!('&gt;','>')
+      text.gsub!('&nbsp;',' ')
+      text.gsub!('&amp;','&')
+      text.strip
       text
     end
 
