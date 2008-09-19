@@ -9,7 +9,7 @@
       = link_to_record(record)
       %br
 #tags-and-status
-  %p.tags= tags_list(@tags)
+  %p.tags= weighted_tags_list(@tags)
   %p.statuses
     %span.statuses_label Status
     = statuses_list(@statuses)

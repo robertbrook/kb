@@ -3,8 +3,11 @@
 
 - if @is_admin
   %div.controls
-    = link_to 'All', records_path
-    = link_to 'Edit', edit_record_path(@record)
+    = link_to 'All records', records_path
+    |
+    = link_to 'New record', new_record_path
+    |
+    = link_to 'Edit record', edit_record_path(@record)
 
 - unless @record.tag_list.blank?
   %div
