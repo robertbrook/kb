@@ -11,8 +11,9 @@
     = @atom if @atom
   %body#kb-parliament-uk
     #search= render :partial => 'search_form'
-    %ol#navigation
-      %li#home= link_to_unless_current("Tags", { :action => "index" })
-    %h1#title= @title
+    - if @title == "Knowledge Base"
+      %h1#title=  @title
+    - else
+      %h1#title= link_to_unless_current("Knowledge Base", root_url) << ': ' << @title
     = yield
     = button_to "Enable #{@is_admin ? 'STANDARD USER functions' : 'ADMINISTRATOR functions'}" , :action => :toggle_admin
