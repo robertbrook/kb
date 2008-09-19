@@ -4,15 +4,23 @@ module RecordsHelper
     tag.gsub(' ','_')
   end
 
+  def weighted_tags_list tags
+    tags.collect do |tag|
+      link_text = "#{tag.name}"
+      url = url_for(:controller=>'records',:action=>'tag',:id=>encode_tag(tag.name))
+      weight = (Math.log10(tag.taggings.size)*20).to_i
+      weight = weight.next if (weight < 14)
+      weight = weight.next if (weight < 13)
+      weight = weight.next if (weight < 12)
+      weight = weight.next if (weight < 11)
+      weight = weight.next if (weight < 10)
+      link_to(link_text, url, :style=>"font-size: #{weight}px")
+      end.join(' ')
+  end
+
   def tags_list tags
     tags.collect do |tag|
-      if tag.is_a? String
-        link_to(tag, url_for(:controller=>'records',:action=>'tag',:id=>encode_tag(tag)))
-      else
-        link_text = "#{tag.name}"
-        url = url_for(:controller=>'records',:action=>'tag',:id=>encode_tag(tag.name))
-        link_to(link_text, url, :style=>"font-size: #{Math.log10(tag.taggings.size)*20}px")
-      end
+      link_to(tag, url_for(:controller=>'records',:action=>'tag',:id=>encode_tag(tag)))
     end.join(', ')
   end
 
