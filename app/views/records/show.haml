@@ -16,6 +16,7 @@
 
 - unless @similar_records.empty?
   #similar_records
+    %h2 Similar Records
     - @similar_records.each do |record|
       %p= link_to_record(record.model) + ' ' + record.percent.to_s
 
