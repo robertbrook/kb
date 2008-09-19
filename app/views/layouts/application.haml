@@ -14,6 +14,6 @@
     - if @title == "Knowledge Base"
       %h1#title=  @title
     - else
-      %h1#title= link_to_unless_current("Knowledge Base", root_url) << ': ' << @title
+      %h1#title= link_to_unless_current("Knowledge Base", root_url) << '<br/> ' << @title
     #content= yield
     = button_to "Enable #{@is_admin ? 'STANDARD USER functions' : 'ADMINISTRATOR functions'}" , :action => :toggle_admin
