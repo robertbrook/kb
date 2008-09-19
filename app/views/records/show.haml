@@ -9,7 +9,7 @@
     |
     = link_to 'Edit record', edit_record_path(@record)
 
-- unless @record.tag_list.blank?
+- unless @tags.blank?
   %div
     %span.tags_label= link_to 'Tags:', root_path
     = tags_list(@tags)

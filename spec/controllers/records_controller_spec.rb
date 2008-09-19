@@ -156,7 +156,7 @@ describe RecordsController do
 
   describe "when asked to get a record by its id" do
     before do
-      @record = mock_model(Record, :tag_list => [], :status_list => [])
+      @record = mock_model(Record, :tag_list => [], :status_list => [], :similar_records => [])
       Record.stub!(:find).and_return(@record)
     end
 

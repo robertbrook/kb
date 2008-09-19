@@ -10,6 +10,7 @@ describe "/records/show.haml" do
         :web_page=>'url'})
 
     assigns[:record] = @record
+    assigns[:similar_records] = []
   end
 
   def do_render
