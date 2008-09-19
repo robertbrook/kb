@@ -1,21 +1,18 @@
 - @javascript = :defaults
 - @title= 'Knowledge Base'
 
-%div
-  = render :partial => 'search_form'
-
 - if @is_admin && !@records_needing_check.empty?
-  %div
+  %div#records-to-check
     %h2 Records to check
     - @records_needing_check.collect do |record|
       = record.check_by_date
       = link_to_record(record)
       %br
-%div
-  %p
-    %span.tags_label Frequent tags:
+#tags-and-status
+  %p.tags
+    %span.tags_label Tags
     = weighted_tags_list(@tags)
-  %p
-    %span.statuses_label Statuses:
+  %p.statuses
+    %span.statuses_label Status
     = statuses_list(@statuses)
 

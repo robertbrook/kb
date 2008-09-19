@@ -1,8 +1,6 @@
 - @atom = auto_discovery_link_tag(:atom).sub('records','records.atom')
 - @title = "Knowledge Base records"
 
-%div#search= render :partial => 'search_form'
-
 - unless @records.blank?
   - pagination_links = will_paginate @records
   = pagination_links

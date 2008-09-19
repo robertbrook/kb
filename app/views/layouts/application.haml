@@ -4,12 +4,16 @@
     = stylesheet_link_tag 'screen', :media => 'screen'
     = javascript_include_tiny_mce_if_used
     = tiny_mce if using_tiny_mce?
-    = javascript_include_tag @javascript if @javascript
+    / = javascript_include_tag @javascript if @javascript
     - if @javascripts
       - @javascripts.each do |js|
         = javascript_include_tag js
     = @atom if @atom
-  %body
-    %h1= @title
+  %body#kb-parliament-uk
+    #search= render :partial => 'search_form'
+    - if @title == "Knowledge Base"
+      %h1#title=  @title
+    - else
+      %h1#title= link_to_unless_current("Knowledge Base", root_url) << ': ' << @title
     = yield
     = button_to "Enable #{@is_admin ? 'STANDARD USER functions' : 'ADMINISTRATOR functions'}" , :action => :toggle_admin
