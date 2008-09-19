@@ -14,6 +14,11 @@
     %span.tags_label= link_to 'Tags:', root_path
     = tags_list(@tags)
 
+- unless @similar_records.empty?
+  #similar_records
+    - @similar_records.each do |record|
+      = link_to_record(record.model) + ' ' + record.percent.to_s
+
 #record
   - if @is_admin && @record.use_check_by_date
     #check_by_date

@@ -1,3 +1,5 @@
+require 'ostruct'
+
 class Record < ActiveRecord::Base
 
   acts_as_taggable_on :tags
@@ -57,6 +59,11 @@ class Record < ActiveRecord::Base
         }
         conditions.join(" OR " )
       end
+  end
+
+  def similar_records
+    results = ActsAsXapian::Similar.new([Record], [self], :limit=>5).results.collect{|r| OpenStruct.new r}
+    results
   end
 
   def line_count

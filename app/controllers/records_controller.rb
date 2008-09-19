@@ -113,6 +113,9 @@ class RecordsController < ApplicationController
   def show
     @tags = @record.tag_list
     @statuses = @record.status_list
+
+    @similar_records = @record.similar_records
+
     respond_to do |format|
       format.html # show.haml
     end
