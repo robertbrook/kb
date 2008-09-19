@@ -71,7 +71,7 @@ describe RecordsController do
         recently_edited = mock('recently_edited')
         Record.should_receive(:recently_edited).and_return recently_edited
         do_get
-        assigns[:recently_edited].should == recently_edited
+        assigns[:records_recently_edited].should == recently_edited
       end
     end
     describe 'when user does not have admin role' do
