@@ -1,5 +1,7 @@
 class RecordsController < ApplicationController
 
+  before_filter :search, :only => 'show'
+
   require 'json'
 
   in_place_edit_for :record, :title
@@ -70,8 +72,10 @@ class RecordsController < ApplicationController
 
   def search
     if params[:q]
+      redirect_to_search_result_url
+    elsif params[:query]
       page = params['page'] || 1
-      @term = params[:q]
+      @term = params[:query]
 
       @records = WillPaginate::Collection.create(page, Record.per_page) do |pager|
         records, @words_to_highlight, matches_estimated, @spelling_correction = Record.search(@term, pager.offset)
@@ -199,6 +203,16 @@ class RecordsController < ApplicationController
   end
 
   private
+
+    def redirect_to_search_result_url
+      if request.post? && !params[:q].blank?
+        query = params[:q].gsub('.','')
+        redirect_to :action => 'search', :query => query
+        return false
+      else
+        redirect_to :action => 'search'
+      end
+    end
 
     def unhtml text
       unless text.blank?
