@@ -9,11 +9,6 @@
     |
     = link_to 'Edit record', edit_record_path(@record)
 
-- unless @tags.blank?
-  %div
-    %span.tags_label= link_to 'Tags:', root_path
-    = tags_list(@tags)
-
 - unless @similar_records.empty?
   #similar_records
     %h2 Similar Records
@@ -40,7 +35,7 @@
         = link_to_web_page(@record)
     - unless @record.tag_list.blank?
       %p
-        %span.tags_label Tags:
+        Other records tagged with
         = tags_list(@tags)
     - unless @record.status_list.blank?
       %p
