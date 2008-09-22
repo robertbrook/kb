@@ -9,6 +9,7 @@ describe "/records/show.haml" do
         :use_check_by_date => false,
         :web_page=>'url'})
 
+    @record.stub!(:created_at).and_return Time.now
     assigns[:record] = @record
     assigns[:similar_records] = []
   end

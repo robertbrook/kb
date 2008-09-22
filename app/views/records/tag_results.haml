@@ -8,8 +8,10 @@
         = submit_tag "Rename '#{@tag}' tags to:"
         = text_field_tag 'new_tag'
         = hidden_field_tag 'old_tag', @tag
-    %p
-      = button_to("Delete all '#{@tag}' tags", {:action => :delete_tag, :id => @tag.gsub(' ','_')}, :confirm => "Delete all '#{@tag}' tags?", :method => :delete)
+    %fieldset.tags-edit
+      %legend Edit tags
+      = button_to("Remove all '#{@tag}' tags", {:action => :delete_tag, :id => @tag.gsub(' ','_')}, :confirm => "Remove all '#{@tag}' tags?", :method => :delete)
+      %label{:for => ""}= "This will remove the '#{@tag}' tag from all records which have it."
 
   %p= flash[:notice]
   = render :partial => 'search_result', :collection => @records
