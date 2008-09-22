@@ -459,6 +459,40 @@ describe RecordsController do
     end
   end
 
+  describe "when asked to delete tag" do
+    before do
+      @tag = 'tag'
+    end
+    def do_delete
+      delete :delete_tag, :id => @tag
+    end
+
+    describe 'and user is admin' do
+      before do
+        controller.stub!(:is_admin?).and_return true
+      end
+      it 'should delete tag from all records' do
+        Record.should_receive(:delete_tag).with(@tag)
+        do_delete
+      end
+      it 'should redirect to tag view with flash notice set' do
+        Record.stub!(:delete_tag).with(@tag)
+        do_delete
+        flash[:notice].should ==  "Deletion of '#{@tag}' tags successful."
+        response.should redirect_to(:action => 'tag', :id => @tag)
+      end
+    end
+    describe 'and user is not admin' do
+      before do
+        controller.stub!(:is_admin?).and_return false
+      end
+      it 'should not delete tag from all records' do
+        Record.should_not_receive(:delete_tag)
+        do_delete
+      end
+    end
+  end
+
   describe "when posted to toggle admin action" do
     def do_post
       request.env["HTTP_REFERER"] = '/previous/url'

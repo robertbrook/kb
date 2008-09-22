@@ -10,6 +10,32 @@ describe Record do
     @record = Record.new
   end
 
+  describe 'when asked for records matching tag' do
+    it 'should return records tagged with tag' do
+      tag = 'tag'
+      Record.should_receive(:find_tagged_with).with(tag, :on=>'tags').and_return [@record]
+      Record.find_with_tag(tag).should == [@record]
+    end
+  end
+
+  describe 'when asked for records matching status' do
+    it 'should return records tagged with status' do
+      status = 'status'
+      Record.should_receive(:find_tagged_with).with(status, :on=>'statuses').and_return [@record]
+      Record.find_with_status(status).should == [@record]
+    end
+  end
+
+  describe 'when asked to delete tag' do
+    it 'should delete tag from each record tagged with that tag' do
+      tag = 'tag'
+      Record.should_receive(:find_with_tag).with(tag).and_return [@record]
+      @record.should_receive(:remove_tag).with(tag)
+      @record.should_receive(:save)
+      Record.delete_tag(tag)
+    end
+  end
+
   describe 'when asked for number per_page' do
     it 'should return per_page pagination number' do
       Record.per_page.should == 10
