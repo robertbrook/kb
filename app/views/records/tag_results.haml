@@ -8,7 +8,6 @@
       = button_to("Remove all '#{@tag}' tags", {:action => :delete_tag, :id => @tag.gsub(' ','_')}, :confirm => "Remove all '#{@tag}' tags?", :method => :delete)
       %label{:for => ""}= "This will remove the '#{@tag}' tag from all records which have it."
 
-
   = render :partial => 'search_result', :collection => @records
 - elsif flash[:notice]
   %p= flash[:notice]
