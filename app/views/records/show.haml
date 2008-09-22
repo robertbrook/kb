@@ -24,6 +24,7 @@
       = @record.notes
   #other_information
     %hr
+    %p.record-age= "This record is #{time_ago_in_words(@record.created_at)} old."
     - unless @record.web_page.blank?
       %p
         %span.web_page_label Web page:
