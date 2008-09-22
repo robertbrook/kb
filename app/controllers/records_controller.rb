@@ -56,7 +56,7 @@ class RecordsController < ApplicationController
     if params[:id]
       @tag = decode_tag(params[:id])
       @words_to_highlight = [@tag]
-      @records = Record.find_tagged_with(@tag, :on=>'tags').sort_by(&:name)
+      @records = Record.find_with_tag @tag
     end
     render :template=>'records/tag_results'
   end
@@ -65,7 +65,7 @@ class RecordsController < ApplicationController
     if params[:id]
       @status = decode_tag(params[:id])
       @words_to_highlight = [@status]
-      @records = Record.find_tagged_with(@status, :on=>'statuses').sort_by(&:name)
+      @records = Record.find_with_status @status
     end
     render :template=>'records/status_results'
   end
@@ -205,15 +205,11 @@ class RecordsController < ApplicationController
   def delete_tag
     if is_admin? && request.delete? && !params['id'].blank?
       tag = decode_tag(params['id'])
-      records = Record.find_tagged_with(tag, :on=>'tags')
-      records.each do |record|
-        record.tag_list.remove tag
-        record.save
-      end
+      Record.delete_tag tag
       flash[:notice] = "Deletion of '#{tag}' tags successful."
       redirect_to :action => 'tag', :id => params['id']
     else
-      render :text => 'here ' + params.inspect + params['id'].to_s
+      render :text => ''
     end
   end
 

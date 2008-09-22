@@ -11,6 +11,24 @@ class Record < ActiveRecord::Base
 
   class << self
 
+    def find_with_tag tag
+      tags = Record.find_tagged_with(tag, :on=>'tags')
+      tags.sort_by(&:name)
+    end
+
+    def find_with_status status
+      statuses = Record.find_tagged_with(status, :on=>'statuses')
+      statuses.sort_by(&:name)
+    end
+
+    def delete_tag tag
+      records = find_with_tag tag
+      records.each do |record|
+        record.remove_tag tag
+        record.save
+      end
+    end
+
     def per_page
       10
     end
@@ -63,6 +81,10 @@ class Record < ActiveRecord::Base
         }
         conditions.join(" OR " )
       end
+  end
+
+  def remove_tag tag
+    tag_list.remove tag
   end
 
   def similar_records
