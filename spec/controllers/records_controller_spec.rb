@@ -90,13 +90,37 @@ describe RecordsController do
     end
   end
 
+  describe "when receiving post of search term" do
+    def do_post
+      post :search, :q => @term
+    end
+    describe 'and term is not blank' do
+      before do
+        @term = 'term'
+      end
+      it 'should redirect to search result url' do
+        do_post
+        response.should redirect_to(:controller=>'records', :action=>'search', :query=>'term')
+      end
+    end
+    describe 'and term is blank' do
+      before do
+        @term = nil
+      end
+      it 'should render search template' do
+        do_post
+        response.should render_template('search')
+      end
+    end
+  end
+
   describe "when asked for records matching a search term" do
     before do
       @term = 'term'
       @record = mock_model(Record)
     end
     def do_get
-      get :search, :q => @term
+      get :search, :query => @term
     end
 
     describe 'and there are no records matching term' do
