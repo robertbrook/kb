@@ -9,12 +9,6 @@
     |
     = link_to 'Edit record', edit_record_path(@record)
 
-- unless @similar_records.empty?
-  #similar_records
-    %h2 Similar Records
-    - @similar_records.each do |record|
-      %p= link_to_record(record.model) + ' ' + record.percent.to_s
-
 #record
   - if @is_admin && @record.use_check_by_date
     #check_by_date
@@ -29,6 +23,7 @@
     - else
       = @record.notes
   #other_information
+    %hr
     - unless @record.web_page.blank?
       %p
         %span.web_page_label Web page:
@@ -46,4 +41,10 @@
         %span.other_notes_label Other notes:
         %br
         = @record.other_notes.gsub("\n","<br/>")
+    - unless @similar_records.empty?
+      #similar_records
+        See also &mdash;
+        %ol.similar-records
+        - @similar_records.each do |record|
+          %li.similar-record= link_to_record(record.model)
 

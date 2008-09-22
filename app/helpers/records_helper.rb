@@ -21,8 +21,8 @@ module RecordsHelper
 
   def tags_list tags
     tags.collect do |tag|
-      link_to(tag, url_for(:controller=>'records',:action=>'tag',:id=>encode_tag(tag)))
-    end.join(', ')
+      link_to(tag, url_for(:controller=>'records',:action=>'tag',:id=>encode_tag(tag)), {:class => "tag"})
+    end.join(' ')
   end
 
   def statuses_list statuses
