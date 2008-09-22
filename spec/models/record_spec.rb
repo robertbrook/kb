@@ -32,7 +32,48 @@ describe Record do
       Record.should_receive(:find_with_tag).with(tag).and_return [@record]
       @record.should_receive(:remove_tag).with(tag)
       @record.should_receive(:save)
-      Record.delete_tag(tag)
+      Record.delete_tag(tag).should == [@record]
+    end
+  end
+
+  describe 'when asked to remove tag from a specific record' do
+    it "should remove tag from record's tag list" do
+      tag = 'tag'
+      tag_list = mock('tag_list')
+      tag_list.should_receive(:remove).with(tag)
+      @record.should_receive(:tag_list).and_return tag_list
+      @record.remove_tag tag
+    end
+  end
+
+  describe 'when asked to add tag to a specific record' do
+    it "should add tag to record's tag list" do
+      tag = 'tag'
+      tag_list = mock('tag_list')
+      tag_list.should_receive(:add).with(tag)
+      @record.should_receive(:tag_list).and_return tag_list
+      @record.add_tag tag
+    end
+  end
+
+  describe 'when asked to rename tag' do
+    it 'should rename tag on each record tagged with that old_tag' do
+      old_tag = 'old_tag'
+      new_tag = 'new_tag'
+      Record.should_receive(:find_with_tag).with(old_tag).and_return [@record]
+      @record.should_receive(:rename_tag).with(old_tag, new_tag)
+      @record.should_receive(:save)
+      Record.rename_tag(old_tag, new_tag).should == [@record]
+    end
+  end
+
+  describe 'when asked to rename tag on a specific record' do
+    it "should rename tag in record's tag list" do
+      tag = 'tag'
+      new_tag = 'new_tag'
+      @record.should_receive(:remove_tag).with(tag)
+      @record.should_receive(:add_tag).with(new_tag)
+      @record.rename_tag tag, new_tag
     end
   end
 

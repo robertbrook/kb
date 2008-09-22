@@ -202,6 +202,18 @@ class RecordsController < ApplicationController
     render :layout => false, :inline => "<%= @notes %>"
   end
 
+  def rename_tag
+    if is_admin? && request.post? && !params['old_tag'].blank? && !params['new_tag'].blank?
+      old_tag = decode_tag(params['old_tag'])
+      new_tag = decode_tag(params['new_tag'])
+      Record.rename_tag old_tag, new_tag
+      flash[:notice] = "Renaming tag to '#{new_tag}' successful."
+      redirect_to :action => 'tag', :id => new_tag
+    else
+      render :text => ''
+    end
+  end
+
   def delete_tag
     if is_admin? && request.delete? && !params['id'].blank?
       tag = decode_tag(params['id'])

@@ -4,8 +4,14 @@
 - if !@records.blank?
   - if @is_admin
     %p
+      - form_tag :action => 'rename_tag', :method => :post do
+        = submit_tag "Rename '#{@tag}' tags to:"
+        = text_field_tag 'new_tag'
+        = hidden_field_tag 'old_tag', @tag
+    %p
       = button_to("Delete all '#{@tag}' tags", {:action => :delete_tag, :id => @tag.gsub(' ','_')}, :confirm => "Delete all '#{@tag}' tags?", :method => :delete)
 
+  %p= flash[:notice]
   = render :partial => 'search_result', :collection => @records
 - elsif flash[:notice]
   %p= flash[:notice]

@@ -21,12 +21,22 @@ class Record < ActiveRecord::Base
       statuses.sort_by(&:name)
     end
 
+    def rename_tag old_tag, new_tag
+      records = find_with_tag old_tag
+      records.each do |record|
+        record.rename_tag old_tag, new_tag
+        record.save
+      end
+      records
+    end
+
     def delete_tag tag
       records = find_with_tag tag
       records.each do |record|
         record.remove_tag tag
         record.save
       end
+      records
     end
 
     def per_page
@@ -81,6 +91,15 @@ class Record < ActiveRecord::Base
         }
         conditions.join(" OR " )
       end
+  end
+
+  def rename_tag old_tag, new_tag
+    remove_tag old_tag
+    add_tag new_tag
+  end
+
+  def add_tag tag
+    tag_list.add tag
   end
 
   def remove_tag tag
