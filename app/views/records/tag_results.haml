@@ -1,13 +1,19 @@
 - @javascript = :defaults
 - @title = "Tag: #{@tag}"
 
-- unless @records.blank?
+- if !@records.blank?
+  - if @is_admin
+    %p
+      = button_to("Delete all '#{@tag}' tags", {:action => :delete_tag, :id => @tag.gsub(' ','_')}, :confirm => "Delete all '#{@tag}' tags?", :method => :delete)
+
   = render :partial => 'search_result', :collection => @records
+- elsif flash[:notice]
+  %p= flash[:notice]
 - else
   %p
     Your search -
-    %span.search_term= @category
-    = ' - did not match any category names.'
+    %span.search_term= @tag
+    = ' - did not match any tag names.'
   %p Suggestions:
   %ul
     %li Make sure all words are spelled correctly.

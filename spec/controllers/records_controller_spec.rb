@@ -9,7 +9,7 @@ describe RecordsController do
     end|
   end
 
-  def self.should_render_template template_name
+  def self.get_should_render_template template_name
     eval %Q|    it "should render #{template_name} template" do
       do_get
       response.should render_template('#{template_name}')
@@ -55,7 +55,7 @@ describe RecordsController do
     end
 
     get_request_should_be_successful
-    should_render_template('search')
+    get_should_render_template('search')
     describe 'when user has admin role' do
       before do
         controller.stub!(:is_admin?).and_return true
@@ -129,7 +129,7 @@ describe RecordsController do
         Record.stub!(:search).and_return [[],[],@matches_estimated,'committee']
       end
       get_request_should_be_successful
-      should_render_template('search_results')
+      get_should_render_template('search_results')
       it "should assign records as an empty array for the view" do
         do_get
         assigns[:records].should == []
@@ -144,7 +144,7 @@ describe RecordsController do
         Record.stub!(:search).and_return [[@record], [@term], @matches_estimated, nil]
       end
       get_request_should_be_successful
-      should_render_template('search_results')
+      get_should_render_template('search_results')
 
       it "should assign the found records for the view" do
         do_get
@@ -169,7 +169,7 @@ describe RecordsController do
     end
 
     get_request_should_be_successful
-    should_render_template('index')
+    get_should_render_template('index')
 
     it "should find all records" do
       Record.should_receive(:find).with(:all, {:order=>"name asc", :offset=>0, :limit=>10}).and_return([@record])
@@ -202,7 +202,7 @@ describe RecordsController do
     end
 
     get_request_should_be_successful
-    should_render_template('show')
+    get_should_render_template('show')
 
     it "should find the record requested" do
       Record.should_receive(:find).with("1").and_return(@record)
@@ -235,7 +235,7 @@ describe RecordsController do
     end
 
     get_request_should_be_successful
-    should_render_template('new')
+    get_should_render_template('new')
 
     it "should create an new record" do
       Record.should_receive(:new).and_return(@record)
@@ -273,7 +273,7 @@ describe RecordsController do
     end
 
     get_request_should_be_successful
-    should_render_template('edit')
+    get_should_render_template('edit')
 
     it "should find the record requested" do
       Record.should_receive(:find).and_return(@record)

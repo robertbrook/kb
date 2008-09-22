@@ -202,6 +202,21 @@ class RecordsController < ApplicationController
     render :layout => false, :inline => "<%= @notes %>"
   end
 
+  def delete_tag
+    if is_admin? && request.delete? && !params['id'].blank?
+      tag = decode_tag(params['id'])
+      records = Record.find_tagged_with(tag, :on=>'tags')
+      records.each do |record|
+        record.tag_list.remove tag
+        record.save
+      end
+      flash[:notice] = "Deletion of '#{tag}' tags successful."
+      redirect_to :action => 'tag', :id => params['id']
+    else
+      render :text => 'here ' + params.inspect + params['id'].to_s
+    end
+  end
+
   private
 
     def redirect_to_search_result_url
