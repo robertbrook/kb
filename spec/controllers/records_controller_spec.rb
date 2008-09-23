@@ -495,6 +495,41 @@ describe RecordsController do
     end
   end
 
+  describe "when asked to rename tag" do
+    before do
+      @tag = 'tag'
+      @new_tag = 'new tag'
+    end
+    def do_post
+      post :rename_tag, :old_tag => @tag, :new_tag => @new_tag.gsub(' ','_')
+    end
+
+    describe 'and user is admin' do
+      before do
+        controller.stub!(:is_admin?).and_return true
+      end
+      it 'should rename tag for matching records' do
+        Record.should_receive(:rename_tag).with(@tag, @new_tag).and_return [@record]
+        do_post
+      end
+      it 'should redirect to tag view with flash notice set' do
+        Record.stub!(:rename_tag).and_return [@record]
+        do_post
+        flash[:notice].should == "Renaming tag to '#{@new_tag}' successful, 1 record changed."
+        response.should redirect_to(:action => 'tag', :id => @new_tag)
+      end
+    end
+    describe 'and user is not admin' do
+      before do
+        controller.stub!(:is_admin?).and_return false
+      end
+      it 'should not rename tag' do
+        Record.should_not_receive(:rename_tag)
+        do_post
+      end
+    end
+  end
+
   describe "when asked to delete tag" do
     before do
       @tag = 'tag'
