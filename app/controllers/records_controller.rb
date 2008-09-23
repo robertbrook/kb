@@ -70,6 +70,9 @@ class RecordsController < ApplicationController
     render :template=>'records/status_results'
   end
 
+  def search_info
+  end
+
   def search
     if params[:q]
       redirect_to_search_result_url

@@ -34,6 +34,7 @@ ActionController::Routing::Routes.draw do |map|
   #   end
 
   map.root :controller => "records", :action => "search"
+  map.connect 'search', :controller => "records", :action => "search_info"
   map.connect 'search/:query', :controller => "records", :action => "search"
 
   # See how all your routes lay out with "rake routes"

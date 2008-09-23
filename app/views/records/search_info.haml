@@ -1,0 +1,183 @@
+%p
+  This document describes the query syntax supported by the
+  Xapian::QueryParser class.  The syntax is designed to be similar to other web
+  based search engines, so that users familiar with them don't have to learn
+  a whole new syntax.
+%h2
+  Operators
+%h3
+  AND
+%p
+  %i expression
+  AND
+  %i expression
+  matches documents which are matched
+  by both of the subexpressions.
+%h3
+  OR
+%p
+  %i expression
+  OR
+  %i expression
+  matches documents which are matched
+  by either of the subexpressions.
+%h3
+  NOT
+%p
+  %i expression
+  NOT
+  %i expression
+  matches documents which are matched
+  by only the first subexpression.  This can also be written as
+  %i expression
+  AND NOT
+  %i expression
+  \.
+  If
+  %code FLAG_PURE_NOT
+  is enabled, then NOT
+  %i expression
+  will match documents which don't match the subexpression.
+%h3
+  XOR
+%p
+  %i expression
+  XOR
+  %i expression
+  matches documents which are matched by one or other of the subexpressions,
+  but not both.  XOR is probably a bit esoteric.
+%h3
+  Bracketed expressions
+%p
+  You can control the precedence of the boolean operators using brackets.
+  In the query
+  %code one OR two AND three
+  the AND takes precedence,
+  so this is the same as
+  %code one OR (two AND three)
+  \.  You can override
+  the precedence using
+  %code (one OR two) AND three
+  \.
+%h3
+  + and -
+%p
+  A group of terms with some marked with + and - will match documents
+  containing all of the + terms, but none of the - terms.  Terms
+  not marked with + or - contribute towards the document rankings.
+  You can also use + and - on phrases and on bracketed expressions.
+%h3
+  NEAR
+%p
+  %code one NEAR two NEAR three
+  matches documents containing those
+  words within 10 words of each other.  You can set the threshold to
+  %i n
+  by using
+  %code NEAR/n
+  like so:
+  %code one NEAR/6 two
+  \.
+%h3
+  ADJ
+%p
+  %code ADJ
+  is like
+  %code NEAR
+  but only matches if the words
+  appear in the same order as in the query.  So
+  %code one ADJ two ADJ three
+  matches documents containing those three words in that order
+  and within 10 words of each other.  You can set the threshold to
+  %i n
+  by using
+  %code
+    ADJ/n
+  like so:
+  %code
+    one ADJ/6 two
+  \.
+%h3
+  Phrase searches
+%p
+  A phrase surrounded with double quotes ("") matches documents containing
+  that exact phrase.  Hyphenated words are also treated as phrases, as are
+  cases such as filenames and email addresses (e.g. /etc/passwd or president@whitehouse.gov).
+%h3
+  Searching within a probabilistic field
+%p
+  If the database has been indexed with prefixes on probabilistic terms
+  from certain fields, you can set up a prefix map so that the user can
+  search within those fields.  For example
+  %code
+    author:dickens title:shop
+  might find documents by dickens with shop in the title.  You can also specify a prefix on a quoted phrase or on a bracketed expression.
+%h3
+  Searching for proper names
+%p
+  If a query term is entered with a capitalised first letter, then it will
+  be searched for unstemmed.
+%h3
+  Range searches
+%p
+  The QueryParser can be configured to support range-searching using document
+  values.  The syntax for a range search is
+  %code start..end
+  \- for example,
+  %code 01/03/2007..04/04/2007
+  ,
+  %code $10..100
+  ,
+  %code 5..10kg
+  \.
+%h3
+  Synonyms
+%p
+  The QueryParser can be configured to support synonyms, which can either
+  be used when explicitly specified (using the syntax
+  %code ~term
+  )
+  or implicitly (synonyms will be used for all terms or groups of terms for
+  which they have been specified).
+%h3
+  Wildcards
+%p
+  The QueryParser supports using a trailing '*' wildcard, which matches any
+  number of trailing characters, so
+  %code wildc*
+  would match wildcard,
+  wildcarded, wildcards, wildcat, wildcats, etc.  This feature is disabled
+  by default - pass
+  %code Xapian::QueryParser::FLAG_WILDCARD
+  in the flags
+  argument of
+  %code Xapian::QueryParser::parse_query(query_string, flags)
+  to enable it, and tell the QueryParser which database to expand wildcards from
+  using the
+  %code QueryParser::set_database(database)
+  method.
+%h3
+  Partially entered query matching
+%p
+  The QueryParser also supports performing a search with a query which has only
+  been partially entered.  This is intended for use with "incremental search"
+  systems, which don't wait for the user to finish typing their search before
+  displaying an initial set of results.  For example, in such a system a user
+  would enter a search, and the system would display a new set of results after
+  each letter, or whenever the user pauses for a short period of time (or some
+  other similar strategy).
+%p
+  The problem with this kind of search is that the last word in a partially
+  entered query often has no semantic relation to the completed word.  For
+  example, a search for "dynamic cat" would return a quite different set of
+  results to a search for "dynamic categorisation".  This results in the set of
+  results displayed flicking rapidly as each new character is entered.  A much
+  smoother result can be obtained if the final word is treated as having an
+  implicit terminating wildcard, so that it matches all words starting with the
+  entered characters - thus, as each letter is entered, the set of results
+  displayed narrows down to the desired subject.
+%p
+  A similar effect could be obtained simply by enabling the wildcard matching
+  option, and appending a "*" character to each query string.  However, this
+  would be confused by searches which ended with punctuation or other
+  characters.
