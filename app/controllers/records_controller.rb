@@ -221,7 +221,7 @@ class RecordsController < ApplicationController
 
       records = Record.add_tag(tag, ids)
 
-      flash[:notice] = "Adding '#{tag}' tag successful, #{records.size} records changed."
+      flash[:notice] = "Adding '#{tag}' tag successful, #{records.size} record#{records.size>1 ? 's':''} changed."
       redirect_to :action => 'search', :query => params['query']
     else
       render :text => ''

@@ -459,6 +459,42 @@ describe RecordsController do
     end
   end
 
+  describe "when asked to add tag" do
+    before do
+      @tag = 'tag'
+      @ids = [1]
+      @query = 'term'
+    end
+    def do_post
+      post :add_tag, :tag => @tag, :ids => @ids.join(','), :query => @query
+    end
+
+    describe 'and user is admin' do
+      before do
+        controller.stub!(:is_admin?).and_return true
+      end
+      it 'should add tag to identified records' do
+        Record.should_receive(:add_tag).with(@tag, @ids).and_return [@record]
+        do_post
+      end
+      it 'should redirect to tag view with flash notice set' do
+        Record.stub!(:add_tag).and_return [@record]
+        do_post
+        flash[:notice].should == "Adding '#{@tag}' tag successful, 1 record changed."
+        response.should redirect_to(:action => 'search', :query => @query)
+      end
+    end
+    describe 'and user is not admin' do
+      before do
+        controller.stub!(:is_admin?).and_return false
+      end
+      it 'should not add tag to identified records' do
+        Record.should_not_receive(:add_tag)
+        do_post
+      end
+    end
+  end
+
   describe "when asked to delete tag" do
     before do
       @tag = 'tag'
@@ -478,7 +514,7 @@ describe RecordsController do
       it 'should redirect to tag view with flash notice set' do
         Record.stub!(:delete_tag).with(@tag)
         do_delete
-        flash[:notice].should ==  "Deletion of '#{@tag}' tags successful."
+        flash[:notice].should == "Deletion of '#{@tag}' tags successful."
         response.should redirect_to(:action => 'tag', :id => @tag)
       end
     end
