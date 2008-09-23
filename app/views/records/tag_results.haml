@@ -6,11 +6,14 @@
   - if @is_admin
     %fieldset.tags-edit
       %legend Edit tags
-      %label{:for => ""}= "Remove the '#{@tag}' tag from all records which have it."
-      = button_to("REMOVE all '#{@tag}' tags", {:action => :delete_tag, :id => @tag.gsub(' ','_')}, :confirm => "Remove all '#{@tag}' tags?", :method => :delete)
+      %p
+        = link_to("DELETE '#{@tag}' tag", {:action => :delete_tag, :id => @tag.gsub(' ','_')}, :confirm => "Remove all '#{@tag}' tags?", :method => :delete)
+        from all records.
       - form_tag :action => 'rename_tag', :method => :post do
-        = submit_tag "RENAME '#{@tag}' tags to:"
-        = text_field_tag 'new_tag'
+        %p
+          = "RENAME '#{@tag}' tag to:"
+          = text_field_tag 'new_tag'
+          = submit_tag "Rename"
         = hidden_field_tag 'old_tag', @tag
 
   = render :partial => 'search_result', :collection => @records
@@ -18,11 +21,12 @@
   %p= flash[:notice]
 - else
   %p
-    Your search -
+    The term -
     %span.search_term= @tag
     = ' - did not match any tag names.'
   %p Suggestions:
   %ul
-    %li Make sure all words are spelled correctly.
-    %li Try different categories.
-    %li Try more general categories.
+    %li Make sure tag is spelt correctly.
+    %li
+      See
+      = link_to("popular tags", :action => 'search') +'.'
