@@ -79,10 +79,9 @@ class RecordsController < ApplicationController
 
       @records = WillPaginate::Collection.create(page, Record.per_page) do |pager|
         records, @words_to_highlight, matches_estimated, @spelling_correction = Record.search(@term, pager.offset)
-        # inject the result array into the paginated collection:
         pager.replace(records)
-        # set total of estimated matches
         pager.total_entries = matches_estimated
+        @matches_estimated = matches_estimated
       end
 
       render :template=>'records/search_results'
@@ -215,14 +214,12 @@ class RecordsController < ApplicationController
   end
 
   def add_tag
-    if is_admin? && request.post? && !params['ids'].blank? && !params['tag'].blank?
+    if is_admin? && request.post? && !params['tag'].blank? && !params['query'].blank?
       tag = decode_tag(params['tag'])
-      ids = params['ids'].split(',').collect{|i| i.to_i}
-
-      records = Record.add_tag(tag, ids)
-
+      query = params['query']
+      records = Record.tag_query_results(query, tag)
       flash[:notice] = "Adding '#{tag}' tag successful, #{records.size} record#{records.size>1 ? 's':''} changed."
-      redirect_to :action => 'search', :query => params['query']
+      redirect_to :action => 'search', :query => query
     else
       render :text => ''
     end

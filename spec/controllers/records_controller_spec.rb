@@ -462,11 +462,10 @@ describe RecordsController do
   describe "when asked to add tag" do
     before do
       @tag = 'tag'
-      @ids = [1]
       @query = 'term'
     end
     def do_post
-      post :add_tag, :tag => @tag, :ids => @ids.join(','), :query => @query
+      post :add_tag, :tag => @tag, :query => @query
     end
 
     describe 'and user is admin' do
@@ -474,11 +473,11 @@ describe RecordsController do
         controller.stub!(:is_admin?).and_return true
       end
       it 'should add tag to identified records' do
-        Record.should_receive(:add_tag).with(@tag, @ids).and_return [@record]
+        Record.should_receive(:tag_query_results).with(@query, @tag).and_return [@record]
         do_post
       end
       it 'should redirect to tag view with flash notice set' do
-        Record.stub!(:add_tag).and_return [@record]
+        Record.stub!(:tag_query_results).and_return [@record]
         do_post
         flash[:notice].should == "Adding '#{@tag}' tag successful, 1 record changed."
         response.should redirect_to(:action => 'search', :query => @query)

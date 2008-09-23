@@ -21,6 +21,18 @@ class Record < ActiveRecord::Base
       statuses.sort_by(&:name)
     end
 
+    def tag_query_results query, tag
+      search = ActsAsXapian::Search.new(Record, query, :limit => 1, :offset => 0)
+      if search.results.empty?
+        []
+      else
+        matches_estimated = search.matches_estimated
+        search = ActsAsXapian::Search.new(Record, query, :limit => matches_estimated+1, :offset => 0)
+        records = search.results.collect{|h| h[:model]}
+        add_tag tag, records.collect(&:id)
+      end
+    end
+
     def add_tag tag, record_ids
       records = record_ids.collect{|id| Record.find(id)}
 
