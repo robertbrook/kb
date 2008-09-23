@@ -26,6 +26,17 @@ describe Record do
     end
   end
 
+  describe 'when asked to add tag to records' do
+    it 'should add tag to each identified record' do
+      tag = 'tag'
+      id = 1
+      Record.should_receive(:find).with(id).and_return @record
+      @record.should_receive(:add_tag).with(tag)
+      @record.should_receive(:save)
+      Record.add_tag(tag, [id]).should == [@record]
+    end
+  end
+
   describe 'when asked to delete tag' do
     it 'should delete tag from each record tagged with that tag' do
       tag = 'tag'

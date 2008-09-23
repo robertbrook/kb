@@ -2,6 +2,14 @@
 - @title = 'Search results'
 
 - unless @records.blank?
+  %p= flash[:notice]
+  - if @is_admin
+    %p
+      - form_tag :action => 'add_tag', :method => :post do
+        = submit_tag "Add tag to search results:"
+        = text_field_tag 'tag'
+        = hidden_field_tag 'query', @term
+        = hidden_field_tag 'ids', @records.collect(&:id).sort.join(',')
   - pagination_links = will_paginate @records
   = pagination_links
   = render :partial => 'search_result', :collection => @records

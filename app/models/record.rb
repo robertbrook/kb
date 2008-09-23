@@ -21,6 +21,16 @@ class Record < ActiveRecord::Base
       statuses.sort_by(&:name)
     end
 
+    def add_tag tag, record_ids
+      records = record_ids.collect{|id| Record.find(id)}
+
+      records.each do |record|
+        record.add_tag tag
+        record.save
+      end
+      records
+    end
+
     def rename_tag old_tag, new_tag
       records = find_with_tag old_tag
       records.each do |record|

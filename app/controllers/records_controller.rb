@@ -214,6 +214,20 @@ class RecordsController < ApplicationController
     end
   end
 
+  def add_tag
+    if is_admin? && request.post? && !params['ids'].blank? && !params['tag'].blank?
+      tag = decode_tag(params['tag'])
+      ids = params['ids'].split(',').collect{|i| i.to_i}
+
+      records = Record.add_tag(tag, ids)
+
+      flash[:notice] = "Adding '#{tag}' tag successful, #{records.size} records changed."
+      redirect_to :action => 'search', :query => params['query']
+    else
+      render :text => ''
+    end
+  end
+
   def delete_tag
     if is_admin? && request.delete? && !params['id'].blank?
       tag = decode_tag(params['id'])

@@ -2,6 +2,7 @@
 - @title = "Tag: #{@tag}"
 
 - if !@records.blank?
+  %p= flash[:notice]
   - if @is_admin
     %fieldset.tags-edit
       %legend Edit tags
@@ -12,7 +13,6 @@
         = text_field_tag 'new_tag'
         = hidden_field_tag 'old_tag', @tag
 
-  %p= flash[:notice]
   = render :partial => 'search_result', :collection => @records
 - elsif flash[:notice]
   %p= flash[:notice]
