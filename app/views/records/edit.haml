@@ -3,51 +3,35 @@
 
 = error_messages_for :record
 
-
 - form_for(@record) do |f|
-  = link_to 'Destroy item', record_path(@record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete
-  |
-  = link_to 'Ignore changes', record_path(@record)
-  |
-  = f.submit "Save changes"
-
   %p
-    %label Name
-    = f.text_field :name, :size => 60
+    = label :record, :name
+    = f.text_field :name
   %p
-    %label Summary
-    = f.text_field :summary, :size => 60
+    = label :record, :summary
+    = f.text_field :summary
   %p
-    %label Tags
+    = label :record, :tag_list, "Tags"
     = f.text_field :tag_list
-    %label Statuses
+  %p
+    = label :record, :status_list, "Status"
     = f.text_field :status_list
   %p
-    %label Use check by date
+    = label :record, :use_check_by_date, "Set check-by date"
     = f.check_box :use_check_by_date, :onclick => "$('record_use_check_by_date').getValue() == 1 ? $('record_check_by_date').show() : $('record_check_by_date').hide();"
-    %span#record_check_by_date
-      = f.date_select :check_by_date
-  %table.record
-    %thead
-      %tr
-        %th Notes
-        %th Other fields
-    %tbody
-      %tr
-        %td
-          - @record.notes = html_formatted_notes(@record, :add_links=>false) # format before showing
-          = f.text_area :notes, :rows=>40, :cols=>60, :class => "mceEditor"
-        %td
-          %p
-            %label Web page
-            %span= f.text_field :web_page, :size => 20
-          %p
-            %label Other notes
-            %span
-              = f.text_area :other_notes
-  = link_to 'Destroy item', record_path(@record), :confirm => 'Are you sure?', :method => :delete, :confirm => "Are you sure?", :method => :delete
-  |
-  = link_to 'Ignore changes', record_path(@record)
-  |
-  = f.submit "Save changes"
+    %span#record_check_by_date= f.date_select :check_by_date
+  %p
+    = label :record, :Notes
+    = f.text_area :notes
+  %p
+    = label :record, :web_page
+    = f.text_field :web_page, :size => 60
+  %p
+    = label :record, :other_notes
+    = f.text_area :other_notes
+  %p.submit
+    = f.submit "Save"
+  %p.delete
+    = link_to 'Delete', record_path(@record), :confirm => 'Are you sure?', :method => :delete
+  
 
