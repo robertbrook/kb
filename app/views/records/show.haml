@@ -22,8 +22,7 @@
       = edit_field(@record, 'notes', :rows=> rows, :cols=>60, :load_text_url=>{:controller => 'records', :action => 'get_record_notes', :id => @record.id})
     - else
       = @record.notes
-  #other_information
-    %hr
+  #metadata
     %p.record-age= "This record is #{time_ago_in_words(@record.created_at)} old."
     - unless @record.web_page.blank?
       %p
@@ -31,11 +30,11 @@
         = link_to_web_page(@record)
     - unless @record.tag_list.blank?
       %p
-        Other records tagged with
+        Other records with tag
         = tags_list(@tags)
     - unless @record.status_list.blank?
       %p
-        %span.statuses_label Statuses:
+        %span.statuses_label Other records with status
         = statuses_list(@statuses)
     - unless @record.other_notes.blank?
       %p
