@@ -4,29 +4,29 @@
 = error_messages_for :record
 
 - form_for(@record) do |f|
-  %p
+  %p.name
     = label :record, :name
-    = f.text_field :name
-  %p
+    = f.text_field :name, :size => 60
+  %p.notes
+    = label :record, :Notes
+    = f.text_area :notes
+  %p.summary
     = label :record, :summary
-    = f.text_field :summary
-  %p
+    = f.text_field :summary, :size => 60
+  %p.tags
     = label :record, :tag_list, "Tags"
-    = f.text_field :tag_list
-  %p
+    = f.text_field :tag_list, :size => 60
+  %p.status
     = label :record, :status_list, "Status"
-    = f.text_field :status_list
-  %p
+    = f.text_field :status_list, :size => 60
+  %p.check-by-date
     = label :record, :use_check_by_date, "Set check-by date"
     = f.check_box :use_check_by_date, :onclick => "$('record_use_check_by_date').getValue() == 1 ? $('record_check_by_date').show() : $('record_check_by_date').hide();"
     %span#record_check_by_date= f.date_select :check_by_date
-  %p
-    = label :record, :Notes
-    = f.text_area :notes
-  %p
+  %p.web-page
     = label :record, :web_page
     = f.text_field :web_page, :size => 60
-  %p
+  %p.other-notes
     = label :record, :other_notes
     = f.text_area :other_notes
   %p.submit
