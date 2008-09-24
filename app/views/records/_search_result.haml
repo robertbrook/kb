@@ -1,3 +1,4 @@
-.search_result
-  %h4.name= link_to_record search_result
-  %div.notes= excerpts(search_result.notes, @words_to_highlight.join(' '))
+%p.search_result
+  %span.name= link_to_record search_result
+  %br
+  %span.excerpt= excerpts(search_result.notes, @words_to_highlight.join(' '))
