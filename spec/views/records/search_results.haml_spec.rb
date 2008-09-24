@@ -58,7 +58,7 @@ describe "/records/search_results.haml" do
     end
     it 'should show result name in a heading' do
       do_render
-      response.should have_tag("h4[class=name]", @name)
+      response.should have_tag("span[class=name]", @name)
     end
     it 'should show result name as a link' do
       do_render
@@ -66,7 +66,7 @@ describe "/records/search_results.haml" do
     end
     it 'should show result notes summary' do
       do_render
-      response.should have_tag("div[class=notes]", 'The all party ...')
+      response.should have_tag("span[class=excerpt]", 'The all party ...')
     end
   end
 end

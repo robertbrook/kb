@@ -4,7 +4,6 @@
     = stylesheet_link_tag 'screen', :media => 'screen'
     = javascript_include_tiny_mce_if_used
     = tiny_mce if using_tiny_mce?
-    / = javascript_include_tag @javascript if @javascript
     - if @javascripts
       - @javascripts.each do |js|
         = javascript_include_tag js
