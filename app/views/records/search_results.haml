@@ -17,7 +17,8 @@
           = hidden_field_tag 'query', @term
   - pagination_links = will_paginate @records
   = pagination_links
-  = render :partial => 'search_result', :collection => @records
+  
+  %ol.search-results= render :partial => 'search_result', :collection => @records
   = pagination_links
 - else
   %p
