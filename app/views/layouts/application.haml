@@ -2,8 +2,6 @@
   %head
     %title= (@title && @title != 'Knowledge Base') ? @title + " (Knowledge Base)" : "Knowledge Base"
     = stylesheet_link_tag 'screen', :media => 'screen'
-    = javascript_include_tiny_mce_if_used
-    = tiny_mce if using_tiny_mce?
     - if @javascripts
       - @javascripts.each do |js|
         = javascript_include_tag js
