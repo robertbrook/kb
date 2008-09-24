@@ -18,7 +18,7 @@
           = submit_tag "Rename"
         = hidden_field_tag 'old_tag', @tag
 
-  = render :partial => 'search_result', :collection => @records
+  %ol.tag-results= render :partial => 'search_result', :collection => @records
 - elsif flash[:notice]
   %p= flash[:notice]
 - else
