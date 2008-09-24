@@ -26,17 +26,19 @@ describe "/record/edit.haml" do
   def do_render
     render "/records/edit.haml"
   end
-  
-  it "should render the notes text of the record"
-  
+
+  it "should render the notes text of the record" do
+    pending("render the notes text of the record")
+  end
+
   it "should render edit form" do
     do_render
     response.should have_tag("form[action=#{record_path(@record)}][method=post]")
   end
-  
+
   it 'should show Delete link' do
     do_render
     response.should have_tag('a','Delete')
   end
-  
+
 end

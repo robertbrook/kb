@@ -55,9 +55,17 @@ module RecordsHelper
   end
 
   def link_citation text, pattern
+    historic_hansard_threshold_date = Date.new(2005, 3, 17)
     text.scan(pattern).each do |match|
       match = match[0] if match.is_a?(Array)
-      text.sub!(match, "<a href=\"http://hansard.millbanksystems.com/search/#{match}\">#{match}</a>")
+      hansard_reference = HansardReference.create_from(match)
+      if hansard_reference.date > historic_hansard_threshold_date
+        url = parliament_uk_url(hansard_reference)
+        link = link_to(match, url)
+      else
+        link = "<a href=\"http://hansard.millbanksystems.com/search/#{match}\">#{match}</a>"
+      end
+      text.sub!(match, link)
     end
   end
 
@@ -148,6 +156,66 @@ module RecordsHelper
       end
     end
     text
+  end
+
+  def get_years_and_yymmdd hansard_reference
+    years = hansard_reference.session_years
+    yymmdd = hansard_reference.yymmdd
+    return years, yymmdd
+  end
+
+  def parliament_uk_base_url
+    'http://www.publications.parliament.uk/pa'
+  end
+
+  def lords_parliament_uk_url hansard_reference, anchor
+    if hansard_reference.date >= Date.new(1995, 11, 15)
+      years, yymmdd = get_years_and_yymmdd hansard_reference
+      return nil unless (years and yymmdd)
+      two_letters = (hansard_reference.date >= Date.new(2006,11,15)) ? 'cm' : 'vo'
+      "#{parliament_uk_base_url}/ld#{years}/ldhansrd/#{two_letters}#{yymmdd}/index/#{yymmdd[1..5]}-x.htm#{anchor}"
+    else
+      nil
+    end
+  end
+
+  def commons_parliament_uk_url hansard_reference, type, type2
+    years, yymmdd = get_years_and_yymmdd hansard_reference
+    return nil unless years and yymmdd
+    if hansard_reference.date > Date.new(1995, 11, 8)
+      "#{parliament_uk_base_url}/cm#{years}/cmhansrd/cm#{yymmdd}/#{type}/#{yymmdd[1..5]}-x.htm"
+    elsif type2 && (hansard_reference.date >= Date.new(1988,11,22) )
+      type2 = 'Orals' if (type2 == 'Debate' && false) # hansard_reference.debates && hansard_reference.debates.oral_questions)
+      "#{parliament_uk_base_url}/cm#{years}/cmhansrd/#{hansard_reference.date.to_s}/#{type2}-1.html"
+    else
+      nil
+    end
+  end
+
+  def parliament_uk_url hansard_reference
+    url = if hansard_reference.house == :lords
+      if hansard_reference.is_written_answer?
+        lords_parliament_uk_url hansard_reference, '#start_written'
+      elsif hansard_reference.is_written_statement?
+        lords_parliament_uk_url hansard_reference, '#start_minist'
+      else
+        lords_parliament_uk_url hansard_reference, ''
+      end
+    elsif hansard_reference.house == :commons
+      if hansard_reference.is_written_answer?
+        commons_parliament_uk_url hansard_reference, 'index', 'Writtens'
+      elsif hansard_reference.is_written_statement?
+        commons_parliament_uk_url hansard_reference, 'wmsindx', nil
+      elsif hansard_reference.is_westminster_hall?
+        commons_parliament_uk_url hansard_reference, 'hallindx', nil
+      else
+        commons_parliament_uk_url hansard_reference, 'debindx', 'Debate'
+      end
+    else
+      nil
+    end
+
+    url
   end
 
 end
