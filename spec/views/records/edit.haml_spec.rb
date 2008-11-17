@@ -27,9 +27,7 @@ describe "/record/edit.haml" do
     render "/records/edit.haml"
   end
 
-  it "should render the notes text of the record" do
-    pending("render the notes text of the record")
-  end
+  xit "should render the notes text of the record" #    pending("render the notes text of the record")
 
   it "should render edit form" do
     do_render
