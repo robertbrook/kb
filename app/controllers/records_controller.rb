@@ -252,18 +252,20 @@ class RecordsController < ApplicationController
     end
 
     def unhtml text
-      unless text.blank?
-        text.gsub!("\r",'')
-        text.gsub!("\n",'')
-        text.gsub!('<p><br />','<p>')
-        text.gsub!('<br />',"\n")
-        text.gsub!("</p><p>","\n\n")
-        text.gsub!(/<[^>]+>/,'')
-        text.gsub!('&lt;','<')
-        text.gsub!('&gt;','>')
-        text.gsub!('&nbsp;',' ')
-        text.gsub!('&amp;','&')
-        text.strip!
+      if false
+        unless text.blank?
+          text.gsub!("\r",'')
+          text.gsub!("\n",'')
+          text.gsub!('<p><br />','<p>')
+          text.gsub!('<br />',"\n")
+          text.gsub!("</p><p>","\n\n")
+          text.gsub!(/<[^>]+>/,'')
+          text.gsub!('&lt;','<')
+          text.gsub!('&gt;','>')
+          text.gsub!('&nbsp;',' ')
+          text.gsub!('&amp;','&')
+          text.strip!
+        end
       end
       text
     end
