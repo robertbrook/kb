@@ -1,0 +1,13 @@
+- if @is_admin
+  %fieldset.tags-edit
+    %legend Edit tags
+    %p
+      = link_to("DELETE '#{@tag}' tag", {:action => :delete_tag, :id => @tag.gsub(' ','_')}, :confirm => "Remove all '#{@tag}' tags?", :method => :delete)
+      from all
+      = pluralize(@records.size, 'record') +'.'
+    - form_tag :action => 'rename_tag', :method => :post do
+      %p
+        = "RENAME '#{@tag}' tag to:"
+        = text_field_tag 'new_tag'
+        = submit_tag "Rename"
+      = hidden_field_tag 'old_tag', @tag

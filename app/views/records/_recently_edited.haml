@@ -1,0 +1,7 @@
+- if @is_admin && !@records_recently_edited.empty?
+  %div#recently-edited
+    %h2= link_to('Recently edited', :action => 'recent_edits')
+    - @records_recently_edited.collect do |record|
+      %p
+        = record.updated_at.to_s(:short)[/^(0)?(.*[a-z])( \d\d:\d\d)?$/,2]
+        = link_to_record(record)

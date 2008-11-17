@@ -1,0 +1,7 @@
+- if @is_admin && !@records_needing_check.empty?
+  %div#records-to-check
+    %h2 Records to check
+    - @records_needing_check.collect do |record|
+      %p
+        = record.check_by_date.to_s(:short)
+        = link_to_record(record)
