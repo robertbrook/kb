@@ -8,7 +8,7 @@
     = label :record, :name
     = f.text_field :name, :size => 60
   %p.notes
-    = label :record, :Notes
+    = label :record, :notes
     = f.text_area :notes
   %p.summary
     = label :record, :summary
@@ -33,5 +33,5 @@
     = f.submit "Save"
   %p.delete
     = link_to 'Delete', record_path(@record), :confirm => 'Are you sure?', :method => :delete
-  
+
 

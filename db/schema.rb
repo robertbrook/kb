@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080902105857) do
+ActiveRecord::Schema.define(:version => 20090204105415) do
 
   create_table "acts_as_xapian_jobs", :force => true do |t|
     t.string  "model",    :null => false
@@ -31,6 +31,18 @@ ActiveRecord::Schema.define(:version => 20080902105857) do
     t.boolean  "use_check_by_date"
     t.string   "summary"
   end
+
+  create_table "slugs", :force => true do |t|
+    t.string   "name"
+    t.integer  "sluggable_id"
+    t.integer  "sequence",                     :default => 1, :null => false
+    t.string   "sluggable_type", :limit => 40
+    t.string   "scope",          :limit => 40
+    t.datetime "created_at"
+  end
+
+  add_index "slugs", ["sluggable_id"], :name => "index_slugs_on_sluggable_id"
+  add_index "slugs", ["name", "sluggable_type", "scope", "sequence"], :name => "index_slugs_on_name_and_sluggable_type_and_scope_and_sequence", :unique => true
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"

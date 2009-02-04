@@ -1,5 +1,8 @@
 class RecordsController < ApplicationController
 
+  before_filter :respond_not_found_if_record_doesnt_exist, :only => ['edit', 'show', 'update', 'destroy']
+  before_filter :ensure_record_url_is_current, :only => ['edit', 'show']
+
   before_filter :search, :only => 'show'
 
   require 'json'
@@ -240,6 +243,18 @@ class RecordsController < ApplicationController
   end
 
   private
+
+    def respond_not_found_if_record_doesnt_exist
+      begin
+        @record = Record.find(params[:id])
+      rescue
+        render_not_found
+      end
+    end
+
+    def ensure_record_url_is_current
+      redirect_to @record, :status => :moved_permanently if @record.has_better_id?
+    end
 
     def redirect_to_search_result_url
       if request.post? && !params[:q].blank?

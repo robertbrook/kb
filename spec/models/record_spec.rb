@@ -127,8 +127,12 @@ describe Record do
 
     describe 'when validated' do
       it 'should have name set to concatenate of name attributes' do
-        @record.valid?.should be_true
-        @record.name.should == 'All-Party Groups: Subject'
+        if @record.valid?
+          @record.valid?.should be_true
+          @record.name.should == 'All-Party Groups: Subject'
+        else
+          raise @record.errors.inspect
+        end
       end
     end
 

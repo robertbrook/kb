@@ -49,6 +49,29 @@ describe RecordsController do
     end
   end
 
+  describe 'when asked for non-existant record' do
+    it 'should return file not found' do
+      get :show, :id => 'bad_id'
+      response.code.should == '404'
+    end
+  end
+
+  describe 'when asked for record using an old slug name' do
+    it 'should redirect to new url' do
+      record = Record.create :name => 'Knowledge Star'
+      record.friendly_id.should == 'knowledge-star'
+
+      record.name = 'Knowledge Base'
+      record.save
+      record.reload
+      record.friendly_id.should == 'knowledge-base'
+
+      get :show, :id => 'knowledge-star'
+      response.should redirect_to(:controller=>'records', :action=>'show', :id => 'knowledge-base')
+      Record.delete_all
+    end
+  end
+
   describe "when asked to get records search page" do
     def do_get
       get :search
@@ -117,7 +140,7 @@ describe RecordsController do
   describe "when asked for records matching a search term" do
     before do
       @term = 'term'
-      @record = mock_model(Record)
+      @record = mock_model(Record,:has_better_id? => false)
     end
     def do_get
       get :search, :query => @term
@@ -160,7 +183,7 @@ describe RecordsController do
 
   describe "when asked to get records index" do
     before do
-      @record = mock_model(Record, :initial=>'A')
+      @record = mock_model(Record, :initial=>'A', :has_better_id? => false)
       Record.stub!(:find).and_return([@record])
     end
 
@@ -193,7 +216,7 @@ describe RecordsController do
 
   describe "when asked to get a record by its id" do
     before do
-      @record = mock_model(Record, :tag_list => [], :status_list => [], :similar_records => [])
+      @record = mock_model(Record, :tag_list => [], :status_list => [], :similar_records => [], :has_better_id? => false)
       Record.stub!(:find).and_return(@record)
     end
 
@@ -205,7 +228,7 @@ describe RecordsController do
     get_should_render_template('show')
 
     it "should find the record requested" do
-      Record.should_receive(:find).with("1").and_return(@record)
+      Record.should_receive(:find).with("1").twice.and_return(@record)
       do_get
     end
     it "should assign the found record for the view" do
@@ -217,7 +240,7 @@ describe RecordsController do
   describe "when asked to get a new record" do
     before do
       controller.stub!(:is_admin?).and_return true
-      @record = mock_model(Record)
+      @record = mock_model(Record,:has_better_id? => false)
       Record.stub!(:new).and_return(@record)
     end
 
@@ -254,7 +277,7 @@ describe RecordsController do
   describe "asked to get for editing a record given its id" do
     before do
       controller.stub!(:is_admin?).and_return true
-      @record = mock_model(Record)
+      @record = mock_model(Record,:has_better_id? => false)
       Record.stub!(:find).and_return(@record)
     end
 
@@ -276,7 +299,7 @@ describe RecordsController do
     get_should_render_template('edit')
 
     it "should find the record requested" do
-      Record.should_receive(:find).and_return(@record)
+      Record.should_receive(:find).twice.and_return(@record)
       do_get
     end
     it "should assign the found record for the view" do
@@ -288,7 +311,7 @@ describe RecordsController do
   describe "when posted a new record" do
     before do
       controller.stub!(:is_admin?).and_return true
-      @record = mock_model(Record, :to_param => "1")
+      @record = mock_model(Record, :to_param => "1",:has_better_id? => false)
       Record.stub!(:new).and_return(@record)
     end
 
@@ -350,7 +373,7 @@ describe RecordsController do
       put :update, :id => "1"
     end
     it "should find the record requested" do
-      Record.should_receive(:find).with("1").and_return(@record)
+      Record.should_receive(:find).with("1").twice.and_return(@record)
       put_with_successful_update
     end
     it "should update the found record" do
@@ -393,7 +416,7 @@ describe RecordsController do
     end
 
     it "should find the record requested" do
-      Record.should_receive(:find).with("1").and_return(@record)
+      Record.should_receive(:find).with("1").twice.and_return(@record)
       do_delete
     end
     it "should call destroy on the found record" do

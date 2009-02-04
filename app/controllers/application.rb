@@ -22,4 +22,8 @@ class ApplicationController < ActionController::Base
   def set_is_admin
     @is_admin = is_admin?
   end
+
+  def render_not_found message='Page not found.'
+    render :text => message, :status => :not_found
+  end
 end

@@ -19,3 +19,6 @@
 [submodule "vendor/plugins/tiny_mce"]
 	path = vendor/plugins/tiny_mce
 	url = git://github.com/kete/tiny_mce.git
+[submodule "vendor/plugins/friendly_id"]
+	path = vendor/plugins/friendly_id
+	url = git://github.com/norman/friendly_id.git
