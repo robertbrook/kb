@@ -32,6 +32,8 @@
   %p.submit
     = f.submit "Save"
   %p.delete
+    = link_to 'Cancel', record_path(@record)
+    |
     = link_to 'Delete', record_path(@record), :confirm => 'Are you sure?', :method => :delete
 
 
