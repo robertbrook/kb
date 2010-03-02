@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090204105415) do
+ActiveRecord::Schema.define(:version => 20080902105857) do
 
   create_table "acts_as_xapian_jobs", :force => true do |t|
     t.string  "model",    :null => false
@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(:version => 20090204105415) do
     t.datetime "created_at"
   end
 
-  add_index "slugs", ["sluggable_id"], :name => "index_slugs_on_sluggable_id"
   add_index "slugs", ["name", "sluggable_type", "scope", "sequence"], :name => "index_slugs_on_name_and_sluggable_type_and_scope_and_sequence", :unique => true
+  add_index "slugs", ["sluggable_id"], :name => "index_slugs_on_sluggable_id"
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"

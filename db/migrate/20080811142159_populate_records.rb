@@ -4,7 +4,12 @@ class PopulateRecords < ActiveRecord::Migration
     def up
       file = File.dirname(__FILE__) + '/../../data/kbfile.csv'
       FasterCSV.foreach(file, :headers => :first_row) do |column_values|
-
+        title = ""
+        first_name = ""
+        middle_name = ""
+        last_name = ""
+        suffix = ""
+        
         attributes = Hash.new
         column_values.each do |column_value|
           attribute = convert_to_attribute(column_value[0])
@@ -24,12 +29,6 @@ class PopulateRecords < ActiveRecord::Migration
           raise e
         end
       end
-           
-     Record.all.each do |r|
-       r.name = "#{r.title} #{r.first_name} #{r.middle_name} #{r.last_name} #{r.suffix}".squeeze(' ').strip
-       r.save!
-     end
-      
     end
 
     def ignore_field? attribute
@@ -54,7 +53,7 @@ class PopulateRecords < ActiveRecord::Migration
       column.to_s.tableize.tr(' ','_').tr("'",'').tr('/','').singularize.sub('faxis','fax').sub('note','notes').sub(/^callback/,'callback_attribute').to_sym
     end
 
-    def consolidate_attributes attributes
+    def consolidate_attributes attributes      
       other_notes = record_fields.collect do |field|
         if (field != :category) && (value = attributes.delete(field))
           text = value.to_s.gsub("\r\n","\n")
@@ -66,6 +65,9 @@ class PopulateRecords < ActiveRecord::Migration
       end.join('')
 
       attributes[:other_notes] = other_notes
+
+      title = "#{attributes[:title]} #{attributes[:first_name]} #{attributes[:middle_name]} #{attributes[:last_name]} #{attributes[:suffix]}".squeeze(' ').strip
+      attributes[:name] = title
     end
 
     def record_fields
