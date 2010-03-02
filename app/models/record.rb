@@ -2,7 +2,8 @@ require 'ostruct'
 
 class Record < ActiveRecord::Base
 
-  has_friendly_id :name, :use_slug => true, :strip_diacritics => true
+  has_friendly_id :name, :use_slug => true
+  # has_friendly_id :name, :use_slug => true, :strip_diacritics => true
 
   acts_as_taggable_on :tags
   acts_as_taggable_on :statuses

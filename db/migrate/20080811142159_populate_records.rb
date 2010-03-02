@@ -24,6 +24,12 @@ class PopulateRecords < ActiveRecord::Migration
           raise e
         end
       end
+           
+     Record.all.each do |r|
+       r.name = "#{r.title} #{r.first_name} #{r.middle_name} #{r.last_name} #{r.suffix}".squeeze(' ').strip
+       r.save!
+     end
+      
     end
 
     def ignore_field? attribute
